@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import matter from 'gray-matter';
+import { romanize } from 'es-hangul';
 
 const ROOT = process.cwd();
 const SOURCE_BASE = path.join(ROOT, 'notes');
@@ -11,13 +12,28 @@ const TARGET_PROJECTS = path.join(ROOT, 'src', 'content', 'projects');
 
 const supportedImageExt = new Set(['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg']);
 
-const slugify = (value) =>
+const baseSlug = (value) =>
 	value
 		.toString()
 		.normalize('NFKD')
 		.replace(/[^\p{L}\p{N}]+/gu, '-')
 		.replace(/^-+|-+$/g, '')
 		.toLowerCase();
+
+const slugify = (value) => {
+	let roman = '';
+	try {
+		roman = romanize(value, { system: 'rr' });
+	} catch (e) {
+		try {
+			roman = romanize(value);
+		} catch {
+			roman = '';
+		}
+	}
+	const candidate = roman && typeof roman === 'string' ? roman : value;
+	return baseSlug(candidate);
+};
 
 async function ensureDir(dir) {
 	await fs.mkdir(dir, { recursive: true });
