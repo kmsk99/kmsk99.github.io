@@ -9,7 +9,8 @@ interface Props {
 const { entry, category } = Astro.props as Props;
 const idPath = entry.id.replace(/\\/g, '/');
 const catFromId = (entry.id || '').split('/')[0] || category || '';
-const basename = idPath.split('/').pop();
+const basenameRaw = idPath.split('/').pop();
+const basename = basenameRaw?.replace(/\.md$/i, '');
 const href = `/post/${basename}`;
 ---
 

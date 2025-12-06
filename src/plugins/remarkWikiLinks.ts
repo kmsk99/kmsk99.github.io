@@ -37,6 +37,10 @@ function addToIndex(key: string | undefined, href: string) {
 	}
 }
 
+function stripMdSuffix(value: string) {
+	return value.replace(/\.md$/i, '');
+}
+
 function walkContent(dir: string, baseHref: string, relativeDir = '') {
 	if (!fs.existsSync(dir)) return;
 
@@ -75,10 +79,13 @@ function buildIndex() {
 function resolveHref(label: string) {
 	buildIndex();
 
-	const normalized = safeSlug(label);
+	const cleaned = stripMdSuffix(label);
+	const normalized = safeSlug(cleaned);
 	return (
 		linkIndex.get(label) ??
 		linkIndex.get(label.trim()) ??
+		linkIndex.get(cleaned) ??
+		linkIndex.get(cleaned.trim()) ??
 		linkIndex.get(normalized) ??
 		`/search?q=${encodeURIComponent(label)}`
 	);

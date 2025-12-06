@@ -145,7 +145,8 @@ function normalizeLinks(content) {
 	return content.replace(pattern, (full, bang, labelRaw) => {
 		if (bang) return full; // 이미지 패턴은 이미지 처리 단계에서 다룸
 		const label = labelRaw.trim();
-		const keyVariants = [label, label.trim(), baseSlug(label), slugify(label)];
+		const cleaned = label.replace(/\.md$/i, '');
+		const keyVariants = [cleaned, cleaned.trim(), baseSlug(cleaned), slugify(cleaned)];
 		let href;
 		for (const key of keyVariants) {
 			href = linkIndex.get(key);

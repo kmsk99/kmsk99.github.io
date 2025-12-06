@@ -11,14 +11,32 @@ export async function getStaticPaths() {
 		...(await getCollection('retrospectives')),
 	];
 
-	const paths = collections.map((entry) => {
+	const seen = new Set<string>();
+	const paths = [];
+
+	for (const entry of collections) {
 		const segments = entry.id.split('/');
-		const slug = segments[segments.length - 1];
-		return {
+		const slugRaw = segments[segments.length - 1];
+		const slug = slugRaw.replace(/\.md$/i, '');
+
+		if (!slug) continue;
+		if (seen.has(slug)) continue;
+		seen.add(slug);
+
+		paths.push({
 			params: { slug },
 			props: { entry },
-		};
-	});
+		});
+
+		// .md로 끝나는 기존 링크가 있을 경우 호환 경로도 함께 생성
+		if (slugRaw.endsWith('.md') && !seen.has(slugRaw)) {
+			seen.add(slugRaw);
+			paths.push({
+				params: { slug: slugRaw },
+				props: { entry },
+			});
+		}
+	}
 
 	return paths;
 }
