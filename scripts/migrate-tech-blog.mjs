@@ -144,16 +144,22 @@ function normalizeLinks(content) {
 	const pattern = /(!)?\[\[([^[\]]+)\]\]/g;
 	return content.replace(pattern, (full, bang, labelRaw) => {
 		if (bang) return full; // 이미지 패턴은 이미지 처리 단계에서 다룸
-		const label = labelRaw.trim();
-		const cleaned = label.replace(/\.md$/i, '');
+		const raw = labelRaw.trim();
+		// 위키링크 별칭 처리: [[target|display]]
+		const [targetRaw = '', displayRaw = ''] = raw.split('|', 2);
+		const target = targetRaw.trim();
+		const displayText = (displayRaw || targetRaw).trim();
+		if (!target) return full; // 대상이 없으면 원본 유지
+
+		const cleaned = target.replace(/\.md$/i, '');
 		const keyVariants = [cleaned, cleaned.trim(), baseSlug(cleaned), slugify(cleaned)];
 		let href;
 		for (const key of keyVariants) {
 			href = linkIndex.get(key);
 			if (href) break;
 		}
-		if (!href) return label; // 찾지 못하면 생 텍스트로 남김
-		return `[${label}](${href})`;
+		if (!href) return displayText || target; // 찾지 못하면 표시 텍스트만 남김
+		return `[${displayText || target}](${href})`;
 	});
 }
 

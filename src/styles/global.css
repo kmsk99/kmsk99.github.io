@@ -237,6 +237,19 @@ h3 {
 	color: #e8ebf5;
 }
 
+.article__body a {
+	color: #7dd3fc;
+	text-decoration: underline;
+	text-decoration-color: #7dd3fc;
+	text-decoration-thickness: 0.08em;
+	text-underline-offset: 2px;
+}
+
+.article__body a:hover {
+	color: #9ee3ff;
+	text-decoration-color: #9ee3ff;
+}
+
 .article__body h2,
 .article__body h3 {
 	margin-top: 22px;
