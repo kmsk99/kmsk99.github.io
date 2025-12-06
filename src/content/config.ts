@@ -33,5 +33,10 @@ const retrospectives = defineCollection({
 	}),
 });
 
-export const collections = { projects, posts, retrospectives };
+const assets = defineCollection({
+	type: 'data',
+	schema: z.object({}),
+});
+
+export const collections = { projects, posts, retrospectives, assets };
 
