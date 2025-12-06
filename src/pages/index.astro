@@ -161,8 +161,14 @@ const pageCount = Math.max(1, Math.ceil(combined.length / pageSize));
 			const params = new URLSearchParams(window.location.search);
 			const urlCategory = params.get('category');
 			const urlType = params.get('type');
+			const urlTag = params.get('tag');
 			if (urlCategory) currentCategory = urlCategory;
 			if (urlType) currentType = urlType;
+			if (urlTag) currentTag = urlTag;
+
+			const syncTagButtons = () => {
+				tagButtons.forEach((btn) => btn.classList.toggle('active', btn.dataset.tag === currentTag));
+			};
 
 			function applyFilters() {
 				const matched = [];
@@ -208,9 +214,8 @@ const pageCount = Math.max(1, Math.ceil(combined.length / pageSize));
 
 			tagButtons.forEach((btn) => {
 				btn.addEventListener('click', () => {
-					tagButtons.forEach((b) => b.classList.remove('active'));
-					btn.classList.add('active');
 					currentTag = btn.dataset.tag;
+					syncTagButtons();
 					setPage(1);
 				});
 			});
@@ -240,6 +245,7 @@ const pageCount = Math.max(1, Math.ceil(combined.length / pageSize));
 				});
 			});
 
+			syncTagButtons();
 			setPage(1);
 		};
 
