@@ -2,9 +2,12 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import matter from 'gray-matter';
 
-const SOURCE_BASE = '/Users/gimminseog/Documents/Minseok/4.Projects/kmsk99.github.io/기술 블로그';
-const ATTACH_BASE = '/Users/gimminseog/Documents/Minseok/9.Settings/Attachments';
-const TARGET_BASE = '/Users/gimminseog/Documents/Minseok/4.Projects/kmsk99.github.io/src/content/posts';
+const ROOT = process.cwd();
+const SOURCE_BASE = path.join(ROOT, '기술 블로그');
+// 프로젝트 루트가 .../Minseok/4.Projects/kmsk99.github.io 이므로
+// 첨부폴더는 상위 두 단계인 .../Minseok/9.Settings/Attachments
+const ATTACH_BASE = path.resolve(ROOT, '..', '..', '9.Settings', 'Attachments');
+const TARGET_BASE = path.join(ROOT, 'src', 'content', 'posts');
 
 const supportedImageExt = new Set(['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg']);
 
