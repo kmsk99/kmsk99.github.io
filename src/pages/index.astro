@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import PostCard from '../components/PostCard.astro';
+import Sidebar from '../components/Sidebar.astro';
 
 const projects = (await getCollection('projects')).sort(
 	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
@@ -76,14 +77,6 @@ const retroTree = Object.entries(retroCategories).map(([key, info]) => ({
 	count: info.count,
 }));
 
-const tags = [...projects, ...posts, ...retrospectives].reduce<Record<string, number>>((acc, item) => {
-	(item.data.tags ?? []).forEach((tag) => {
-		acc[tag] = (acc[tag] ?? 0) + 1;
-	});
-	return acc;
-}, {});
-const sortedTags = Object.entries(tags).sort((a, b) => b[1] - a[1]);
-
 const combined = [
 	...projects.map((p) => ({ type: 'project', entry: p, category: getProjectCategory(p) })),
 	...posts.map((p) => ({ type: 'post', entry: p, category: getPostCategory(p) })),
@@ -95,58 +88,7 @@ const pageCount = Math.max(1, Math.ceil(combined.length / pageSize));
 
 <BaseLayout title="홈">
 	<div class="layout-grid">
-		<aside class="sidebar">
-			<section class="block compact">
-				<p class="eyebrow">Categories</p>
-				<ul class="tree">
-					<li class="tree__section">Projects ({projects.length})</li>
-					{projectTree.map((item) => (
-						<li>
-							<button class="tree__btn" data-type="project" data-category={item.slug}>
-								<span class="tree__folder">📁</span>
-								<span class="tree__title">{item.title}</span>
-							</button>
-						</li>
-					))}
-					<li class="tree__section">Posts ({posts.length})</li>
-					{postTree.map((item) => (
-						<li>
-							<button class="tree__btn" data-type="post" data-category={item.slug}>
-								<span class="tree__folder">📁</span>
-								<span class="tree__title">
-									{item.title} ({item.count})
-								</span>
-							</button>
-						</li>
-					))}
-					<li class="tree__section">Retrospectives ({retrospectives.length})</li>
-					{retroTree.map((item) => (
-						<li>
-							<button class="tree__btn" data-type="retro" data-category={item.slug}>
-								<span class="tree__folder">📁</span>
-								<span class="tree__title">
-									{item.title} ({item.count})
-								</span>
-							</button>
-						</li>
-					))}
-				</ul>
-			</section>
-
-			<section class="block compact">
-				<p class="eyebrow">Tags</p>
-				<div class="tag-list" id="tag-list">
-					<button class="tag-pill active" data-tag="__all">
-						All ({projects.length + posts.length + retrospectives.length})
-					</button>
-					{sortedTags.map(([tag, count]) => (
-						<button class="tag-pill" data-tag={tag}>
-							#{tag} ({count})
-						</button>
-					))}
-				</div>
-			</section>
-		</aside>
+		<Sidebar />
 
 		<div class="main-column">
 			<section class="hero">

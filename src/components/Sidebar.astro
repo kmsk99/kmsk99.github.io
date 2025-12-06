@@ -1,0 +1,123 @@
+---
+import { getCollection } from 'astro:content';
+
+const labelFromFolder = (slug: string) => slug.replace(/-/g, ' ');
+const asCategory = (entry: { id?: string }, fallback: string) => {
+	const id = (entry as any).id || '';
+	return id.split('/')[0] || fallback;
+};
+
+const projects = (await getCollection('projects')).sort(
+	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
+);
+const posts = (await getCollection('posts')).sort(
+	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
+);
+const retrospectives = (await getCollection('retrospectives')).sort(
+	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
+);
+
+const projectCategories = projects.reduce<Record<string, { count: number; label: string }>>((acc, p) => {
+	const cat = asCategory(p, 'projects');
+	if (!acc[cat]) acc[cat] = { count: 0, label: labelFromFolder(cat) };
+	acc[cat].count += 1;
+	return acc;
+}, {});
+const postCategories = posts.reduce<Record<string, { count: number; label: string }>>((acc, p) => {
+	const cat = asCategory(p, 'posts');
+	if (!acc[cat]) acc[cat] = { count: 0, label: labelFromFolder(cat) };
+	acc[cat].count += 1;
+	return acc;
+}, {});
+const retroCategories = retrospectives.reduce<Record<string, { count: number; label: string }>>((acc, r) => {
+	const cat = asCategory(r, 'retrospectives');
+	if (!acc[cat]) acc[cat] = { count: 0, label: labelFromFolder(cat) };
+	acc[cat].count += 1;
+	return acc;
+}, {});
+
+const projectTree = Object.entries(projectCategories).map(([key, info]) => ({
+	title: info.label,
+	slug: key,
+	count: info.count,
+}));
+const postTree = Object.entries(postCategories).map(([key, info]) => ({
+	title: info.label,
+	slug: key,
+	count: info.count,
+}));
+const retroTree = Object.entries(retroCategories).map(([key, info]) => ({
+	title: info.label,
+	slug: key,
+	count: info.count,
+}));
+
+const tags = [...projects, ...posts, ...retrospectives].reduce<Record<string, number>>((acc, item) => {
+	(item.data.tags ?? []).forEach((tag) => {
+		acc[tag] = (acc[tag] ?? 0) + 1;
+	});
+	return acc;
+}, {});
+const sortedTags = Object.entries(tags).sort((a, b) => b[1] - a[1]);
+const tagList = sortedTags.map(([value, count]) => ({ value, count }));
+const totalCount = projects.length + posts.length + retrospectives.length;
+---
+
+<aside class="sidebar">
+	<section class="block compact">
+		<p class="eyebrow">Categories</p>
+		<ul class="tree">
+			{projectTree.length > 0 && <li class="tree__section">Projects ({projects.length})</li>}
+			{projectTree.map((item) => (
+				<li>
+					<button class="tree__btn" data-type="project" data-category={item.slug}>
+						<span class="tree__folder">📁</span>
+						<span class="tree__title">
+							{item.title}
+							{item.count !== undefined ? ` (${item.count})` : ''}
+						</span>
+					</button>
+				</li>
+			))}
+
+			{postTree.length > 0 && <li class="tree__section">Posts ({posts.length})</li>}
+			{postTree.map((item) => (
+				<li>
+					<button class="tree__btn" data-type="post" data-category={item.slug}>
+						<span class="tree__folder">📁</span>
+						<span class="tree__title">
+							{item.title}
+							{item.count !== undefined ? ` (${item.count})` : ''}
+						</span>
+					</button>
+				</li>
+			))}
+
+			{retroTree.length > 0 && <li class="tree__section">Retrospectives ({retrospectives.length})</li>}
+			{retroTree.map((item) => (
+				<li>
+					<button class="tree__btn" data-type="retro" data-category={item.slug}>
+						<span class="tree__folder">📁</span>
+						<span class="tree__title">
+							{item.title}
+							{item.count !== undefined ? ` (${item.count})` : ''}
+						</span>
+					</button>
+				</li>
+			))}
+		</ul>
+	</section>
+
+	<section class="block compact">
+		<p class="eyebrow">Tags</p>
+		<div class="tag-list" id="tag-list">
+			<button class="tag-pill active" data-tag="__all">All ({totalCount})</button>
+			{tagList.map((tag) => (
+				<button class="tag-pill" data-tag={tag.value}>
+					#{tag.value} ({tag.count})
+				</button>
+			))}
+		</div>
+	</section>
+</aside>
+
