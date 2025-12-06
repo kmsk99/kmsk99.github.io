@@ -14,13 +14,13 @@ slug: porkbun-daeum-seumateuwokeu-seoljeong-bangbeop
 
 # Intro
 
-![](../../../assets/f33bd8a3-screenshot-2023-05-24-at-10-56-04-am.png)
+![](../../assets/f33bd8a3-screenshot-2023-05-24-at-10-56-04-am.png)
 아래의 DNS 클릭
 
-![](../../../assets/f33bd8a3-screenshot-2023-05-24-at-10-56-15-am.png)
+![](../../assets/f33bd8a3-screenshot-2023-05-24-at-10-56-15-am.png)
 MX 추가
 
-![](../../../assets/f33bd8a3-screenshot-2023-05-24-at-10-56-20-am.png)
+![](../../assets/f33bd8a3-screenshot-2023-05-24-at-10-56-20-am.png)
 다음과 같이 다음 설정
 
 # Reference

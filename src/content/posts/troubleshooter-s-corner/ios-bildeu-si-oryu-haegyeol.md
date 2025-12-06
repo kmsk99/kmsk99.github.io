@@ -45,7 +45,7 @@ pod 를 작성할 때, Firebase/Messaging 과 같이 /가 들어간다면 outdat
 
 만일 라이브러리를 추가하지 못한다면, project 의 package Dependencies 에 firebase 를 먼저 추가한 후, 추가해줍니다.
 
-![](../../../assets/e36fe989-874b7409352f1b809a2d27535af4eb64-md5.png)
+![](../../assets/e36fe989-874b7409352f1b809a2d27535af4eb64-md5.png)
 
 중간에 아래와 같은 오류도 나는데, 정확한 해결 방법은 찾지 못하였고, 하다보니? 해결되었습니다.
 

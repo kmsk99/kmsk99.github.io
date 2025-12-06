@@ -123,15 +123,13 @@ async function migrateFile(file) {
 	const isProject = categoryRaw === 'project' || slugify(categoryRaw) === 'project-showcase';
 	const postCategory = slugify(rest[0] || 'misc');
 
-	const targetDir = isProject
-		? path.join(TARGET_PROJECTS, slug)
-		: path.join(TARGET_POSTS, postCategory, slug);
+	const targetDir = isProject ? TARGET_PROJECTS : path.join(TARGET_POSTS, postCategory);
 	await ensureDir(targetDir);
 
 	const images = extractImages(parsed.content);
 	const renameMap = new Map();
 	const hashKey = hashPrefix(slug || categoryRaw || 'asset');
-	const relativeAssetPrefix = isProject ? '../../assets/' : '../../../assets/';
+	const relativeAssetPrefix = isProject ? '../assets/' : '../../assets/';
 
 	for (const img of images) {
 		if (!supportedImageExt.has(path.extname(img).toLowerCase())) continue;
@@ -153,10 +151,13 @@ async function migrateFile(file) {
 	fm.created = created;
 	fm.modified = modified;
 	const next = matter.stringify(content, fm);
-	await fs.writeFile(path.join(targetDir, 'index.md'), next, 'utf8');
+	const outputPath = isProject
+		? path.join(targetDir, `${slug}.md`)
+		: path.join(targetDir, `${slug}.md`);
+	await fs.writeFile(outputPath, next, 'utf8');
 
 	const base = isProject ? TARGET_PROJECTS : TARGET_POSTS;
-	console.log(`[OK] ${rel} -> ${path.relative(base, targetDir)}/index.md`);
+	console.log(`[OK] ${rel} -> ${path.relative(base, outputPath)}`);
 }
 
 async function main() {
