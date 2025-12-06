@@ -1,6 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
-import { slug as slugify } from 'astro:content';
+
+interface Props {
+	tagType?: 'all' | 'project' | 'post' | 'retro';
+}
+
+const { tagType = 'all' } = Astro.props as Props;
 
 const labelFromFolder = (slug: string) => slug.replace(/-/g, ' ');
 const asCategory = (entry: { id?: string }, fallback: string) => {
@@ -53,7 +58,12 @@ const retroTree = Object.entries(retroCategories).map(([key, info]) => ({
 	count: info.count,
 }));
 
-const tags = [...projects, ...posts, ...retrospectives].reduce<Record<string, number>>((acc, item) => {
+const filteredProjects = tagType === 'all' || tagType === 'project' ? projects : [];
+const filteredPosts = tagType === 'all' || tagType === 'post' ? posts : [];
+const filteredRetrospectives = tagType === 'all' || tagType === 'retro' ? retrospectives : [];
+const tagSources = [...filteredProjects, ...filteredPosts, ...filteredRetrospectives];
+
+const tags = tagSources.reduce<Record<string, number>>((acc, item) => {
 	(item.data.tags ?? []).forEach((tag) => {
 		acc[tag] = (acc[tag] ?? 0) + 1;
 	});
@@ -61,7 +71,7 @@ const tags = [...projects, ...posts, ...retrospectives].reduce<Record<string, nu
 }, {});
 const sortedTags = Object.entries(tags).sort((a, b) => b[1] - a[1]);
 const tagList = sortedTags.map(([value, count]) => ({ value, count }));
-const totalCount = projects.length + posts.length + retrospectives.length;
+const totalCount = tagSources.length;
 ---
 
 <aside class="sidebar">
