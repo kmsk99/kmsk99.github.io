@@ -1,0 +1,42 @@
+---
+interface Props {
+	title?: string;
+	description?: string;
+	image?: string;
+	type?: 'website' | 'article';
+}
+
+const {
+	title = '김민석 · Astro 포트폴리오',
+	description = '김민석의 포트폴리오와 기술 블로그.',
+	image,
+	type = 'website',
+} = Astro.props as Props;
+
+const canonical = Astro.site
+	? new URL(`${Astro.url.pathname}${Astro.url.search}`, Astro.site).toString()
+	: undefined;
+
+const resolvedImage = image
+	? image.startsWith('http')
+		? image
+		: Astro.site
+			? new URL(image, Astro.site).toString()
+			: image
+	: undefined;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+{canonical && <link rel="canonical" href={canonical} />}
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+{canonical && <meta property="og:url" content={canonical} />}
+{resolvedImage && <meta property="og:image" content={resolvedImage} />}
+<meta property="og:site_name" content="김민석 블로그" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{resolvedImage && <meta name="twitter:image" content={resolvedImage} />}
+

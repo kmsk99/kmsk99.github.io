@@ -10,6 +10,7 @@
     "migrate:blog": "node scripts/migrate-tech-blog.mjs"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.6.0",
     "astro": "^5.16.4",
     "es-hangul": "^2.3.8",
     "gray-matter": "^4.0.3"
