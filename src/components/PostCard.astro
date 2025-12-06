@@ -29,9 +29,14 @@ const href = `/post/${basename}`;
 	</div>
 	{entry.data.tags && (
 		<div class="chips">
-			{entry.data.tags.slice(0, 4).map((tag) => (
-				<span class="chip">{tag}</span>
-			))}
+			{entry.data.tags.slice(0, 4).map((tag) => {
+				const params = new URLSearchParams({ tag, type: 'post' }).toString();
+				return (
+					<a class="chip" href={`/?${params}`} aria-label={`태그 ${tag}로 이동`}>
+						{tag}
+					</a>
+				);
+			})}
 		</div>
 	)}
 </article>
