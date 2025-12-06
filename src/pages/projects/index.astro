@@ -29,7 +29,11 @@ const pageCount = Math.max(1, Math.ceil(projects.length / pageSize));
 					{projects.map((project, idx) => {
 						const page = Math.floor(idx / pageSize) + 1;
 						return (
-							<div class="paginated-item" data-page={page}>
+							<div
+								class="paginated-item"
+								data-page={page}
+								data-category={(project as any).id.split('/')[0] || 'projects'}
+							>
 								<ProjectCard entry={project} />
 							</div>
 						);
@@ -44,6 +48,8 @@ const pageCount = Math.max(1, Math.ceil(projects.length / pageSize));
 		const initPagination = () => {
 			const items = Array.from(document.querySelectorAll('.paginated-item'));
 			const buttons = Array.from(document.querySelectorAll('.pagination-btn'));
+			const params = new URLSearchParams(window.location.search);
+			const initialCategory = params.get('category') || '__all';
 			let currentPage = 1;
 			let totalPages =
 				Math.max(
@@ -72,7 +78,41 @@ const pageCount = Math.max(1, Math.ceil(projects.length / pageSize));
 				});
 			});
 
-			applyPage(1);
+			function applyFilter(category) {
+				const isFiltered = category && category !== '__all';
+				const filtered = [];
+				items.forEach((el) => {
+					const cat = el.dataset.category || '';
+					const match = !isFiltered || cat === category;
+					if (match) filtered.push(el);
+					el.dataset.match = match ? '1' : '0';
+				});
+				if (isFiltered) {
+					filtered.forEach((el) => (el.style.display = ''));
+					items.forEach((el) => {
+						if (el.dataset.match === '0') el.style.display = 'none';
+					});
+					totalPages = 1;
+					buttons.forEach((b) => {
+						if (!b.dataset.page || b.dataset.page === 'prev' || b.dataset.page === 'next') {
+							b.style.display = 'none';
+						} else {
+							b.style.display = b.dataset.page === '1' ? '' : 'none';
+							b.classList.toggle('active', b.dataset.page === '1');
+						}
+					});
+				} else {
+					totalPages = Math.max(
+						1,
+						Math.ceil(items.length / Math.max(...items.map((el) => Number(el.dataset.page || '1')))),
+					);
+					buttons.forEach((b) => (b.style.display = ''));
+					applyPage(1);
+				}
+			}
+
+			applyFilter(initialCategory);
+			if (initialCategory === '__all') applyPage(1);
 		};
 
 		if (document.readyState === 'loading') {

@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { slug as slugify } from 'astro:content';
 
 const labelFromFolder = (slug: string) => slug.replace(/-/g, ' ');
 const asCategory = (entry: { id?: string }, fallback: string) => {
@@ -68,7 +69,7 @@ const totalCount = projects.length + posts.length + retrospectives.length;
 		<p class="eyebrow">Categories</p>
 		<ul class="tree">
 			<li class="tree__section">
-				<button class="tree__btn tree__section-btn" data-type="all" data-category="__all">
+				<button class="tree__btn tree__section-btn" data-type="all" data-category="__all" data-nav="/">
 					<span class="tree__folder">🗂️</span>
 					<span class="tree__title">All ({projects.length + posts.length + retrospectives.length})</span>
 				</button>
@@ -76,14 +77,24 @@ const totalCount = projects.length + posts.length + retrospectives.length;
 
 			{projectTree.length > 0 && (
 				<li class="tree__section">
-					<button class="tree__btn tree__section-btn" data-type="project" data-category="__all">
+					<button
+						class="tree__btn tree__section-btn"
+						data-type="project"
+						data-category="__all"
+						data-nav="/projects"
+					>
 						<span class="tree__folder">🛠️</span>
 						<span class="tree__title">Projects ({projects.length})</span>
 					</button>
 					<ul class="tree tree__sub">
 						{projectTree.map((item) => (
 							<li>
-								<button class="tree__btn" data-type="project" data-category={item.slug}>
+								<button
+									class="tree__btn"
+									data-type="project"
+									data-category={item.slug}
+									data-nav="/projects"
+								>
 									<span class="tree__folder">📁</span>
 									<span class="tree__title">
 										{item.title}
@@ -98,14 +109,14 @@ const totalCount = projects.length + posts.length + retrospectives.length;
 
 			{postTree.length > 0 && (
 				<li class="tree__section">
-					<button class="tree__btn tree__section-btn" data-type="post" data-category="__all">
+					<button class="tree__btn tree__section-btn" data-type="post" data-category="__all" data-nav="/posts">
 						<span class="tree__folder">📝</span>
 						<span class="tree__title">Posts ({posts.length})</span>
 					</button>
 					<ul class="tree tree__sub">
 						{postTree.map((item) => (
 							<li>
-								<button class="tree__btn" data-type="post" data-category={item.slug}>
+								<button class="tree__btn" data-type="post" data-category={item.slug} data-nav="/posts">
 									<span class="tree__folder">📁</span>
 									<span class="tree__title">
 										{item.title}
@@ -120,14 +131,19 @@ const totalCount = projects.length + posts.length + retrospectives.length;
 
 			{retroTree.length > 0 && (
 				<li class="tree__section">
-					<button class="tree__btn tree__section-btn" data-type="retro" data-category="__all">
+					<button
+						class="tree__btn tree__section-btn"
+						data-type="retro"
+						data-category="__all"
+						data-nav="/retrospectives"
+					>
 						<span class="tree__folder">🔄</span>
 						<span class="tree__title">Retrospectives ({retrospectives.length})</span>
 					</button>
 					<ul class="tree tree__sub">
 						{retroTree.map((item) => (
 							<li>
-								<button class="tree__btn" data-type="retro" data-category={item.slug}>
+								<button class="tree__btn" data-type="retro" data-category={item.slug} data-nav="/retrospectives">
 									<span class="tree__folder">📁</span>
 									<span class="tree__title">
 										{item.title}
@@ -154,4 +170,25 @@ const totalCount = projects.length + posts.length + retrospectives.length;
 		</div>
 	</section>
 </aside>
+
+<script is:inline>
+	const navButtons = Array.from(document.querySelectorAll('.tree__btn'));
+
+	navButtons.forEach((btn) => {
+		const nav = btn.dataset.nav;
+		const category = btn.dataset.category ?? '__all';
+		const type = btn.dataset.type ?? 'all';
+
+		if (!nav) return;
+
+		btn.addEventListener('click', (e) => {
+			e.preventDefault();
+			const params = new URLSearchParams();
+			params.set('category', category);
+			params.set('type', type);
+			const url = type === 'all' ? nav : `${nav}?${params.toString()}`;
+			window.location.href = url;
+		});
+	});
+</script>
 

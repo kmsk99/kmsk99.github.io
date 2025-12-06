@@ -279,9 +279,7 @@ h3 {
 }
 
 .sidebar {
-	position: sticky;
-	top: 70px;
-	align-self: flex-start;
+	position: relative;
 }
 
 .sidebar__title {

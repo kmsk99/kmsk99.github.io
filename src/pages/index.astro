@@ -177,6 +177,13 @@ const pageCount = Math.max(1, Math.ceil(combined.length / pageSize));
 			let currentPage = 1;
 			let totalPages = initialTotalPages;
 
+			// URL 파라미터로 초기 필터 적용 (사이드바 네비게이션 연동)
+			const params = new URLSearchParams(window.location.search);
+			const urlCategory = params.get('category');
+			const urlType = params.get('type');
+			if (urlCategory) currentCategory = urlCategory;
+			if (urlType) currentType = urlType;
+
 			function applyFilters() {
 				const matched = [];
 				targets.forEach((el) => {
