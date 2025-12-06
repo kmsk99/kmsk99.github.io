@@ -3,12 +3,18 @@ import type { CollectionEntry } from 'astro:content';
 
 interface Props {
 	entry: CollectionEntry<'projects'>;
+	category?: string;
 }
 
-const { entry } = Astro.props as Props;
+const { entry, category } = Astro.props as Props;
 ---
 
-<article class="card" data-tags={entry.data.tags?.join(',') ?? ''} data-type="project">
+<article
+	class="card"
+	data-tags={entry.data.tags?.join(',') ?? ''}
+	data-type="project"
+	data-category={category ?? 'project-showcase'}
+>
 	<p class="eyebrow">{entry.data.created}</p>
 	<h3 class="card__title">
 		<a href={`/projects/${entry.slug}`}>{entry.data.title}</a>

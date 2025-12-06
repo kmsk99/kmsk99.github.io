@@ -11,19 +11,39 @@ const posts = (await getCollection('posts')).sort(
 	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
 );
 
-const featuredProjects = projects.slice(0, 3);
-const recentPosts = posts.slice(0, 5);
+const pageSize = 20;
 
-const projectTree = projects.map((p) => ({
-	folder: p.slug,
-	title: p.data.title,
-	slug: p.slug,
-}));
+const categoryLabel = (slug: string) =>
+	({
+		'dev-hacks': 'Dev Hacks',
+		'tech-deep-dive': 'Tech Deep Dive',
+		'troubleshooter-s-corner': "Troubleshooter's Corner",
+		'tech-pulse': 'Tech Pulse',
+		prompt: 'prompt',
+	}[slug] ?? slug.replace(/-/g, ' '));
 
-const postTree = posts.map((p) => ({
-	folder: p.slug,
-	title: p.data.title,
-	slug: p.slug,
+const getPostCategory = (entry: (typeof posts)[number]) => {
+	const id = (entry as any).id || '';
+	const cat = id.split('/')[0] || 'misc';
+	return cat;
+};
+
+const postCategories = posts.reduce<Record<string, { count: number; label: string }>>((acc, p) => {
+	const cat = getPostCategory(p);
+	if (!acc[cat]) acc[cat] = { count: 0, label: categoryLabel(cat) };
+	acc[cat].count += 1;
+	return acc;
+}, {});
+
+const projectsCategory = { key: 'project-showcase', label: 'Project Showcase', count: projects.length };
+
+const projectTree = [{ folder: projectsCategory.label, title: projectsCategory.label, slug: projectsCategory.key }];
+
+const postTree = Object.entries(postCategories).map(([key, info]) => ({
+	folder: info.label,
+	title: info.label,
+	slug: key,
+	count: info.count,
 }));
 
 const tags = [...projects, ...posts].reduce<Record<string, number>>((acc, item) => {
@@ -32,32 +52,39 @@ const tags = [...projects, ...posts].reduce<Record<string, number>>((acc, item) 
 	});
 	return acc;
 }, {});
+
+const combined = [
+	...projects.map((p) => ({ type: 'project', entry: p, category: 'project-showcase' })),
+	...posts.map((p) => ({ type: 'post', entry: p, category: getPostCategory(p) })),
+].sort((a, b) => new Date(b.entry.data.created).getTime() - new Date(a.entry.data.created).getTime());
+
+const pageCount = Math.max(1, Math.ceil(combined.length / pageSize));
 ---
 
 <BaseLayout title="홈">
 	<div class="layout-grid">
 		<aside class="sidebar">
 			<section class="block compact">
-				<p class="eyebrow">Folders</p>
-				<h3 class="sidebar__title">Projects</h3>
+				<p class="eyebrow">Categories</p>
 				<ul class="tree">
+					<li class="tree__section">Projects ({projects.length})</li>
 					{projectTree.map((item) => (
 						<li>
-							<a href={`/projects/${item.slug}`}>
-								<span class="tree__folder">📁 {item.folder}</span>
+							<button class="tree__btn" data-type="project" data-category={item.slug}>
+								<span class="tree__folder">📁</span>
 								<span class="tree__title">{item.title}</span>
-							</a>
+							</button>
 						</li>
 					))}
-				</ul>
-				<h3 class="sidebar__title">Posts</h3>
-				<ul class="tree">
+					<li class="tree__section">Posts ({posts.length})</li>
 					{postTree.map((item) => (
 						<li>
-							<a href={`/posts/${item.slug}`}>
-								<span class="tree__folder">📄 {item.folder}</span>
-								<span class="tree__title">{item.title}</span>
-							</a>
+							<button class="tree__btn" data-type="post" data-category={item.slug}>
+								<span class="tree__folder">📁</span>
+								<span class="tree__title">
+									{item.title} ({item.count})
+								</span>
+							</button>
 						</li>
 					))}
 				</ul>
@@ -94,56 +121,158 @@ const tags = [...projects, ...posts].reduce<Record<string, number>>((acc, item) 
 			<section class="block">
 				<header class="block__header">
 					<div>
-						<p class="eyebrow">Projects</p>
-						<h2>최근 프로젝트</h2>
+						<p class="eyebrow">Feed</p>
+						<h2>최근 글</h2>
 					</div>
-					<a class="link" href="/projects">전체 보기 →</a>
-				</header>
-				<div class="grid filter-target">
-					{featuredProjects.map((project) => (
-						<ProjectCard entry={project} />
-					))}
-				</div>
-			</section>
-
-			<section class="block">
-				<header class="block__header">
-					<div>
-						<p class="eyebrow">Posts</p>
-						<h2>최근 기술 블로그</h2>
-					</div>
-					<a class="link" href="/posts">전체 보기 →</a>
+					<p class="lede">프로젝트와 포스트를 한 리스트로 모았습니다.</p>
 				</header>
 				<div class="list filter-target">
-					{recentPosts.map((post) => (
-						<PostCard entry={post} />
-					))}
+					{combined.map((item, idx) => {
+						const page = Math.floor(idx / pageSize) + 1;
+						const tags = item.entry.data.tags?.join(',') ?? '';
+						return (
+							<div
+								class="list-row"
+								data-type={item.type}
+								data-category={item.category}
+								data-tags={tags}
+								data-page={page}
+							>
+								{item.type === 'project' ? (
+									<ProjectCard entry={item.entry as any} category="project-showcase" />
+								) : (
+									<PostCard entry={item.entry as any} category={item.category} />
+								)}
+							</div>
+						);
+					})}
+				</div>
+				<div class="pagination">
+					<button class="pagination-btn" data-page="prev" aria-label="이전 페이지">
+						←
+					</button>
+					{Array.from({ length: pageCount }).map((_, i) => {
+						const page = i + 1;
+						return (
+							<button class="pagination-btn" data-page={page}>
+								{page}
+							</button>
+						);
+					})}
+					<button class="pagination-btn" data-page="next" aria-label="다음 페이지">
+						→
+					</button>
 				</div>
 			</section>
 		</div>
 	</div>
 
-	<script>
-		const tagButtons = Array.from(document.querySelectorAll('.tag-pill'));
-		const targets = Array.from(document.querySelectorAll('.filter-target > *'));
+	<script is:inline>
+		const initFilters = () => {
+			const tagButtons = Array.from(document.querySelectorAll('.tag-pill'));
+			const targets = Array.from(document.querySelectorAll('.filter-target > *'));
+			const categoryButtons = Array.from(document.querySelectorAll('.tree__btn'));
+			const paginationContainer = document.querySelector('.pagination');
+			const paginationButtons = Array.from(document.querySelectorAll('.pagination-btn'));
+			const pageNumberButtons = paginationButtons.filter(
+				(btn) => btn.dataset.page && btn.dataset.page !== 'prev' && btn.dataset.page !== 'next',
+			);
+			const pageSize = 20;
+			const initialTotalPages = Math.max(
+				1,
+				Math.ceil(targets.length / pageSize),
+			); /* 서버 렌더된 pageCount 대체 */
 
-		function applyFilter(tag) {
-			targets.forEach((el) => {
-				if (tag === '__all') {
-					el.style.display = '';
-					return;
-				}
-				const tags = el.dataset.tags?.split(',').filter(Boolean) ?? [];
-				el.style.display = tags.includes(tag) ? '' : 'none';
+			let currentTag = '__all';
+			let currentCategory = '__all';
+			let currentType = 'all';
+			let currentPage = 1;
+			let totalPages = initialTotalPages;
+
+			function applyFilters() {
+				const matched = [];
+				targets.forEach((el) => {
+					const elType = el.dataset.type;
+					const elCategory = el.dataset.category;
+					const elTags = el.dataset.tags?.split(',').filter(Boolean) ?? [];
+
+					const matchType = currentType === 'all' || elType === currentType;
+					const matchCategory = currentCategory === '__all' || elCategory === currentCategory;
+					const matchTag = currentTag === '__all' || elTags.includes(currentTag);
+					if (matchType && matchCategory && matchTag) {
+						matched.push(el);
+					} else {
+						el.style.display = 'none';
+					}
+				});
+
+				totalPages = Math.max(1, Math.ceil(matched.length / pageSize));
+				if (currentPage > totalPages) currentPage = totalPages;
+
+				matched.forEach((el, idx) => {
+					const page = Math.floor(idx / pageSize) + 1;
+					el.style.display = page === currentPage ? '' : 'none';
+				});
+
+				const show = totalPages > 1;
+				if (paginationContainer) paginationContainer.style.display = show ? '' : 'none';
+
+				pageNumberButtons.forEach((btn) => {
+					const page = Number(btn.dataset.page || '1');
+					btn.style.display = page <= totalPages ? '' : 'none';
+					btn.classList.toggle('active', page === currentPage);
+				});
+			}
+
+			function setPage(newPage) {
+				if (newPage < 1) newPage = 1;
+				if (newPage > totalPages) newPage = totalPages;
+				currentPage = newPage;
+				applyFilters();
+			}
+
+			tagButtons.forEach((btn) => {
+				btn.addEventListener('click', () => {
+					tagButtons.forEach((b) => b.classList.remove('active'));
+					btn.classList.add('active');
+					currentTag = btn.dataset.tag;
+					setPage(1);
+				});
 			});
+
+			categoryButtons.forEach((btn) => {
+				btn.addEventListener('click', () => {
+					categoryButtons.forEach((b) => b.classList.remove('active'));
+					btn.classList.add('active');
+					currentType = btn.dataset.type;
+					currentCategory = btn.dataset.category;
+					setPage(1);
+				});
+			});
+
+			paginationButtons.forEach((btn) => {
+				btn.addEventListener('click', () => {
+					const val = btn.dataset.page;
+					if (val === 'prev') {
+						setPage(currentPage - 1);
+						return;
+					}
+					if (val === 'next') {
+						setPage(currentPage + 1);
+						return;
+					}
+					setPage(Number(val || '1'));
+				});
+			});
+
+			setPage(1);
+		};
+
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', initFilters, { once: true });
+		} else {
+			initFilters();
 		}
-
-		tagButtons.forEach((btn) => {
-			btn.addEventListener('click', () => {
-				tagButtons.forEach((b) => b.classList.remove('active'));
-				btn.classList.add('active');
-				applyFilter(btn.dataset.tag);
-			});
-		});
 	</script>
 </BaseLayout>
+

@@ -178,6 +178,10 @@ h3 {
 	gap: 12px;
 }
 
+.list-row {
+	width: 100%;
+}
+
 .card,
 .list-item {
 	background: linear-gradient(145deg, #11131a, #0f121b);
@@ -303,6 +307,32 @@ h3 {
 	background: #0f121b;
 }
 
+.tree__btn {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	width: 100%;
+	padding: 8px 10px;
+	border-radius: 10px;
+	border: 1px solid var(--border);
+	background: #0f121b;
+	color: inherit;
+	cursor: pointer;
+	text-align: left;
+}
+
+.tree__btn.active,
+.tree__btn:hover {
+	border-color: #2f374f;
+	background: var(--surface-2);
+}
+
+.tree__section {
+	margin: 6px 0 2px;
+	color: var(--muted);
+	font-size: 13px;
+}
+
 .tree a:hover {
 	border-color: #2f374f;
 }
@@ -336,6 +366,35 @@ h3 {
 .tag-pill:hover {
 	border-color: #2f374f;
 	color: var(--text);
+}
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+	margin-top: 20px;
+	flex-wrap: wrap;
+}
+
+.pagination-btn {
+	border: 1px solid var(--border);
+	background: #0f121b;
+	color: var(--text);
+	border-radius: 10px;
+	padding: 8px 12px;
+	font-size: 12px;
+	cursor: pointer;
+	min-width: 36px;
+	transition: border 120ms ease, background 120ms ease, transform 120ms ease, color 120ms ease;
+}
+
+.pagination-btn.active,
+.pagination-btn:hover {
+	border-color: #2f374f;
+	background: linear-gradient(135deg, #1e90ff, #7dd3fc);
+	color: #0b0c0f;
+	transform: translateY(-1px);
 }
 
 .wikilink {
