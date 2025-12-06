@@ -1,11 +1,149 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PostCard from '../components/PostCard.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const projects = (await getCollection('projects')).sort(
+	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
+);
+const posts = (await getCollection('posts')).sort(
+	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
+);
+
+const featuredProjects = projects.slice(0, 3);
+const recentPosts = posts.slice(0, 5);
+
+const projectTree = projects.map((p) => ({
+	folder: p.slug,
+	title: p.data.title,
+	slug: p.slug,
+}));
+
+const postTree = posts.map((p) => ({
+	folder: p.slug,
+	title: p.data.title,
+	slug: p.slug,
+}));
+
+const tags = [...projects, ...posts].reduce<Record<string, number>>((acc, item) => {
+	(item.data.tags ?? []).forEach((tag) => {
+		acc[tag] = (acc[tag] ?? 0) + 1;
+	});
+	return acc;
+}, {});
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title="홈">
+	<div class="layout-grid">
+		<aside class="sidebar">
+			<section class="block compact">
+				<p class="eyebrow">Folders</p>
+				<h3 class="sidebar__title">Projects</h3>
+				<ul class="tree">
+					{projectTree.map((item) => (
+						<li>
+							<a href={`/projects/${item.slug}`}>
+								<span class="tree__folder">📁 {item.folder}</span>
+								<span class="tree__title">{item.title}</span>
+							</a>
+						</li>
+					))}
+				</ul>
+				<h3 class="sidebar__title">Posts</h3>
+				<ul class="tree">
+					{postTree.map((item) => (
+						<li>
+							<a href={`/posts/${item.slug}`}>
+								<span class="tree__folder">📄 {item.folder}</span>
+								<span class="tree__title">{item.title}</span>
+							</a>
+						</li>
+					))}
+				</ul>
+			</section>
+
+			<section class="block compact">
+				<p class="eyebrow">Tags</p>
+				<div class="tag-list" id="tag-list">
+					<button class="tag-pill active" data-tag="__all">All ({projects.length + posts.length})</button>
+					{Object.entries(tags).map(([tag, count]) => (
+						<button class="tag-pill" data-tag={tag}>
+							#{tag} ({count})
+						</button>
+					))}
+				</div>
+			</section>
+		</aside>
+
+		<div class="main-column">
+			<section class="hero">
+				<div>
+					<p class="eyebrow">Astro · Portfolio · Tech Blog</p>
+					<h1>김민석 · 개발 포트폴리오</h1>
+					<p class="lede">
+						프로젝트와 기술 블로그를 Obsidian 스타일로 정돈했습니다. Markdown 그대로 작성하고 바로 배포하세요.
+					</p>
+					<div class="actions">
+						<a class="button primary" href="/projects">프로젝트 보기</a>
+						<a class="button ghost" href="/posts">기술 블로그 보기</a>
+					</div>
+				</div>
+			</section>
+
+			<section class="block">
+				<header class="block__header">
+					<div>
+						<p class="eyebrow">Projects</p>
+						<h2>최근 프로젝트</h2>
+					</div>
+					<a class="link" href="/projects">전체 보기 →</a>
+				</header>
+				<div class="grid filter-target">
+					{featuredProjects.map((project) => (
+						<ProjectCard entry={project} />
+					))}
+				</div>
+			</section>
+
+			<section class="block">
+				<header class="block__header">
+					<div>
+						<p class="eyebrow">Posts</p>
+						<h2>최근 기술 블로그</h2>
+					</div>
+					<a class="link" href="/posts">전체 보기 →</a>
+				</header>
+				<div class="list filter-target">
+					{recentPosts.map((post) => (
+						<PostCard entry={post} />
+					))}
+				</div>
+			</section>
+		</div>
+	</div>
+
+	<script>
+		const tagButtons = Array.from(document.querySelectorAll('.tag-pill'));
+		const targets = Array.from(document.querySelectorAll('.filter-target > *'));
+
+		function applyFilter(tag) {
+			targets.forEach((el) => {
+				if (tag === '__all') {
+					el.style.display = '';
+					return;
+				}
+				const tags = el.dataset.tags?.split(',').filter(Boolean) ?? [];
+				el.style.display = tags.includes(tag) ? '' : 'none';
+			});
+		}
+
+		tagButtons.forEach((btn) => {
+			btn.addEventListener('click', () => {
+				tagButtons.forEach((b) => b.classList.remove('active'));
+				btn.classList.add('active');
+				applyFilter(btn.dataset.tag);
+			});
+		});
+	</script>
+</BaseLayout>

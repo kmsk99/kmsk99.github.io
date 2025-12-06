@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	entry: CollectionEntry<'posts'>;
+}
+
+const { entry } = Astro.props as Props;
+---
+
+<article class="list-item" data-tags={entry.data.tags?.join(',') ?? ''} data-type="post">
+	<div>
+		<p class="eyebrow">{entry.data.created}</p>
+		<h3 class="list-item__title">
+			<a href={`/posts/${entry.slug}`}>{entry.data.title}</a>
+		</h3>
+		{entry.data.summary && <p class="list-item__summary">{entry.data.summary}</p>}
+	</div>
+	{entry.data.tags && (
+		<div class="chips">
+			{entry.data.tags.slice(0, 4).map((tag) => (
+				<span class="chip">{tag}</span>
+			))}
+		</div>
+	)}
+</article>
+

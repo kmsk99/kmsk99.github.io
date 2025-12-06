@@ -1,0 +1,22 @@
+---
+const nav = [
+	{ href: '/', label: 'Home' },
+	{ href: '/projects', label: 'Projects' },
+	{ href: '/posts', label: 'Posts' },
+	{ href: '/about', label: 'About' },
+];
+---
+
+<header class="site-header">
+	<div class="container site-header__inner">
+		<a class="brand" href="/">KMSK · Portfolio</a>
+		<nav class="nav">
+			{nav.map((item) => (
+				<a class="nav__link" href={item.href}>
+					{item.label}
+				</a>
+			))}
+		</nav>
+	</div>
+</header>
+

@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+
+const projects = (await getCollection('projects')).sort(
+	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
+);
+---
+
+<BaseLayout title="프로젝트 목록">
+	<section class="block">
+		<header class="block__header">
+			<div>
+				<p class="eyebrow">Projects</p>
+				<h1>프로젝트</h1>
+				<p class="lede">Markdown 그대로 관리되는 프로젝트 모음</p>
+			</div>
+		</header>
+		<div class="grid">
+			{projects.map((project) => (
+				<ProjectCard entry={project} />
+			))}
+		</div>
+	</section>
+</BaseLayout>
+

@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+
+const posts = (await getCollection('posts')).sort(
+	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
+);
+---
+
+<BaseLayout title="기술 블로그 목록">
+	<section class="block">
+		<header class="block__header">
+			<div>
+				<p class="eyebrow">Posts</p>
+				<h1>기술 블로그</h1>
+				<p class="lede">Obsidian 친화적인 Markdown 기반 기술 글</p>
+			</div>
+		</header>
+		<div class="list">
+			{posts.map((post) => (
+				<PostCard entry={post} />
+			))}
+		</div>
+	</section>
+</BaseLayout>
+
