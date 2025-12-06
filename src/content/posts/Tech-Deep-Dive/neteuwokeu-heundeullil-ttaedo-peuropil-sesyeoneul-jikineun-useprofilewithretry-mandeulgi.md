@@ -109,6 +109,6 @@ export function useProfileWithRetry(options: UseProfileWithRetryOptions = {}) {
 - https://jotai.org/docs/utils/atom
 
 # 연결문서
-- [[Bearer 토큰을 Supabase 쿠키로 바꿔주는 Next.js 서버 클라이언트]]
-- [[NICE 본인인증 팝업을 Next.js에서 안전하게 다루기]]
-- [[React Context로 가벼운 통화 로컬라이제이션 구축기]]
+- [Bearer 토큰을 Supabase 쿠키로 바꿔주는 Next.js 서버 클라이언트](/post/bearer-tokeuneul-supabase-kukiro-bakkwojuneun-next-js-seobeo-keullaieonteu)
+- [NICE 본인인증 팝업을 Next.js에서 안전하게 다루기](/post/nice-bonninninjeung-pabeobeul-next-jseseo-anjeonhage-darugi)
+- [React Context로 가벼운 통화 로컬라이제이션 구축기](/post/react-contextro-gabyeoun-tonghwa-rokeollaijeisyeon-guchukgi)

@@ -72,6 +72,6 @@ packages:
 - https://docs.docker.com/build/cache/
 
 # 연결문서
-- [[GitHub Actions와 Docker, Elastic Beanstalk로 통합 배포 자동화하기]]
-- [[NestJS GraphQL 예약 도메인에서 실시간성을 확보한 과정]]
-- [[CLOVA OCR API와 PDF 페이지 분할로 학력 증빙 자동화]]
+- [GitHub Actions와 Docker, Elastic Beanstalk로 통합 배포 자동화하기](/post/github-actionswa-docker-elastic-beanstalkro-tonghap-baepo-jadonghwahagi)
+- [NestJS GraphQL 예약 도메인에서 실시간성을 확보한 과정](/post/nestjs-graphql-yeyak-domeineseo-silsiganseongeul-hwakbohan-gwajeong)
+- [CLOVA OCR API와 PDF 페이지 분할로 학력 증빙 자동화](/post/clova-ocr-apiwa-pdf-peiji-bunhallo-hangnyeok-jeungbing-jadonghwa)

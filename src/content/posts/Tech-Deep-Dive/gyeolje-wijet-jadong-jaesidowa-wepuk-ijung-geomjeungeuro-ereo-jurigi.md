@@ -100,6 +100,6 @@ export function verifyWebhookSignature(payload: string, signature: string) {
 - https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
 
 # 연결문서
-- [[Supabase RPC로 포인트 적립·차감을 안전하게 처리한 방법]]
-- [[갤럭시 기기까지 고려한 Supabase 첨부파일 업로드 안정화기]]
-- [[AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기]]
+- [Supabase RPC로 포인트 적립·차감을 안전하게 처리한 방법](/post/supabase-rpcro-pointeu-jeongnip-chagameul-anjeonhage-cheorihan-bangbeop)
+- [갤럭시 기기까지 고려한 Supabase 첨부파일 업로드 안정화기](/post/gaelleoksi-gigikkaji-goryeohan-supabase-cheombupail-eomnodeu-anjeonghwagi)
+- [AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기](/post/aes-256gwa-prisma-middlewarero-gaeinjeongbo-anjeonhage-dolligi)

@@ -83,6 +83,6 @@ setChatMessages(prev => {
 - https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API
 
 # 연결문서
-- [[mapWithConcurrencyLimit로 Supabase 병렬 호출을 조율한 이유]]
-- [[갤럭시 기기까지 고려한 Supabase 첨부파일 업로드 안정화기]]
-- [[AI 자동화를 cron 엔드포인트로 안전하게 트리거한 과정]]
+- [mapWithConcurrencyLimit로 Supabase 병렬 호출을 조율한 이유](/post/mapwithconcurrencylimitro-supabase-byeongnyeol-hochureul-joyulhan-iyu)
+- [갤럭시 기기까지 고려한 Supabase 첨부파일 업로드 안정화기](/post/gaelleoksi-gigikkaji-goryeohan-supabase-cheombupail-eomnodeu-anjeonghwagi)
+- [AI 자동화를 cron 엔드포인트로 안전하게 트리거한 과정](/post/ai-jadonghwareul-cron-endeupointeuro-anjeonhage-teurigeohan-gwajeong)

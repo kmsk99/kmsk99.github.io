@@ -72,6 +72,6 @@ POST는 JSON body로, GET은 쿼리스트링으로 경로와 버킷을 받습니
 - https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/decrypt
 
 # 연결문서
-- [[AWS KMS와 AES-GCM으로 서버 사이드 암호화 업로드 구축기]]
-- [[네트워크 흔들릴 때도 프로필 세션을 지키는 useProfileWithRetry 만들기]]
-- [[스탬프 누적과 리워드를 자동화한 워크플로우]]
+- [AWS KMS와 AES-GCM으로 서버 사이드 암호화 업로드 구축기](/post/aws-kmswa-aes-gcmeuro-seobeo-saideu-amhohwa-eomnodeu-guchukgi)
+- [네트워크 흔들릴 때도 프로필 세션을 지키는 useProfileWithRetry 만들기](/post/neteuwokeu-heundeullil-ttaedo-peuropil-sesyeoneul-jikineun-useprofilewithretry-mandeulgi)
+- [스탬프 누적과 리워드를 자동화한 워크플로우](/post/seutaempeu-nujeokgwa-riwodeureul-jadonghwahan-wokeupeullou)

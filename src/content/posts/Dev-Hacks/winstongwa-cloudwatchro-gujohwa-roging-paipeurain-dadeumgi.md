@@ -90,6 +90,6 @@ export const winstonLogger = WinstonModule.createLogger({
 - https://docs.nestjs.com/techniques/logger
 
 # 연결문서
-- [[AWS KMS와 AES-GCM으로 서버 사이드 암호화 업로드 구축기]]
-- [[NestJS GraphQL 예약 도메인에서 실시간성을 확보한 과정]]
-- [[CLOVA OCR API와 PDF 페이지 분할로 학력 증빙 자동화]]
+- [AWS KMS와 AES-GCM으로 서버 사이드 암호화 업로드 구축기](/post/aws-kmswa-aes-gcmeuro-seobeo-saideu-amhohwa-eomnodeu-guchukgi)
+- [NestJS GraphQL 예약 도메인에서 실시간성을 확보한 과정](/post/nestjs-graphql-yeyak-domeineseo-silsiganseongeul-hwakbohan-gwajeong)
+- [CLOVA OCR API와 PDF 페이지 분할로 학력 증빙 자동화](/post/clova-ocr-apiwa-pdf-peiji-bunhallo-hangnyeok-jeungbing-jadonghwa)

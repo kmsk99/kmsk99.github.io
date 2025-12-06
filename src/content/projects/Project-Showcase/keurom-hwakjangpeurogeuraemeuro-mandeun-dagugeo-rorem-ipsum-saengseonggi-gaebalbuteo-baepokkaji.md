@@ -156,6 +156,6 @@ UI 개선을 위해 Claude AI 의 조언, 이 아니라 모든 UI 전체를 클�
 - http://guny.kr/stuff/klorem/
 
 # 연결문서
-- [[Canvas와 jsPDF로 인증 문서 자동생성 흐름을 만들며]]
-- [[ESLint·Prettier·Husky 자동화를 정착시키기까지]]
-- [[나만의 SVG 아이콘 라이브러리 만들기 여정기 (1편) - React 컴포넌트 변환과 컴파일 자동화]]
+- [Canvas와 jsPDF로 인증 문서 자동생성 흐름을 만들며](/post/canvaswa-jspdfro-injeung-munseo-jadongsaengseong-heureumeul-mandeulmyeo)
+- [ESLint·Prettier·Husky 자동화를 정착시키기까지](/post/eslint-prettier-husky-jadonghwareul-jeongchaksikigikkaji)
+- [나만의 SVG 아이콘 라이브러리 만들기 여정기 (1편) - React 컴포넌트 변환과 컴파일 자동화](/post/namanui-svg-aikon-raibeureori-mandeulgi-yeojeonggi-1pyeon-react-keomponeonteu-byeonhwangwa-keompail-jadonghwa)

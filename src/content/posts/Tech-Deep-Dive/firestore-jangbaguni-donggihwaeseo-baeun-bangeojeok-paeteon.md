@@ -151,6 +151,6 @@ modified: '2025-10-09 10:30'
 - https://firebase.google.com/docs/firestore/manage-data/transactions
 
 # 연결문서
-- [[App Router에서 Firebase Auth로 관리자 접근을 지키는 방법]]
-- [[Bearer 토큰을 Supabase 쿠키로 바꿔주는 Next.js 서버 클라이언트]]
-- [[Firebase에서 검색 기능 구현하기 - 삽질 끝에 찾은 해결책]]
+- [App Router에서 Firebase Auth로 관리자 접근을 지키는 방법](/post/app-routereseo-firebase-authro-gwallija-jeopgeuneul-jikineun-bangbeop)
+- [Bearer 토큰을 Supabase 쿠키로 바꿔주는 Next.js 서버 클라이언트](/post/bearer-tokeuneul-supabase-kukiro-bakkwojuneun-next-js-seobeo-keullaieonteu)
+- [Firebase에서 검색 기능 구현하기 - 삽질 끝에 찾은 해결책](/post/firebaseeseo-geomsaek-gineung-guhyeonhagi-sapjil-kkeute-chajeun-haegyeolchaek)

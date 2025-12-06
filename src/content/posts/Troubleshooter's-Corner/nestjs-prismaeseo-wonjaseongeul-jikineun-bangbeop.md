@@ -68,6 +68,6 @@ async sendVerificationEmail({
 # Reference
 
 # 연결문서
-- [[Prisma 개발 시 migration 기록 지우기]]
-- [[AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기]]
-- [[역할 기반 승인 흐름 설계기 다단계 검증을 코드로 담다]]
+- [Prisma 개발 시 migration 기록 지우기](/post/prisma-gaebal-si-migration-girok-jiugi)
+- [AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기](/post/aes-256gwa-prisma-middlewarero-gaeinjeongbo-anjeonhage-dolligi)
+- [역할 기반 승인 흐름 설계기 다단계 검증을 코드로 담다](/post/yeokal-giban-seungin-heureum-seolgyegi-dadangye-geomjeungeul-kodeuro-damda)

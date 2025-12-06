@@ -163,6 +163,6 @@ firebase 자체가 백엔드를 직접구축할 필요가 없다는 장점이 �
 https://mingeesuh.tistory.com/entry/Firebase-%EC%9B%B9-%ED%8C%8C%EC%9D%B4%EC%96%B4%EC%8A%A4%ED%86%A0%EC%96%B4-%EA%B2%80%EC%83%89-%EA%B8%B0%EB%8A%A5-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0feat-%EC%BF%BC%EB%A6%AC%EB%AC%B8-Algolia
 
 # 연결문서
-- [[Firebase에서 검색 기능 구현하기 - 삽질 끝에 찾은 해결책]]
-- [[Firestore 장바구니 동기화에서 배운 방어적 패턴]]
-- [[Firestore에서 풀텍스트 검색 흉내 내기, 키워드 인덱싱 실험기]]
+- [Firebase에서 검색 기능 구현하기 - 삽질 끝에 찾은 해결책](/post/firebaseeseo-geomsaek-gineung-guhyeonhagi-sapjil-kkeute-chajeun-haegyeolchaek)
+- [Firestore 장바구니 동기화에서 배운 방어적 패턴](/post/firestore-jangbaguni-donggihwaeseo-baeun-bangeojeok-paeteon)
+- [Firestore에서 풀텍스트 검색 흉내 내기, 키워드 인덱싱 실험기](/post/firestoreeseo-pultekseuteu-geomsaek-hyungnae-naegi-kiwodeu-indeksing-silheomgi)

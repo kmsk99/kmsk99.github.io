@@ -103,6 +103,6 @@ module.exports = {
 - https://www.codemochi.com/blog/2019-08-27-nextjs-hmr
 
 # 연결문서
-- [[CLOVA OCR API와 PDF 페이지 분할로 학력 증빙 자동화]]
-- [[Chain Flag로 긴 호출 시간을 견디는 법]]
-- [[Docker 사용시 Error connect ECONNREFUSED 오류]]
+- [CLOVA OCR API와 PDF 페이지 분할로 학력 증빙 자동화](/post/clova-ocr-apiwa-pdf-peiji-bunhallo-hangnyeok-jeungbing-jadonghwa)
+- [Chain Flag로 긴 호출 시간을 견디는 법](/post/chain-flagro-gin-hochul-siganeul-gyeondineun-beop)
+- [Docker 사용시 Error connect ECONNREFUSED 오류](/post/docker-sayongsi-error-connect-econnrefused-oryu)

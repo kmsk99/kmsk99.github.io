@@ -113,6 +113,6 @@ if (ok && data) {
 - https://docs.expo.dev/versions/latest/sdk/location/
 
 # 연결문서
-- [[React Native에서 로컬 리텐션 알림을 스케줄링하며 확인한 포인트]]
-- [[네이버 지도 SDK로 모바일 매장 지도를 설계한 과정]]
-- [[ActionSheet를 안전하게 감싸는 훅을 만든 이유]]
+- [React Native에서 로컬 리텐션 알림을 스케줄링하며 확인한 포인트](/post/react-nativeeseo-rokeol-ritensyeon-allimeul-seukejullinghamyeo-hwakginhan-pointeu)
+- [네이버 지도 SDK로 모바일 매장 지도를 설계한 과정](/post/neibeo-jido-sdkro-mobail-maejang-jidoreul-seolgyehan-gwajeong)
+- [ActionSheet를 안전하게 감싸는 훅을 만든 이유](/post/actionsheetreul-anjeonhage-gamssaneun-hugeul-mandeun-iyu)

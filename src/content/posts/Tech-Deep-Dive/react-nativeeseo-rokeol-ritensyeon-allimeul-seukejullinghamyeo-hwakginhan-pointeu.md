@@ -87,6 +87,6 @@ export async function cancelAllUserNotifications(userId: string) {
 - https://docs.expo.dev/versions/latest/sdk/notifications/
 
 # 연결문서
-- [[ActionSheet를 안전하게 감싸는 훅을 만든 이유]]
-- [[Expo 푸시 토큰 등록 루틴에서 배운 것]]
-- [[KeyboardStickyView 버그를 잡으면서 적어둔 노트]]
+- [ActionSheet를 안전하게 감싸는 훅을 만든 이유](/post/actionsheetreul-anjeonhage-gamssaneun-hugeul-mandeun-iyu)
+- [Expo 푸시 토큰 등록 루틴에서 배운 것](/post/expo-pusi-tokeun-deungnok-rutineseo-baeun-geot)
+- [KeyboardStickyView 버그를 잡으면서 적어둔 노트](/post/keyboardstickyview-beogeureul-jabeumyeonseo-jeogeodun-noteu)

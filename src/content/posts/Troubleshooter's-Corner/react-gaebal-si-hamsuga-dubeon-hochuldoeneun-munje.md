@@ -39,6 +39,6 @@ Strictmode는 Side effect를 줄이기 위해 함수를 두번씩 실행한다.
 - https://reactjs.org/docs/strict-mode.html#detecting-unexpected-side-effects
 
 # 연결문서
-- [[React Quill 에디터에서 YouTube 링크를 이용한 비디오 삽입 방법]]
-- [[React Quill에 서버 이미지 업로드 기능 추가하기]]
-- [[React 에서 인앱브라우저에서 외부브라우저 띄우기]]
+- [React Quill 에디터에서 YouTube 링크를 이용한 비디오 삽입 방법](/post/react-quill-editeoeseo-youtube-ringkeureul-iyonghan-bidio-samnip-bangbeop)
+- [React Quill에 서버 이미지 업로드 기능 추가하기](/post/react-quille-seobeo-imiji-eomnodeu-gineung-chugahagi)
+- React 에서 인앱브라우저에서 외부브라우저 띄우기

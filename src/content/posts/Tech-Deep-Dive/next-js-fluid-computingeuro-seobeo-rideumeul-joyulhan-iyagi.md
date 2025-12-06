@@ -47,6 +47,6 @@ modified: '2025-10-10 10:50'
 - https://nextjs.org/docs/app/building-your-application/rendering/edge-and-nodejs-runtimes
 
 # 연결문서
-- [[Fluid Pipeline으로 OCR과 AI 검증을 한 번에 묶어낸 기록]]
-- [[PWA로 모바일 사용성을 챙기며 S3 업로드와 오프라인 캐싱을 조율한 기록]]
-- [[CLOVA OCR API와 PDF 페이지 분할로 학력 증빙 자동화]]
+- [Fluid Pipeline으로 OCR과 AI 검증을 한 번에 묶어낸 기록](/post/fluid-pipelineeuro-ocrgwa-ai-geomjeungeul-han-beone-mukkeonaen-girok)
+- [PWA로 모바일 사용성을 챙기며 S3 업로드와 오프라인 캐싱을 조율한 기록](/post/pwaro-mobail-sayongseongeul-chaenggimyeo-s3-eomnodeuwa-opeurain-kaesingeul-joyulhan-girok)
+- [CLOVA OCR API와 PDF 페이지 분할로 학력 증빙 자동화](/post/clova-ocr-apiwa-pdf-peiji-bunhallo-hangnyeok-jeungbing-jadonghwa)

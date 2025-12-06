@@ -198,6 +198,6 @@ jobs:
 - https://github.com/line/headver
 
 # 연결문서
-- [[Feature-Sliced Design으로 프론트엔드 도메인 분해하기]]
-- [[나만의 SVG 아이콘 라이브러리 만들기 여정기 (1편) - React 컴포넌트 변환과 컴파일 자동화]]
-- [[Deep Link Friendly Redirect Validation을 구현하며 배운 보안 체크리스트]]
+- [Feature-Sliced Design으로 프론트엔드 도메인 분해하기](/post/feature-sliced-designeuro-peuronteuendeu-domein-bunhaehagi)
+- [나만의 SVG 아이콘 라이브러리 만들기 여정기 (1편) - React 컴포넌트 변환과 컴파일 자동화](/post/namanui-svg-aikon-raibeureori-mandeulgi-yeojeonggi-1pyeon-react-keomponeonteu-byeonhwangwa-keompail-jadonghwa)
+- [Deep Link Friendly Redirect Validation을 구현하며 배운 보안 체크리스트](/post/deep-link-friendly-redirect-validationeul-guhyeonhamyeo-baeun-boan-chekeuriseuteu)

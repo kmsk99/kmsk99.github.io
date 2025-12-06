@@ -120,6 +120,6 @@ export function usePushNotificationsSetup() {
 - https://docs.expo.dev/versions/latest/sdk/notifications/
 
 # 연결문서
-- [[KeyboardStickyView 버그를 잡으면서 적어둔 노트]]
-- [[React Native에서 로컬 리텐션 알림을 스케줄링하며 확인한 포인트]]
-- [[카카오 OAuth를 iOS와 Android에 동시에 붙인 경험]]
+- [KeyboardStickyView 버그를 잡으면서 적어둔 노트](/post/keyboardstickyview-beogeureul-jabeumyeonseo-jeogeodun-noteu)
+- [React Native에서 로컬 리텐션 알림을 스케줄링하며 확인한 포인트](/post/react-nativeeseo-rokeol-ritensyeon-allimeul-seukejullinghamyeo-hwakginhan-pointeu)
+- [카카오 OAuth를 iOS와 Android에 동시에 붙인 경험](/post/kakao-oauthreul-ioswa-androide-dongsie-buchin-gyeongheom)

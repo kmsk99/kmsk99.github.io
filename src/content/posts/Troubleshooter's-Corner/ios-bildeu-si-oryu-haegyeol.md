@@ -80,6 +80,6 @@ User Script Sandboxing No 로 설정
 - https://sy-catbutler.tistory.com/35
 
 # 연결문서
-- [[Firebase Admin SDK로 상태 기반 푸시 알림을 다듬은 후기]]
-- [[Firebase에서 검색 기능 구현하기]]
-- [[React Native .ipa로 추출하기]]
+- [Firebase Admin SDK로 상태 기반 푸시 알림을 다듬은 후기](/post/firebase-admin-sdkro-sangtae-giban-pusi-allimeul-dadeumeun-hugi)
+- [Firebase에서 검색 기능 구현하기](/post/firebaseeseo-geomsaek-gineung-guhyeonhagi)
+- [React Native .ipa로 추출하기](/post/react-native-iparo-chuchulhagi)

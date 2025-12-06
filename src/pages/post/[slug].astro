@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import PostLayout from '../../layouts/PostLayout.astro';
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import RetrospectiveLayout from '../../layouts/RetrospectiveLayout.astro';
+
+export async function getStaticPaths() {
+	const collections = [
+		...(await getCollection('posts')),
+		...(await getCollection('projects')),
+		...(await getCollection('retrospectives')),
+	];
+
+	const paths = collections.map((entry) => {
+		const segments = entry.id.split('/');
+		const slug = segments[segments.length - 1];
+		return {
+			params: { slug },
+			props: { entry },
+		};
+	});
+
+	return paths;
+}
+
+const { entry } = Astro.props;
+---
+
+{entry.collection === 'projects' ? (
+	<ProjectLayout entry={entry as any} />
+) : entry.collection === 'retrospectives' ? (
+	<RetrospectiveLayout entry={entry as any} />
+) : (
+	<PostLayout entry={entry as any} />
+)}
+

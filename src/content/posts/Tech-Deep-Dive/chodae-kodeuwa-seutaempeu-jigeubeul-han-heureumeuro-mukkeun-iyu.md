@@ -56,6 +56,6 @@ export const addInviteReceivedStamp = async (
 - https://supabase.com/docs/guides/functions
 
 # 연결문서
-- [[AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기]]
-- [[AI 자동화를 cron 엔드포인트로 안전하게 트리거한 과정]]
-- [[AWS KMS와 AES-GCM으로 서버 사이드 암호화 업로드 구축기]]
+- [AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기](/post/aes-256gwa-prisma-middlewarero-gaeinjeongbo-anjeonhage-dolligi)
+- [AI 자동화를 cron 엔드포인트로 안전하게 트리거한 과정](/post/ai-jadonghwareul-cron-endeupointeuro-anjeonhage-teurigeohan-gwajeong)
+- [AWS KMS와 AES-GCM으로 서버 사이드 암호화 업로드 구축기](/post/aws-kmswa-aes-gcmeuro-seobeo-saideu-amhohwa-eomnodeu-guchukgi)

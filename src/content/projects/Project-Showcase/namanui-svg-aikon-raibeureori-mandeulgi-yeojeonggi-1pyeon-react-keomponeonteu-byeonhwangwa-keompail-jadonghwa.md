@@ -316,6 +316,6 @@ compileTypeScript();
 
 # 연결문서
 
-- [[Deep Link Friendly Redirect Validation을 구현하며 배운 보안 체크리스트]]
-- [[ESLint·Prettier·Husky 자동화를 정착시키기까지]]
-- [[Feature-Sliced Design으로 프론트엔드 도메인 분해하기]]
+- [Deep Link Friendly Redirect Validation을 구현하며 배운 보안 체크리스트](/post/deep-link-friendly-redirect-validationeul-guhyeonhamyeo-baeun-boan-chekeuriseuteu)
+- [ESLint·Prettier·Husky 자동화를 정착시키기까지](/post/eslint-prettier-husky-jadonghwareul-jeongchaksikigikkaji)
+- [Feature-Sliced Design으로 프론트엔드 도메인 분해하기](/post/feature-sliced-designeuro-peuronteuendeu-domein-bunhaehagi)

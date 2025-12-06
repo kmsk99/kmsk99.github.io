@@ -107,6 +107,6 @@ const response = await fetch(process.env.OCR_INVOKE_URL!, {
 - https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
 
 # 연결문서
-- [[Chain Flag로 긴 호출 시간을 견디는 법]]
-- [[Next.js Fluid Computing으로 서버 리듬을 조율한 이야기]]
-- [[NextJs와 도커 사용시 핫리로드 불가 문제]]
+- [Chain Flag로 긴 호출 시간을 견디는 법](/post/chain-flagro-gin-hochul-siganeul-gyeondineun-beop)
+- [Next.js Fluid Computing으로 서버 리듬을 조율한 이야기](/post/next-js-fluid-computingeuro-seobeo-rideumeul-joyulhan-iyagi)
+- [NextJs와 도커 사용시 핫리로드 불가 문제](/post/nextjswa-dokeo-sayongsi-hatrirodeu-bulga-munje)

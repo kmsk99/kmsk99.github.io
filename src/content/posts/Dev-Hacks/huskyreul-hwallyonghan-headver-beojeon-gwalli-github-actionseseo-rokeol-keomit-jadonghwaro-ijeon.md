@@ -148,7 +148,7 @@ Husky 를 도입하고 나서 저희 팀의 개발 경험은 정말 눈에 띄�
 *   **협업 효율 증가:** 모든 팀원이 동일한 Git Hook 설정을 사용하게 되니, 누가 커밋하든 일관된 방식으로 버전이 관리되고 코드 품질이 유지됩니다. 덕분에 불필요한 커뮤니케이션 비용도 줄었고요.
 *   **CI/CD 리소스 절약:** 더 이상 단순 버전 업데이트를 위해 CI/CD 파이프라인을 돌릴 필요가 없어졌습니다. 작지만 소중한 CI 리소스를 아낄 수 있게 된 거죠.
 
-[[Husky 도입 후 개발 플로우 변화.png]] (가상 이미지: 왼쪽은 푸시 후 CI/CD 에서 버전 업데이트, 오른쪽은 로컬 커밋 시 즉시 버전 업데이트되는 모습 비교)
+Husky 도입 후 개발 플로우 변화.png (가상 이미지: 왼쪽은 푸시 후 CI/CD 에서 버전 업데이트, 오른쪽은 로컬 커밋 시 즉시 버전 업데이트되는 모습 비교)
 
 ### 아찔했던 순간과 해결의 기쁨: `post-commit` 무한 루프 탈출기
 
@@ -189,6 +189,6 @@ GitHub Actions 에서 Husky 로 로컬 버전 관리 자동화를 이전하면�
 # Reference
 
 # 연결문서
-- [[ESLint·Prettier·Husky 자동화를 정착시키기까지]]
-- [[나만의 SVG 아이콘 라이브러리 만들기 여정기 (3편) - GitHub Actions로 날개 달기, 자동 배포 시스템 구축!]]
-- [[나만의 SVG 아이콘 라이브러리 만들기 여정기 (1편) - React 컴포넌트 변환과 컴파일 자동화]]
+- [ESLint·Prettier·Husky 자동화를 정착시키기까지](/post/eslint-prettier-husky-jadonghwareul-jeongchaksikigikkaji)
+- [나만의 SVG 아이콘 라이브러리 만들기 여정기 (3편) - GitHub Actions로 날개 달기, 자동 배포 시스템 구축!](/post/namanui-svg-aikon-raibeureori-mandeulgi-yeojeonggi-3pyeon-github-actionsro-nalgae-dalgi-jadong-baepo-siseutem-guchuk)
+- [나만의 SVG 아이콘 라이브러리 만들기 여정기 (1편) - React 컴포넌트 변환과 컴파일 자동화](/post/namanui-svg-aikon-raibeureori-mandeulgi-yeojeonggi-1pyeon-react-keomponeonteu-byeonhwangwa-keompail-jadonghwa)

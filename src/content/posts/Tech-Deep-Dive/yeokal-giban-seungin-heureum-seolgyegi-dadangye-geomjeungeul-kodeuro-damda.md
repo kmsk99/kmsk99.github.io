@@ -104,6 +104,6 @@ const { ok } = await this.notificationsService.createNotification({
 - https://graphql.org/learn/authorization/
 
 # 연결문서
-- [[AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기]]
-- [[NestJS GraphQL 예약 도메인에서 실시간성을 확보한 과정]]
-- [[Firebase Admin SDK로 상태 기반 푸시 알림을 다듬은 후기]]
+- [AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기](/post/aes-256gwa-prisma-middlewarero-gaeinjeongbo-anjeonhage-dolligi)
+- [NestJS GraphQL 예약 도메인에서 실시간성을 확보한 과정](/post/nestjs-graphql-yeyak-domeineseo-silsiganseongeul-hwakbohan-gwajeong)
+- [Firebase Admin SDK로 상태 기반 푸시 알림을 다듬은 후기](/post/firebase-admin-sdkro-sangtae-giban-pusi-allimeul-dadeumeun-hugi)

@@ -76,6 +76,6 @@ return {
 - https://supabase.com/docs/guides/auth/row-level-security
 
 # 연결문서
-- [[AI 자동화를 cron 엔드포인트로 안전하게 트리거한 과정]]
-- [[Bearer 토큰을 Supabase 쿠키로 바꿔주는 Next.js 서버 클라이언트]]
-- [[Supabase RPC로 포인트 적립·차감을 안전하게 처리한 방법]]
+- [AI 자동화를 cron 엔드포인트로 안전하게 트리거한 과정](/post/ai-jadonghwareul-cron-endeupointeuro-anjeonhage-teurigeohan-gwajeong)
+- [Bearer 토큰을 Supabase 쿠키로 바꿔주는 Next.js 서버 클라이언트](/post/bearer-tokeuneul-supabase-kukiro-bakkwojuneun-next-js-seobeo-keullaieonteu)
+- [Supabase RPC로 포인트 적립·차감을 안전하게 처리한 방법](/post/supabase-rpcro-pointeu-jeongnip-chagameul-anjeonhage-cheorihan-bangbeop)

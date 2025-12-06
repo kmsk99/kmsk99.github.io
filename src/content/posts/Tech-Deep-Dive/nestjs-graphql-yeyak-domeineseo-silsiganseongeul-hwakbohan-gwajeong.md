@@ -116,6 +116,6 @@ if (hasCollision) {
 - https://www.prisma.io/docs/concepts/components/prisma-client/transactions
 
 # 연결문서
-- [[GitHub Actions와 Docker, Elastic Beanstalk로 통합 배포 자동화하기]]
-- [[Winston과 CloudWatch로 구조화 로깅 파이프라인 다듬기]]
-- [[pnpm 모노레포로 여러 제품을 한 팀처럼 묶은 이유]]
+- [GitHub Actions와 Docker, Elastic Beanstalk로 통합 배포 자동화하기](/post/github-actionswa-docker-elastic-beanstalkro-tonghap-baepo-jadonghwahagi)
+- [Winston과 CloudWatch로 구조화 로깅 파이프라인 다듬기](/post/winstongwa-cloudwatchro-gujohwa-roging-paipeurain-dadeumgi)
+- [pnpm 모노레포로 여러 제품을 한 팀처럼 묶은 이유](/post/pnpm-monoreporo-yeoreo-jepumeul-han-timcheoreom-mukkeun-iyu)

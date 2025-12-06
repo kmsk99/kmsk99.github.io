@@ -336,6 +336,6 @@ HeadVer 도입 후, 우리 팀은 제품의 변경사항과 릴리스 주기를 
 # Reference
 
 # 연결문서
-- [[EC2 초기 세팅 스크립트를 만들며 자동화에 집착한 이유]]
-- [[Husky를 활용한 HeadVer 버전 관리 - GitHub Actions에서 로컬 커밋 자동화로 이전]]
-- [[나만의 SVG 아이콘 라이브러리 만들기 여정기 (3편) - GitHub Actions로 날개 달기, 자동 배포 시스템 구축!]]
+- [EC2 초기 세팅 스크립트를 만들며 자동화에 집착한 이유](/post/ec2-chogi-seting-seukeuripteureul-mandeulmyeo-jadonghwae-jipchakan-iyu)
+- [Husky를 활용한 HeadVer 버전 관리 - GitHub Actions에서 로컬 커밋 자동화로 이전](/post/huskyreul-hwallyonghan-headver-beojeon-gwalli-github-actionseseo-rokeol-keomit-jadonghwaro-ijeon)
+- [나만의 SVG 아이콘 라이브러리 만들기 여정기 (3편) - GitHub Actions로 날개 달기, 자동 배포 시스템 구축!](/post/namanui-svg-aikon-raibeureori-mandeulgi-yeojeonggi-3pyeon-github-actionsro-nalgae-dalgi-jadong-baepo-siseutem-guchuk)

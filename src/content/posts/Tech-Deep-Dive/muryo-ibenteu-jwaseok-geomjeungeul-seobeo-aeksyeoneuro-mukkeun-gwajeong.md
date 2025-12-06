@@ -77,6 +77,6 @@ export const applyFreeEvent = async (eventId: string) => {
 - https://supabase.com/docs/guides/auth/server-side/nextjs
 
 # 연결문서
-- [[Bearer 토큰을 Supabase 쿠키로 바꿔주는 Next.js 서버 클라이언트]]
-- [[Firestore 장바구니 동기화에서 배운 방어적 패턴]]
-- [[결제 위젯 자동 재시도와 웹훅 이중 검증으로 에러 줄이기]]
+- [Bearer 토큰을 Supabase 쿠키로 바꿔주는 Next.js 서버 클라이언트](/post/bearer-tokeuneul-supabase-kukiro-bakkwojuneun-next-js-seobeo-keullaieonteu)
+- [Firestore 장바구니 동기화에서 배운 방어적 패턴](/post/firestore-jangbaguni-donggihwaeseo-baeun-bangeojeok-paeteon)
+- [결제 위젯 자동 재시도와 웹훅 이중 검증으로 에러 줄이기](/post/gyeolje-wijet-jadong-jaesidowa-wepuk-ijung-geomjeungeuro-ereo-jurigi)

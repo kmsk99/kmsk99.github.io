@@ -78,6 +78,6 @@ for (const recordId of targets) {
 - https://nextjs.org/docs/app/building-your-application/routing/route-handlers
 
 # 연결문서
-- [[AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기]]
-- [[Bearer 토큰을 Supabase 쿠키로 바꿔주는 Next.js 서버 클라이언트]]
-- [[Supabase RPC로 포인트 적립·차감을 안전하게 처리한 방법]]
+- [AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기](/post/aes-256gwa-prisma-middlewarero-gaeinjeongbo-anjeonhage-dolligi)
+- [Bearer 토큰을 Supabase 쿠키로 바꿔주는 Next.js 서버 클라이언트](/post/bearer-tokeuneul-supabase-kukiro-bakkwojuneun-next-js-seobeo-keullaieonteu)
+- [Supabase RPC로 포인트 적립·차감을 안전하게 처리한 방법](/post/supabase-rpcro-pointeu-jeongnip-chagameul-anjeonhage-cheorihan-bangbeop)

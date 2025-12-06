@@ -158,6 +158,6 @@ export default function BaseBottomSheet({
 - https://docs.expo.dev/versions/latest/sdk/blur-view/
 
 # 연결문서
-- [[ActionSheet를 안전하게 감싸는 훅을 만든 이유]]
-- [[React 에서 인앱브라우저에서 외부브라우저 띄우기]]
-- [[Android 더블백 종료 규칙을 직접 다듬으며 배운 것]]
+- [ActionSheet를 안전하게 감싸는 훅을 만든 이유](/post/actionsheetreul-anjeonhage-gamssaneun-hugeul-mandeun-iyu)
+- React 에서 인앱브라우저에서 외부브라우저 띄우기
+- [Android 더블백 종료 규칙을 직접 다듬으며 배운 것](/post/android-deobeulbaek-jongnyo-gyuchigeul-jikjeop-dadeumeumyeo-baeun-geot)

@@ -91,6 +91,6 @@ Blob 업로드(`uploadBlob`)도 같은 형태로 통일해, 캔버스에서 생�
 - https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html
 
 # 연결문서
-- [[Next.js Fluid Computing으로 서버 리듬을 조율한 이야기]]
-- [[App Router에서 Firebase Auth로 관리자 접근을 지키는 방법]]
-- [[Firestore 장바구니 동기화에서 배운 방어적 패턴]]
+- [Next.js Fluid Computing으로 서버 리듬을 조율한 이야기](/post/next-js-fluid-computingeuro-seobeo-rideumeul-joyulhan-iyagi)
+- [App Router에서 Firebase Auth로 관리자 접근을 지키는 방법](/post/app-routereseo-firebase-authro-gwallija-jeopgeuneul-jikineun-bangbeop)
+- [Firestore 장바구니 동기화에서 배운 방어적 패턴](/post/firestore-jangbaguni-donggihwaeseo-baeun-bangeojeok-paeteon)

@@ -109,6 +109,6 @@ const formats = [
 # Reference
 
 # 연결문서
-- [[React Quill에 서버 이미지 업로드 기능 추가하기]]
-- [[NICE 본인인증 팝업을 Next.js에서 안전하게 다루기]]
-- [[React Context로 가벼운 통화 로컬라이제이션 구축기]]
+- [React Quill에 서버 이미지 업로드 기능 추가하기](/post/react-quille-seobeo-imiji-eomnodeu-gineung-chugahagi)
+- [NICE 본인인증 팝업을 Next.js에서 안전하게 다루기](/post/nice-bonninninjeung-pabeobeul-next-jseseo-anjeonhage-darugi)
+- [React Context로 가벼운 통화 로컬라이제이션 구축기](/post/react-contextro-gabyeoun-tonghwa-rokeollaijeisyeon-guchukgi)

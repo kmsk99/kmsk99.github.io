@@ -90,6 +90,6 @@ export async function createServerSupabase() {
 - https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization
 
 # 연결문서
-- [[Firestore 장바구니 동기화에서 배운 방어적 패턴]]
-- [[네트워크 흔들릴 때도 프로필 세션을 지키는 useProfileWithRetry 만들기]]
-- [[카카오 OAuth를 iOS와 Android에 동시에 붙인 경험]]
+- [Firestore 장바구니 동기화에서 배운 방어적 패턴](/post/firestore-jangbaguni-donggihwaeseo-baeun-bangeojeok-paeteon)
+- [네트워크 흔들릴 때도 프로필 세션을 지키는 useProfileWithRetry 만들기](/post/neteuwokeu-heundeullil-ttaedo-peuropil-sesyeoneul-jikineun-useprofilewithretry-mandeulgi)
+- [카카오 OAuth를 iOS와 Android에 동시에 붙인 경험](/post/kakao-oauthreul-ioswa-androide-dongsie-buchin-gyeongheom)

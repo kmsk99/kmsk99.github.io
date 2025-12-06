@@ -88,6 +88,6 @@ export const addUserStamp = async (
 - https://supabase.com/docs/guides/auth/row-level-security
 
 # 연결문서
-- [[React Native 파일 업로드 파이프라인을 정리한 기록]]
-- [[암호화 파일을 복호화해 안전하게 다운로드시키는 방법]]
-- [[AI 자동화를 cron 엔드포인트로 안전하게 트리거한 과정]]
+- [React Native 파일 업로드 파이프라인을 정리한 기록](/post/react-native-pail-eomnodeu-paipeuraineul-jeongnihan-girok)
+- [암호화 파일을 복호화해 안전하게 다운로드시키는 방법](/post/amhohwa-paireul-bokohwahae-anjeonhage-daullodeusikineun-bangbeop)
+- [AI 자동화를 cron 엔드포인트로 안전하게 트리거한 과정](/post/ai-jadonghwareul-cron-endeupointeuro-anjeonhage-teurigeohan-gwajeong)

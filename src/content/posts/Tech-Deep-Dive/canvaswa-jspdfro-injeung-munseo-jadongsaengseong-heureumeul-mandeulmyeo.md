@@ -95,6 +95,6 @@ export async function generatePreviewDataUrl(virtualA4Ref: React.RefObject<HTMLD
 - https://developer.mozilla.org/docs/Web/API/Canvas_API
 
 # 연결문서
-- [[크롬 확장프로그램으로 만든 다국어 로렘 입숨 생성기 - 개발부터 배포까지]]
-- [[App Router에서 Firebase Auth로 관리자 접근을 지키는 방법]]
-- [[ESLint·Prettier·Husky 자동화를 정착시키기까지]]
+- [크롬 확장프로그램으로 만든 다국어 로렘 입숨 생성기 - 개발부터 배포까지](/post/keurom-hwakjangpeurogeuraemeuro-mandeun-dagugeo-rorem-ipsum-saengseonggi-gaebalbuteo-baepokkaji)
+- [App Router에서 Firebase Auth로 관리자 접근을 지키는 방법](/post/app-routereseo-firebase-authro-gwallija-jeopgeuneul-jikineun-bangbeop)
+- [ESLint·Prettier·Husky 자동화를 정착시키기까지](/post/eslint-prettier-husky-jadonghwareul-jeongchaksikigikkaji)

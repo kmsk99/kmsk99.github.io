@@ -102,6 +102,6 @@ export default function OtaUpdateModal() {
 - https://docs.expo.dev/versions/latest/sdk/updates/
 
 # 연결문서
-- [[ActionSheet를 안전하게 감싸는 훅을 만든 이유]]
-- [[Android 더블백 종료 규칙을 직접 다듬으며 배운 것]]
-- [[Deep Link Friendly Redirect Validation을 구현하며 배운 보안 체크리스트]]
+- [ActionSheet를 안전하게 감싸는 훅을 만든 이유](/post/actionsheetreul-anjeonhage-gamssaneun-hugeul-mandeun-iyu)
+- [Android 더블백 종료 규칙을 직접 다듬으며 배운 것](/post/android-deobeulbaek-jongnyo-gyuchigeul-jikjeop-dadeumeumyeo-baeun-geot)
+- [Deep Link Friendly Redirect Validation을 구현하며 배운 보안 체크리스트](/post/deep-link-friendly-redirect-validationeul-guhyeonhamyeo-baeun-boan-chekeuriseuteu)

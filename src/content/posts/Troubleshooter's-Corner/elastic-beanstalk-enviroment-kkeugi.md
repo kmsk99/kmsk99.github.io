@@ -16,6 +16,6 @@ CloudFormation 으로 들어가서 stacks 내에서 Elastic Beanstalk 과 연결
 # Reference
 
 # 연결문서
-- [[Elastic Beanstalk 메모리 스왑하기]]
-- [[Docker 사용시 Error connect ECONNREFUSED 오류]]
-- [[NextJs와 도커 사용시 핫리로드 불가 문제]]
+- [Elastic Beanstalk 메모리 스왑하기](/post/elastic-beanstalk-memori-seuwapagi)
+- [Docker 사용시 Error connect ECONNREFUSED 오류](/post/docker-sayongsi-error-connect-econnrefused-oryu)
+- [NextJs와 도커 사용시 핫리로드 불가 문제](/post/nextjswa-dokeo-sayongsi-hatrirodeu-bulga-munje)

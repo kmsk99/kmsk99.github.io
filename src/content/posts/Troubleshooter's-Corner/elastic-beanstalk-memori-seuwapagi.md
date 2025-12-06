@@ -54,6 +54,6 @@ shell 에서 free 명령어를 이용해 현재 메모리를 확인 가능하다
 - https://www.atomic14.com/2017/06/04/adding-swap-to-elastic-beanstalk.html
 
 # 연결문서
-- [[GitHub Actions와 Docker, Elastic Beanstalk로 통합 배포 자동화하기]]
-- [[Elastic Beanstalk Enviroment 끄기]]
-- [[EC2 초기 세팅 스크립트를 만들며 자동화에 집착한 이유]]
+- [GitHub Actions와 Docker, Elastic Beanstalk로 통합 배포 자동화하기](/post/github-actionswa-docker-elastic-beanstalkro-tonghap-baepo-jadonghwahagi)
+- [Elastic Beanstalk Enviroment 끄기](/post/elastic-beanstalk-enviroment-kkeugi)
+- [EC2 초기 세팅 스크립트를 만들며 자동화에 집착한 이유](/post/ec2-chogi-seting-seukeuripteureul-mandeulmyeo-jadonghwae-jipchakan-iyu)

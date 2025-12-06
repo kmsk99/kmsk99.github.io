@@ -118,6 +118,6 @@ jobs:
 - https://pnpm.io/filtering
 
 # 연결문서
-- [[pnpm 모노레포로 여러 제품을 한 팀처럼 묶은 이유]]
-- [[NestJS GraphQL 예약 도메인에서 실시간성을 확보한 과정]]
-- [[Elastic Beanstalk 메모리 스왑하기]]
+- [pnpm 모노레포로 여러 제품을 한 팀처럼 묶은 이유](/post/pnpm-monoreporo-yeoreo-jepumeul-han-timcheoreom-mukkeun-iyu)
+- [NestJS GraphQL 예약 도메인에서 실시간성을 확보한 과정](/post/nestjs-graphql-yeyak-domeineseo-silsiganseongeul-hwakbohan-gwajeong)
+- [Elastic Beanstalk 메모리 스왑하기](/post/elastic-beanstalk-memori-seuwapagi)

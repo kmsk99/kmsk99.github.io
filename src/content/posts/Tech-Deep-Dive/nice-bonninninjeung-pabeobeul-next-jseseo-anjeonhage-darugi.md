@@ -101,6 +101,6 @@ function submitHiddenForm(targetWindow: Window, fields: Record<string, string>) 
 - https://nextjs.org/docs/app/building-your-application/routing/route-handlers
 
 # 연결문서
-- [[React Context로 가벼운 통화 로컬라이제이션 구축기]]
-- [[공공데이터 대학 API 프록시를 만들며 챙긴 보안 옵션]]
-- [[네트워크 흔들릴 때도 프로필 세션을 지키는 useProfileWithRetry 만들기]]
+- [React Context로 가벼운 통화 로컬라이제이션 구축기](/post/react-contextro-gabyeoun-tonghwa-rokeollaijeisyeon-guchukgi)
+- [공공데이터 대학 API 프록시를 만들며 챙긴 보안 옵션](/post/gonggongdeiteo-daehak-api-peuroksireul-mandeulmyeo-chaenggin-boan-opsyeon)
+- [네트워크 흔들릴 때도 프로필 세션을 지키는 useProfileWithRetry 만들기](/post/neteuwokeu-heundeullil-ttaedo-peuropil-sesyeoneul-jikineun-useprofilewithretry-mandeulgi)

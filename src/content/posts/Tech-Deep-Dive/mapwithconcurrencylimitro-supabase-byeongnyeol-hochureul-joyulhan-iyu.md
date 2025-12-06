@@ -91,6 +91,6 @@ mapper가 던진 오류는 catch에서 무시하고 결과 배열에 undefined�
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
 
 # 연결문서
-- [[갤럭시 기기까지 고려한 Supabase 첨부파일 업로드 안정화기]]
-- [[실시간 채팅을 위한 옵티미스틱 업데이트와 구독 관리 실험기]]
-- [[AI 자동화를 cron 엔드포인트로 안전하게 트리거한 과정]]
+- [갤럭시 기기까지 고려한 Supabase 첨부파일 업로드 안정화기](/post/gaelleoksi-gigikkaji-goryeohan-supabase-cheombupail-eomnodeu-anjeonghwagi)
+- [실시간 채팅을 위한 옵티미스틱 업데이트와 구독 관리 실험기](/post/silsigan-chaetingeul-wihan-optimiseutik-eopdeiteuwa-gudok-gwalli-silheomgi)
+- [AI 자동화를 cron 엔드포인트로 안전하게 트리거한 과정](/post/ai-jadonghwareul-cron-endeupointeuro-anjeonhage-teurigeohan-gwajeong)

@@ -25,6 +25,6 @@ MX 추가
 # Reference
 
 # 연결문서
-- [[Docker 사용시 Error connect ECONNREFUSED 오류]]
-- [[Elastic Beanstalk Enviroment 끄기]]
-- [[Elastic Beanstalk 메모리 스왑하기]]
+- [Docker 사용시 Error connect ECONNREFUSED 오류](/post/docker-sayongsi-error-connect-econnrefused-oryu)
+- [Elastic Beanstalk Enviroment 끄기](/post/elastic-beanstalk-enviroment-kkeugi)
+- [Elastic Beanstalk 메모리 스왑하기](/post/elastic-beanstalk-memori-seuwapagi)

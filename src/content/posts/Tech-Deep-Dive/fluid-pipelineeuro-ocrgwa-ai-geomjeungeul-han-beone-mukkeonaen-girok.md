@@ -49,6 +49,6 @@ modified: '2025-10-10 10:45'
 - https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html
 
 # 연결문서
-- [[Next.js Fluid Computing으로 서버 리듬을 조율한 이야기]]
-- [[AWS KMS와 AES-GCM으로 서버 사이드 암호화 업로드 구축기]]
-- [[AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기]]
+- [Next.js Fluid Computing으로 서버 리듬을 조율한 이야기](/post/next-js-fluid-computingeuro-seobeo-rideumeul-joyulhan-iyagi)
+- [AWS KMS와 AES-GCM으로 서버 사이드 암호화 업로드 구축기](/post/aws-kmswa-aes-gcmeuro-seobeo-saideu-amhohwa-eomnodeu-guchukgi)
+- [AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기](/post/aes-256gwa-prisma-middlewarero-gaeinjeongbo-anjeonhage-dolligi)

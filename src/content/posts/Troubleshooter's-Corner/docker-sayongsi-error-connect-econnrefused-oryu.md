@@ -39,6 +39,6 @@ DATABASE_URL: postgres://username:pgpassword@db:5432/mydatabase
 - https://stackoverflow.com/questions/33357567/econnrefused-for-postgres-on-nodejs-with-dockers
 
 # 연결문서
-- [[NextJs와 도커 사용시 핫리로드 불가 문제]]
-- [[Elastic Beanstalk Enviroment 끄기]]
-- [[Elastic Beanstalk 메모리 스왑하기]]
+- [NextJs와 도커 사용시 핫리로드 불가 문제](/post/nextjswa-dokeo-sayongsi-hatrirodeu-bulga-munje)
+- [Elastic Beanstalk Enviroment 끄기](/post/elastic-beanstalk-enviroment-kkeugi)
+- [Elastic Beanstalk 메모리 스왑하기](/post/elastic-beanstalk-memori-seuwapagi)

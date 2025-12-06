@@ -49,6 +49,6 @@ modified: '2025-10-10 10:55'
 - https://12factor.net/processes
 
 # 연결문서
-- [[CLOVA OCR API와 PDF 페이지 분할로 학력 증빙 자동화]]
-- [[Next.js Fluid Computing으로 서버 리듬을 조율한 이야기]]
-- [[NextJs와 도커 사용시 핫리로드 불가 문제]]
+- [CLOVA OCR API와 PDF 페이지 분할로 학력 증빙 자동화](/post/clova-ocr-apiwa-pdf-peiji-bunhallo-hangnyeok-jeungbing-jadonghwa)
+- [Next.js Fluid Computing으로 서버 리듬을 조율한 이야기](/post/next-js-fluid-computingeuro-seobeo-rideumeul-joyulhan-iyagi)
+- [NextJs와 도커 사용시 핫리로드 불가 문제](/post/nextjswa-dokeo-sayongsi-hatrirodeu-bulga-munje)

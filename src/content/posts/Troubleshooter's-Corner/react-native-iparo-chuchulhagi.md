@@ -50,6 +50,6 @@ Library 는 숨겨져있는 폴더다. 숨겨진 폴더는 맥에서 shift + com
 # Reference
 
 # 연결문서
-- [[ActionSheet를 안전하게 감싸는 훅을 만든 이유]]
-- [[React Native Map 실제 기기에서 실행 시 로고만 뜨고 지도가 안뜰때 대처방법]]
-- [[React Native에서 Android SHA-1 인증서 추출 방법]]
+- [ActionSheet를 안전하게 감싸는 훅을 만든 이유](/post/actionsheetreul-anjeonhage-gamssaneun-hugeul-mandeun-iyu)
+- [React Native Map 실제 기기에서 실행 시 로고만 뜨고 지도가 안뜰때 대처방법](/post/react-native-map-silje-gigieseo-silhaeng-si-rogoman-tteugo-jidoga-antteulttae-daecheobangbeop)
+- [React Native에서 Android SHA-1 인증서 추출 방법](/post/react-nativeeseo-android-sha-1-injeungseo-chuchul-bangbeop)

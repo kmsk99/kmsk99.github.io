@@ -113,6 +113,6 @@ export const readBase64FromReactNativeFile = async (
 - https://docs.expo.dev/versions/latest/sdk/filesystem/
 
 # 연결문서
-- [[React Native에서 로컬 리텐션 알림을 스케줄링하며 확인한 포인트]]
-- [[공공기관 위치 데이터를 우리가 쓰는 방식으로 정제하기]]
-- [[네이버 지도 SDK로 모바일 매장 지도를 설계한 과정]]
+- [React Native에서 로컬 리텐션 알림을 스케줄링하며 확인한 포인트](/post/react-nativeeseo-rokeol-ritensyeon-allimeul-seukejullinghamyeo-hwakginhan-pointeu)
+- [공공기관 위치 데이터를 우리가 쓰는 방식으로 정제하기](/post/gonggonggigwan-wichi-deiteoreul-uriga-sseuneun-bangsigeuro-jeongjehagi)
+- [네이버 지도 SDK로 모바일 매장 지도를 설계한 과정](/post/neibeo-jido-sdkro-mobail-maejang-jidoreul-seolgyehan-gwajeong)

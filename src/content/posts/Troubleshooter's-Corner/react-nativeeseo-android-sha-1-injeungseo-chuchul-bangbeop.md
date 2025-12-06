@@ -31,6 +31,6 @@ cd android && ./gradlew signingReport
 ### [ReactNative - android SHA-1 인증서 확인하기 (tistory.com)](https://right-hot.tistory.com/entry/ReactNative-android-SHA1-%EC%9D%B8%EC%A6%9D%EC%84%9C-%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0)
 
 # 연결문서
-- [[ActionSheet를 안전하게 감싸는 훅을 만든 이유]]
-- [[React Native .ipa로 추출하기]]
-- [[React Native Map 실제 기기에서 실행 시 로고만 뜨고 지도가 안뜰때 대처방법]]
+- [ActionSheet를 안전하게 감싸는 훅을 만든 이유](/post/actionsheetreul-anjeonhage-gamssaneun-hugeul-mandeun-iyu)
+- [React Native .ipa로 추출하기](/post/react-native-iparo-chuchulhagi)
+- [React Native Map 실제 기기에서 실행 시 로고만 뜨고 지도가 안뜰때 대처방법](/post/react-native-map-silje-gigieseo-silhaeng-si-rogoman-tteugo-jidoga-antteulttae-daecheobangbeop)

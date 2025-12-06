@@ -82,6 +82,6 @@ export async function encryptFileBeforeUpload(file: File): Promise<EncryptedPayl
 - https://supabase.com/docs/guides/storage
 
 # 연결문서
-- [[Fluid Pipeline으로 OCR과 AI 검증을 한 번에 묶어낸 기록]]
-- [[Winston과 CloudWatch로 구조화 로깅 파이프라인 다듬기]]
-- [[갤럭시 기기까지 고려한 Supabase 첨부파일 업로드 안정화기]]
+- [Fluid Pipeline으로 OCR과 AI 검증을 한 번에 묶어낸 기록](/post/fluid-pipelineeuro-ocrgwa-ai-geomjeungeul-han-beone-mukkeonaen-girok)
+- [Winston과 CloudWatch로 구조화 로깅 파이프라인 다듬기](/post/winstongwa-cloudwatchro-gujohwa-roging-paipeurain-dadeumgi)
+- [갤럭시 기기까지 고려한 Supabase 첨부파일 업로드 안정화기](/post/gaelleoksi-gigikkaji-goryeohan-supabase-cheombupail-eomnodeu-anjeonghwagi)

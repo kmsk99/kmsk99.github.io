@@ -64,6 +64,6 @@ if (fs.existsSync(sslKeyPath) && fs.existsSync(sslCertPath)) {
 - https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html
 
 # 연결문서
-- [[EC2 초기 세팅 스크립트를 만들며 자동화에 집착한 이유]]
-- [[버전 관리의 신세계, HeadVer 도입기 - JavaScript 개발자를 위한 완벽 가이드]]
-- [[스탬프 누적과 리워드를 자동화한 워크플로우]]
+- [EC2 초기 세팅 스크립트를 만들며 자동화에 집착한 이유](/post/ec2-chogi-seting-seukeuripteureul-mandeulmyeo-jadonghwae-jipchakan-iyu)
+- [버전 관리의 신세계, HeadVer 도입기 - JavaScript 개발자를 위한 완벽 가이드](/post/beojeon-gwalliui-sinsegye-headver-doipgi-javascript-gaebaljareul-wihan-wanbyeok-gaideu)
+- [스탬프 누적과 리워드를 자동화한 워크플로우](/post/seutaempeu-nujeokgwa-riwodeureul-jadonghwahan-wokeupeullou)

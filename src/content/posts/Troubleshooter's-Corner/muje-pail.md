@@ -72,6 +72,6 @@ https://burndogfather.com/271
 - https://burndogfather.com/271
 
 # 연결문서
-- [[ActionSheet를 안전하게 감싸는 훅을 만든 이유]]
-- [[React Native .ipa로 추출하기]]
-- [[React Native에서 Android SHA-1 인증서 추출 방법]]
+- [ActionSheet를 안전하게 감싸는 훅을 만든 이유](/post/actionsheetreul-anjeonhage-gamssaneun-hugeul-mandeun-iyu)
+- [React Native .ipa로 추출하기](/post/react-native-iparo-chuchulhagi)
+- [React Native에서 Android SHA-1 인증서 추출 방법](/post/react-nativeeseo-android-sha-1-injeungseo-chuchul-bangbeop)

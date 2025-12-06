@@ -86,6 +86,6 @@ async function uploadFileWithSignedUrl(
 - https://developer.mozilla.org/en-US/docs/Web/API/Navigator/userAgent
 
 # 연결문서
-- [[AWS KMS와 AES-GCM으로 서버 사이드 암호화 업로드 구축기]]
-- [[Supabase RPC로 포인트 적립·차감을 안전하게 처리한 방법]]
-- [[mapWithConcurrencyLimit로 Supabase 병렬 호출을 조율한 이유]]
+- [AWS KMS와 AES-GCM으로 서버 사이드 암호화 업로드 구축기](/post/aws-kmswa-aes-gcmeuro-seobeo-saideu-amhohwa-eomnodeu-guchukgi)
+- [Supabase RPC로 포인트 적립·차감을 안전하게 처리한 방법](/post/supabase-rpcro-pointeu-jeongnip-chagameul-anjeonhage-cheorihan-bangbeop)
+- [mapWithConcurrencyLimit로 Supabase 병렬 호출을 조율한 이유](/post/mapwithconcurrencylimitro-supabase-byeongnyeol-hochureul-joyulhan-iyu)

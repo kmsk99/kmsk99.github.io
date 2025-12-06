@@ -110,6 +110,6 @@ modified: '2025-10-09 09:30'
 - https://firebase.google.com/docs/firestore/solutions/search
 
 # 연결문서
-- [[Firebase에서 검색 기능 구현하기 - 삽질 끝에 찾은 해결책]]
-- [[Firestore 장바구니 동기화에서 배운 방어적 패턴]]
-- [[Firebase에서 검색 기능 구현하기]]
+- [Firebase에서 검색 기능 구현하기 - 삽질 끝에 찾은 해결책](/post/firebaseeseo-geomsaek-gineung-guhyeonhagi-sapjil-kkeute-chajeun-haegyeolchaek)
+- [Firestore 장바구니 동기화에서 배운 방어적 패턴](/post/firestore-jangbaguni-donggihwaeseo-baeun-bangeojeok-paeteon)
+- [Firebase에서 검색 기능 구현하기](/post/firebaseeseo-geomsaek-gineung-guhyeonhagi)

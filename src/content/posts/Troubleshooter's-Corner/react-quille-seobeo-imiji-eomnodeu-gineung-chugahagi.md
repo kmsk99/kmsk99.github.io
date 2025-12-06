@@ -100,6 +100,6 @@ return (
 # Reference
 
 # 연결문서
-- [[React Quill 에디터에서 YouTube 링크를 이용한 비디오 삽입 방법]]
-- [[NICE 본인인증 팝업을 Next.js에서 안전하게 다루기]]
-- [[React Context로 가벼운 통화 로컬라이제이션 구축기]]
+- [React Quill 에디터에서 YouTube 링크를 이용한 비디오 삽입 방법](/post/react-quill-editeoeseo-youtube-ringkeureul-iyonghan-bidio-samnip-bangbeop)
+- [NICE 본인인증 팝업을 Next.js에서 안전하게 다루기](/post/nice-bonninninjeung-pabeobeul-next-jseseo-anjeonhage-darugi)
+- [React Context로 가벼운 통화 로컬라이제이션 구축기](/post/react-contextro-gabyeoun-tonghwa-rokeollaijeisyeon-guchukgi)

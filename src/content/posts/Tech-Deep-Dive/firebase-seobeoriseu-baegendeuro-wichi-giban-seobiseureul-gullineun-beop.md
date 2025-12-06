@@ -96,6 +96,6 @@ Firebase의 `serverTimestamp()`는 비동기로 채워지기 때문에, 문서�
 - https://firebase.google.com/docs/auth
 
 # 연결문서
-- [[공공기관 위치 데이터를 우리가 쓰는 방식으로 정제하기]]
-- [[App Router에서 Firebase Auth로 관리자 접근을 지키는 방법]]
-- [[Firebase에서 검색 기능 구현하기 - 삽질 끝에 찾은 해결책]]
+- [공공기관 위치 데이터를 우리가 쓰는 방식으로 정제하기](/post/gonggonggigwan-wichi-deiteoreul-uriga-sseuneun-bangsigeuro-jeongjehagi)
+- [App Router에서 Firebase Auth로 관리자 접근을 지키는 방법](/post/app-routereseo-firebase-authro-gwallija-jeopgeuneul-jikineun-bangbeop)
+- [Firebase에서 검색 기능 구현하기 - 삽질 끝에 찾은 해결책](/post/firebaseeseo-geomsaek-gineung-guhyeonhagi-sapjil-kkeute-chajeun-haegyeolchaek)

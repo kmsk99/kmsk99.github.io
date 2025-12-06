@@ -1,5 +1,5 @@
 ---
-created: 2025-10-10 10:33
+created: 2025-06-21 03:39
 modified: 2025-12-06 10:35
 ---
 안녕하세요, 다시 만나 반갑습니다! 지난 1 편에서는 [SVG 원본 파일들을 React 컴포넌트(.tsx)로 변환하고, 이를 JavaScript(.js)와 타입 정의 파일(.d.ts)로 컴파일하는 과정](https://velog.io/@kmsk99/%EB%82%98%EB%A7%8C%EC%9D%98-SVG-%EC%95%84%EC%9D%B4%EC%BD%98-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-%EB%A7%8C%EB%93%A4%EA%B8%B0-%EC%97%AC%EC%A0%95%EA%B8%B0-1%ED%8E%B8-React-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EB%B3%80%ED%99%98%EA%B3%BC-%EC%BB%B4%ED%8C%8C%EC%9D%BC-%EC%9E%90%EB%8F%99%ED%99%94) 을 함께 살펴봤습니다. 이제 우리 손에는 잘 구워진 컴포넌트 재료들이 가득한데요, 이걸 그냥 한 바구니에 담아두기엔 너무 아깝잖아요? 😉

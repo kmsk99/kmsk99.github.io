@@ -155,6 +155,6 @@ const BenefitMap = forwardRef<BenefitMapRef, BenefitMapProps>((props, ref) => {
 - https://docs.expo.dev/versions/latest/sdk/location/
 
 # 연결문서
-- [[대용량 지도 마커를 실시간으로 클러스터링한 이야기]]
-- [[KeyboardStickyView 버그를 잡으면서 적어둔 노트]]
-- [[React Native 파일 업로드 파이프라인을 정리한 기록]]
+- [대용량 지도 마커를 실시간으로 클러스터링한 이야기](/post/daeyongnyang-jido-makeoreul-silsiganeuro-keulleoseuteoringhan-iyagi)
+- [KeyboardStickyView 버그를 잡으면서 적어둔 노트](/post/keyboardstickyview-beogeureul-jabeumyeonseo-jeogeodun-noteu)
+- [React Native 파일 업로드 파이프라인을 정리한 기록](/post/react-native-pail-eomnodeu-paipeuraineul-jeongnihan-girok)

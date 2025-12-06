@@ -88,6 +88,6 @@ export async function GET(request: NextRequest) {
 - https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
 
 # 연결문서
-- [[NICE 본인인증 팝업을 Next.js에서 안전하게 다루기]]
-- [[Bearer 토큰을 Supabase 쿠키로 바꿔주는 Next.js 서버 클라이언트]]
-- [[Chain Flag로 긴 호출 시간을 견디는 법]]
+- [NICE 본인인증 팝업을 Next.js에서 안전하게 다루기](/post/nice-bonninninjeung-pabeobeul-next-jseseo-anjeonhage-darugi)
+- [Bearer 토큰을 Supabase 쿠키로 바꿔주는 Next.js 서버 클라이언트](/post/bearer-tokeuneul-supabase-kukiro-bakkwojuneun-next-js-seobeo-keullaieonteu)
+- [Chain Flag로 긴 호출 시간을 견디는 법](/post/chain-flagro-gin-hochul-siganeul-gyeondineun-beop)

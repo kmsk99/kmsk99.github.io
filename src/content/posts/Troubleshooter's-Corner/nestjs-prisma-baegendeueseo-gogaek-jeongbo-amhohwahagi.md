@@ -364,6 +364,6 @@ export class SecureDataService {
 https://nestjs-prisma.dev/
 
 # 연결문서
-- [[AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기]]
-- [[AWS KMS와 AES-GCM으로 서버 사이드 암호화 업로드 구축기]]
-- [[Fluid Pipeline으로 OCR과 AI 검증을 한 번에 묶어낸 기록]]
+- [AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기](/post/aes-256gwa-prisma-middlewarero-gaeinjeongbo-anjeonhage-dolligi)
+- [AWS KMS와 AES-GCM으로 서버 사이드 암호화 업로드 구축기](/post/aws-kmswa-aes-gcmeuro-seobeo-saideu-amhohwa-eomnodeu-guchukgi)
+- [Fluid Pipeline으로 OCR과 AI 검증을 한 번에 묶어낸 기록](/post/fluid-pipelineeuro-ocrgwa-ai-geomjeungeul-han-beone-mukkeonaen-girok)

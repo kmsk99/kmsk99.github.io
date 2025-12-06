@@ -14,6 +14,7 @@ const TARGET_RETROS = path.join(ROOT, 'src', 'content', 'retrospectives');
 const TARGET_ASSETS = path.join(ROOT, 'src', 'content', 'assets');
 
 const supportedImageExt = new Set(['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg']);
+const linkIndex = new Map();
 
 const baseSlug = (value) =>
 	value
@@ -62,6 +63,29 @@ async function walk(dir) {
 		}
 	}
 	return files;
+}
+
+function addLinkIndex(key, href) {
+	if (!key) return;
+	const trimmed = key.trim();
+	if (!trimmed) return;
+	const normalized = baseSlug(trimmed);
+	if (!linkIndex.has(trimmed)) linkIndex.set(trimmed, href);
+	if (!linkIndex.has(normalized)) linkIndex.set(normalized, href);
+}
+
+async function buildLinkIndex(files) {
+	for (const file of files) {
+		const raw = await fs.readFile(file, 'utf8');
+		const parsed = matter(raw);
+		const title = parsed.data.title || path.basename(file, '.md');
+		const slug = parsed.data.slug ? parsed.data.slug : slugify(title);
+
+		const href = `/post/${slug}`;
+
+		addLinkIndex(title, href);
+		addLinkIndex(slug, href);
+	}
 }
 
 function extractImages(content) {
@@ -113,6 +137,22 @@ function normalizeImages(content, renameMap, assetPrefix) {
 		if (trimmed.startsWith('http')) return `![${alt}](${trimmed})`;
 		const mapped = replaceName(path.basename(trimmed));
 		return `![${alt}](${assetPrefix}${mapped})`;
+	});
+}
+
+function normalizeLinks(content) {
+	const pattern = /(!)?\[\[([^[\]]+)\]\]/g;
+	return content.replace(pattern, (full, bang, labelRaw) => {
+		if (bang) return full; // 이미지 패턴은 이미지 처리 단계에서 다룸
+		const label = labelRaw.trim();
+		const keyVariants = [label, label.trim(), baseSlug(label), slugify(label)];
+		let href;
+		for (const key of keyVariants) {
+			href = linkIndex.get(key);
+			if (href) break;
+		}
+		if (!href) return label; // 찾지 못하면 생 텍스트로 남김
+		return `[${label}](${href})`;
 	});
 }
 
@@ -171,7 +211,8 @@ async function migrateFile(file) {
 		}
 	}
 
-	const content = normalizeImages(parsed.content, renameMap, relativeAssetPrefix);
+	const contentWithImages = normalizeImages(parsed.content, renameMap, relativeAssetPrefix);
+	const content = normalizeLinks(contentWithImages);
 	const fm = { ...parsed.data };
 	delete fm.uploaded;
 	fm.title = title;
@@ -196,6 +237,7 @@ async function main() {
 	await ensureDir(TARGET_RETROS);
 	await ensureDir(TARGET_ASSETS);
 	const files = await walk(SOURCE_BASE);
+	await buildLinkIndex(files);
 	for (const file of files) {
 		await migrateFile(file);
 	}

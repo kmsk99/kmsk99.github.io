@@ -103,6 +103,6 @@ const handleKakaoLogin = async () => {
 - https://docs.expo.dev/guides/authentication/
 
 # 연결문서
-- [[ActionSheet를 안전하게 감싸는 훅을 만든 이유]]
-- [[Expo 푸시 토큰 등록 루틴에서 배운 것]]
-- [[Android 더블백 종료 규칙을 직접 다듬으며 배운 것]]
+- [ActionSheet를 안전하게 감싸는 훅을 만든 이유](/post/actionsheetreul-anjeonhage-gamssaneun-hugeul-mandeun-iyu)
+- [Expo 푸시 토큰 등록 루틴에서 배운 것](/post/expo-pusi-tokeun-deungnok-rutineseo-baeun-geot)
+- [Android 더블백 종료 규칙을 직접 다듬으며 배운 것](/post/android-deobeulbaek-jongnyo-gyuchigeul-jikjeop-dadeumeumyeo-baeun-geot)

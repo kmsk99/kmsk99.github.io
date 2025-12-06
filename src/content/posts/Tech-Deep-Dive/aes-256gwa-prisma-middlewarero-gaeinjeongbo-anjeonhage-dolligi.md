@@ -133,6 +133,6 @@ PrismaModule.forRoot({
 - https://owasp.org/www-community/attacks/Block_cipher_modes_of_operation
 
 # 연결문서
-- [[Nestjs + Prisma 백엔드에서 양방향 암호화하기]]
-- [[역할 기반 승인 흐름 설계기 다단계 검증을 코드로 담다]]
-- [[AI 자동화를 cron 엔드포인트로 안전하게 트리거한 과정]]
+- Nestjs + Prisma 백엔드에서 양방향 암호화하기
+- [역할 기반 승인 흐름 설계기 다단계 검증을 코드로 담다](/post/yeokal-giban-seungin-heureum-seolgyegi-dadangye-geomjeungeul-kodeuro-damda)
+- [AI 자동화를 cron 엔드포인트로 안전하게 트리거한 과정](/post/ai-jadonghwareul-cron-endeupointeuro-anjeonhage-teurigeohan-gwajeong)

@@ -117,6 +117,6 @@ modified: '2025-10-09 09:00'
 - https://firebase.google.com/docs/auth/web/start
 
 # 연결문서
-- [[Firestore 장바구니 동기화에서 배운 방어적 패턴]]
-- [[Firebase에서 검색 기능 구현하기 - 삽질 끝에 찾은 해결책]]
-- [[PWA로 모바일 사용성을 챙기며 S3 업로드와 오프라인 캐싱을 조율한 기록]]
+- [Firestore 장바구니 동기화에서 배운 방어적 패턴](/post/firestore-jangbaguni-donggihwaeseo-baeun-bangeojeok-paeteon)
+- [Firebase에서 검색 기능 구현하기 - 삽질 끝에 찾은 해결책](/post/firebaseeseo-geomsaek-gineung-guhyeonhagi-sapjil-kkeute-chajeun-haegyeolchaek)
+- [PWA로 모바일 사용성을 챙기며 S3 업로드와 오프라인 캐싱을 조율한 기록](/post/pwaro-mobail-sayongseongeul-chaenggimyeo-s3-eomnodeuwa-opeurain-kaesingeul-joyulhan-girok)

@@ -112,6 +112,6 @@ const response = await fetch(
 - https://docs.expo.dev/versions/latest/sdk/document-picker/
 
 # 연결문서
-- [[Deep Link Friendly Redirect Validation을 구현하며 배운 보안 체크리스트]]
-- [[Firebase 서버리스 백엔드로 위치 기반 서비스를 굴리는 법]]
-- [[React Native 파일 업로드 파이프라인을 정리한 기록]]
+- [Deep Link Friendly Redirect Validation을 구현하며 배운 보안 체크리스트](/post/deep-link-friendly-redirect-validationeul-guhyeonhamyeo-baeun-boan-chekeuriseuteu)
+- [Firebase 서버리스 백엔드로 위치 기반 서비스를 굴리는 법](/post/firebase-seobeoriseu-baegendeuro-wichi-giban-seobiseureul-gullineun-beop)
+- [React Native 파일 업로드 파이프라인을 정리한 기록](/post/react-native-pail-eomnodeu-paipeuraineul-jeongnihan-girok)

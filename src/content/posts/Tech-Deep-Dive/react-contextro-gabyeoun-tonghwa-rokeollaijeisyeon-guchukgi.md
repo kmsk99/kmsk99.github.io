@@ -111,6 +111,6 @@ modified: '2025-10-09 10:00'
 - https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString
 
 # 연결문서
-- [[NICE 본인인증 팝업을 Next.js에서 안전하게 다루기]]
-- [[네트워크 흔들릴 때도 프로필 세션을 지키는 useProfileWithRetry 만들기]]
-- [[React Quill 에디터에서 YouTube 링크를 이용한 비디오 삽입 방법]]
+- [NICE 본인인증 팝업을 Next.js에서 안전하게 다루기](/post/nice-bonninninjeung-pabeobeul-next-jseseo-anjeonhage-darugi)
+- [네트워크 흔들릴 때도 프로필 세션을 지키는 useProfileWithRetry 만들기](/post/neteuwokeu-heundeullil-ttaedo-peuropil-sesyeoneul-jikineun-useprofilewithretry-mandeulgi)
+- [React Quill 에디터에서 YouTube 링크를 이용한 비디오 삽입 방법](/post/react-quill-editeoeseo-youtube-ringkeureul-iyonghan-bidio-samnip-bangbeop)

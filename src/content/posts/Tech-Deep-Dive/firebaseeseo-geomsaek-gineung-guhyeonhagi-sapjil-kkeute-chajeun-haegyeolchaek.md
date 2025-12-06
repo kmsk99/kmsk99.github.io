@@ -376,6 +376,6 @@ Firebase 로 검색 기능을 구현하는 과정은 쉽지 않았지만, 이 �
 # Reference
 
 # 연결문서
-- [[App Router에서 Firebase Auth로 관리자 접근을 지키는 방법]]
-- [[Firestore 장바구니 동기화에서 배운 방어적 패턴]]
-- [[Firestore에서 풀텍스트 검색 흉내 내기, 키워드 인덱싱 실험기]]
+- [App Router에서 Firebase Auth로 관리자 접근을 지키는 방법](/post/app-routereseo-firebase-authro-gwallija-jeopgeuneul-jikineun-bangbeop)
+- [Firestore 장바구니 동기화에서 배운 방어적 패턴](/post/firestore-jangbaguni-donggihwaeseo-baeun-bangeojeok-paeteon)
+- [Firestore에서 풀텍스트 검색 흉내 내기, 키워드 인덱싱 실험기](/post/firestoreeseo-pultekseuteu-geomsaek-hyungnae-naegi-kiwodeu-indeksing-silheomgi)

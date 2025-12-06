@@ -112,6 +112,6 @@ async sendPush(data: SendPushInput): Promise<CoreOutput> {
 - https://developer.mozilla.org/docs/Web/API/Push_API
 
 # 연결문서
-- [[PWA Builder로 IOS 빌드 시 오류 해결]]
-- [[AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기]]
-- [[Firebase에서 검색 기능 구현하기 - 삽질 끝에 찾은 해결책]]
+- PWA Builder로 IOS 빌드 시 오류 해결
+- [AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기](/post/aes-256gwa-prisma-middlewarero-gaeinjeongbo-anjeonhage-dolligi)
+- [Firebase에서 검색 기능 구현하기 - 삽질 끝에 찾은 해결책](/post/firebaseeseo-geomsaek-gineung-guhyeonhagi-sapjil-kkeute-chajeun-haegyeolchaek)

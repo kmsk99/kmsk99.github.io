@@ -71,6 +71,6 @@ const suspiciousPatterns = [
 - https://expressjs.com/en/guide/error-handling.html
 
 # 연결문서
-- [[ActionSheet를 안전하게 감싸는 훅을 만든 이유]]
-- [[Android 더블백 종료 규칙을 직접 다듬으며 배운 것]]
-- [[공공기관 위치 데이터를 우리가 쓰는 방식으로 정제하기]]
+- [ActionSheet를 안전하게 감싸는 훅을 만든 이유](/post/actionsheetreul-anjeonhage-gamssaneun-hugeul-mandeun-iyu)
+- [Android 더블백 종료 규칙을 직접 다듬으며 배운 것](/post/android-deobeulbaek-jongnyo-gyuchigeul-jikjeop-dadeumeumyeo-baeun-geot)
+- [공공기관 위치 데이터를 우리가 쓰는 방식으로 정제하기](/post/gonggonggigwan-wichi-deiteoreul-uriga-sseuneun-bangsigeuro-jeongjehagi)

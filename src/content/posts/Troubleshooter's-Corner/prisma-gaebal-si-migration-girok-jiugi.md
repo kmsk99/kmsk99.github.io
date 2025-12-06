@@ -34,6 +34,6 @@ npx prisma migrate resolve --applied 0_init
 - https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/baseline-your-database-typescript-postgresql
 
 # 연결문서
-- [[Nestjs + Prisma에서 원자성을 지키는 방법]]
-- [[AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기]]
-- [[역할 기반 승인 흐름 설계기 다단계 검증을 코드로 담다]]
+- [Nestjs + Prisma에서 원자성을 지키는 방법](/post/nestjs-prismaeseo-wonjaseongeul-jikineun-bangbeop)
+- [AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기](/post/aes-256gwa-prisma-middlewarero-gaeinjeongbo-anjeonhage-dolligi)
+- [역할 기반 승인 흐름 설계기 다단계 검증을 코드로 담다](/post/yeokal-giban-seungin-heureum-seolgyegi-dadangye-geomjeungeul-kodeuro-damda)

@@ -70,6 +70,6 @@ export const addUserPoints = async (
 - https://supabase.com/docs/guides/auth/server-side
 
 # 연결문서
-- [[갤럭시 기기까지 고려한 Supabase 첨부파일 업로드 안정화기]]
-- [[결제 위젯 자동 재시도와 웹훅 이중 검증으로 에러 줄이기]]
-- [[AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기]]
+- [갤럭시 기기까지 고려한 Supabase 첨부파일 업로드 안정화기](/post/gaelleoksi-gigikkaji-goryeohan-supabase-cheombupail-eomnodeu-anjeonghwagi)
+- [결제 위젯 자동 재시도와 웹훅 이중 검증으로 에러 줄이기](/post/gyeolje-wijet-jadong-jaesidowa-wepuk-ijung-geomjeungeuro-ereo-jurigi)
+- [AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기](/post/aes-256gwa-prisma-middlewarero-gaeinjeongbo-anjeonhage-dolligi)

@@ -77,6 +77,6 @@ if (tokenData) {
 - https://github.com/expressjs/session
 
 # 연결문서
-- [[Canvas와 jsPDF로 인증 문서 자동생성 흐름을 만들며]]
-- [[Expo OTA 업데이트 안내 모달을 붙이며 느낀 점]]
-- [[Firebase 서버리스 백엔드로 위치 기반 서비스를 굴리는 법]]
+- [Canvas와 jsPDF로 인증 문서 자동생성 흐름을 만들며](/post/canvaswa-jspdfro-injeung-munseo-jadongsaengseong-heureumeul-mandeulmyeo)
+- [Expo OTA 업데이트 안내 모달을 붙이며 느낀 점](/post/expo-ota-eopdeiteu-annae-modareul-buchimyeo-neukkin-jeom)
+- [Firebase 서버리스 백엔드로 위치 기반 서비스를 굴리는 법](/post/firebase-seobeoriseu-baegendeuro-wichi-giban-seobiseureul-gullineun-beop)

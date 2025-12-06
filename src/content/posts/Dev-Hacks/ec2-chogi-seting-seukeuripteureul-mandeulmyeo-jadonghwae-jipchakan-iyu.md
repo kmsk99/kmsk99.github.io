@@ -60,6 +60,6 @@ pm2 save
 - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstancesLinux.html
 
 # 연결문서
-- [[버전 관리의 신세계, HeadVer 도입기 - JavaScript 개발자를 위한 완벽 가이드]]
-- [[로컬 HTTPS와 클라우드 로드밸런서를 함께 다루며 얻은 실전 노하우]]
-- [[Husky를 활용한 HeadVer 버전 관리 - GitHub Actions에서 로컬 커밋 자동화로 이전]]
+- [버전 관리의 신세계, HeadVer 도입기 - JavaScript 개발자를 위한 완벽 가이드](/post/beojeon-gwalliui-sinsegye-headver-doipgi-javascript-gaebaljareul-wihan-wanbyeok-gaideu)
+- [로컬 HTTPS와 클라우드 로드밸런서를 함께 다루며 얻은 실전 노하우](/post/rokeol-httpswa-keullaudeu-rodeubaelleonseoreul-hamkke-darumyeo-eodeun-siljeon-nohau)
+- [Husky를 활용한 HeadVer 버전 관리 - GitHub Actions에서 로컬 커밋 자동화로 이전](/post/huskyreul-hwallyonghan-headver-beojeon-gwalli-github-actionseseo-rokeol-keomit-jadonghwaro-ijeon)
