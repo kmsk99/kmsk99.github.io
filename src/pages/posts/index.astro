@@ -3,10 +3,13 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import Sidebar from '../../components/Sidebar.astro';
+import Pagination from '../../components/Pagination.astro';
 
 const posts = (await getCollection('posts')).sort(
 	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
 );
+const pageSize = 20;
+const pageCount = Math.max(1, Math.ceil(posts.length / pageSize));
 ---
 
 <BaseLayout title="기술 블로그 목록">
@@ -23,12 +26,60 @@ const posts = (await getCollection('posts')).sort(
 					</div>
 				</header>
 				<div class="list">
-					{posts.map((post) => (
-						<PostCard entry={post} />
-					))}
+					{posts.map((post, idx) => {
+						const page = Math.floor(idx / pageSize) + 1;
+						return (
+							<div class="paginated-item" data-page={page}>
+								<PostCard entry={post} />
+							</div>
+						);
+					})}
 				</div>
+				<Pagination pageCount={pageCount} />
 			</section>
 		</div>
 	</div>
+
+	<script is:inline>
+		const initPagination = () => {
+			const items = Array.from(document.querySelectorAll('.paginated-item'));
+			const buttons = Array.from(document.querySelectorAll('.pagination-btn'));
+			let currentPage = 1;
+			let totalPages =
+				Math.max(
+					1,
+					Math.ceil(items.length / Math.max(...items.map((el) => Number(el.dataset.page || '1')))),
+				) || 1;
+
+			function applyPage(page) {
+				currentPage = Math.max(1, Math.min(page, totalPages));
+				items.forEach((el) => {
+					const p = Number(el.dataset.page || '1');
+					el.style.display = p === currentPage ? '' : 'none';
+				});
+				buttons.forEach((b) => {
+					if (!b.dataset.page || b.dataset.page === 'prev' || b.dataset.page === 'next') return;
+					b.classList.toggle('active', Number(b.dataset.page) === currentPage);
+				});
+			}
+
+			buttons.forEach((btn) => {
+				btn.addEventListener('click', () => {
+					const val = btn.dataset.page;
+					if (val === 'prev') return applyPage(currentPage - 1);
+					if (val === 'next') return applyPage(currentPage + 1);
+					applyPage(Number(val || '1'));
+				});
+			});
+
+			applyPage(1);
+		};
+
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', initPagination, { once: true });
+		} else {
+			initPagination();
+		}
+	</script>
 </BaseLayout>
 

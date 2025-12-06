@@ -1,0 +1,27 @@
+---
+interface Props {
+	pageCount: number;
+}
+
+const { pageCount } = Astro.props as Props;
+---
+
+{pageCount > 1 && (
+	<div class="pagination">
+		<button class="pagination-btn" data-page="prev" aria-label="이전 페이지">
+			←
+		</button>
+		{Array.from({ length: pageCount }).map((_, i) => {
+			const page = i + 1;
+			return (
+				<button class="pagination-btn" data-page={page}>
+					{page}
+				</button>
+			);
+		})}
+		<button class="pagination-btn" data-page="next" aria-label="다음 페이지">
+			→
+		</button>
+	</div>
+)}
+

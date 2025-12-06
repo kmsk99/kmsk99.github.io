@@ -297,6 +297,12 @@ h3 {
 	gap: 8px;
 }
 
+.tree__sub {
+	padding-left: 10px;
+	margin: 6px 0 0;
+	gap: 6px;
+}
+
 .tree a {
 	display: flex;
 	gap: 8px;
@@ -331,6 +337,29 @@ h3 {
 	margin: 6px 0 2px;
 	color: var(--muted);
 	font-size: 13px;
+}
+
+.tree__section-btn {
+	width: 100%;
+	padding: 12px 14px;
+	border: 1.5px solid var(--border);
+	border-radius: 12px;
+	background: #0f121b;
+	color: var(--text);
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-weight: 700;
+	justify-content: flex-start;
+	cursor: pointer;
+	transition: border 120ms ease, background 120ms ease, transform 120ms ease;
+}
+
+.tree__section-btn:hover,
+.tree__section-btn:focus-visible {
+	border-color: #2f374f;
+	background: var(--surface-2);
+	transform: translateY(-1px);
 }
 
 .tree a:hover {

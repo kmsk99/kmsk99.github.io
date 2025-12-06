@@ -67,44 +67,78 @@ const totalCount = projects.length + posts.length + retrospectives.length;
 	<section class="block compact">
 		<p class="eyebrow">Categories</p>
 		<ul class="tree">
-			{projectTree.length > 0 && <li class="tree__section">Projects ({projects.length})</li>}
-			{projectTree.map((item) => (
-				<li>
-					<button class="tree__btn" data-type="project" data-category={item.slug}>
-						<span class="tree__folder">📁</span>
-						<span class="tree__title">
-							{item.title}
-							{item.count !== undefined ? ` (${item.count})` : ''}
-						</span>
-					</button>
-				</li>
-			))}
+			<li class="tree__section">
+				<button class="tree__btn tree__section-btn" data-type="all" data-category="__all">
+					<span class="tree__folder">🗂️</span>
+					<span class="tree__title">All ({projects.length + posts.length + retrospectives.length})</span>
+				</button>
+			</li>
 
-			{postTree.length > 0 && <li class="tree__section">Posts ({posts.length})</li>}
-			{postTree.map((item) => (
-				<li>
-					<button class="tree__btn" data-type="post" data-category={item.slug}>
-						<span class="tree__folder">📁</span>
-						<span class="tree__title">
-							{item.title}
-							{item.count !== undefined ? ` (${item.count})` : ''}
-						</span>
+			{projectTree.length > 0 && (
+				<li class="tree__section">
+					<button class="tree__btn tree__section-btn" data-type="project" data-category="__all">
+						<span class="tree__folder">🛠️</span>
+						<span class="tree__title">Projects ({projects.length})</span>
 					</button>
+					<ul class="tree tree__sub">
+						{projectTree.map((item) => (
+							<li>
+								<button class="tree__btn" data-type="project" data-category={item.slug}>
+									<span class="tree__folder">📁</span>
+									<span class="tree__title">
+										{item.title}
+										{item.count !== undefined ? ` (${item.count})` : ''}
+									</span>
+								</button>
+							</li>
+						))}
+					</ul>
 				</li>
-			))}
+			)}
 
-			{retroTree.length > 0 && <li class="tree__section">Retrospectives ({retrospectives.length})</li>}
-			{retroTree.map((item) => (
-				<li>
-					<button class="tree__btn" data-type="retro" data-category={item.slug}>
-						<span class="tree__folder">📁</span>
-						<span class="tree__title">
-							{item.title}
-							{item.count !== undefined ? ` (${item.count})` : ''}
-						</span>
+			{postTree.length > 0 && (
+				<li class="tree__section">
+					<button class="tree__btn tree__section-btn" data-type="post" data-category="__all">
+						<span class="tree__folder">📝</span>
+						<span class="tree__title">Posts ({posts.length})</span>
 					</button>
+					<ul class="tree tree__sub">
+						{postTree.map((item) => (
+							<li>
+								<button class="tree__btn" data-type="post" data-category={item.slug}>
+									<span class="tree__folder">📁</span>
+									<span class="tree__title">
+										{item.title}
+										{item.count !== undefined ? ` (${item.count})` : ''}
+									</span>
+								</button>
+							</li>
+						))}
+					</ul>
 				</li>
-			))}
+			)}
+
+			{retroTree.length > 0 && (
+				<li class="tree__section">
+					<button class="tree__btn tree__section-btn" data-type="retro" data-category="__all">
+						<span class="tree__folder">🔄</span>
+						<span class="tree__title">Retrospectives ({retrospectives.length})</span>
+					</button>
+					<ul class="tree tree__sub">
+						{retroTree.map((item) => (
+							<li>
+								<button class="tree__btn" data-type="retro" data-category={item.slug}>
+									<span class="tree__folder">📁</span>
+									<span class="tree__title">
+										{item.title}
+										{item.count !== undefined ? ` (${item.count})` : ''}
+									</span>
+								</button>
+							</li>
+						))}
+					</ul>
+				</li>
+			)}
 		</ul>
 	</section>
 

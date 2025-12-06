@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import PostCard from '../components/PostCard.astro';
 import Sidebar from '../components/Sidebar.astro';
+import Pagination from '../components/Pagination.astro';
 
 const projects = (await getCollection('projects')).sort(
 	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
@@ -149,22 +150,7 @@ const pageCount = Math.max(1, Math.ceil(combined.length / pageSize));
 						);
 					})}
 				</div>
-				<div class="pagination">
-					<button class="pagination-btn" data-page="prev" aria-label="이전 페이지">
-						←
-					</button>
-					{Array.from({ length: pageCount }).map((_, i) => {
-						const page = i + 1;
-						return (
-							<button class="pagination-btn" data-page={page}>
-								{page}
-							</button>
-						);
-					})}
-					<button class="pagination-btn" data-page="next" aria-label="다음 페이지">
-						→
-					</button>
-				</div>
+				<Pagination pageCount={pageCount} />
 			</section>
 		</div>
 	</div>
