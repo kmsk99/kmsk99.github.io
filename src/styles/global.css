@@ -328,6 +328,11 @@ h3 {
 	color: var(--text);
 }
 
+.wikilink {
+	color: var(--accent);
+	text-decoration: underline;
+}
+
 .main-column {
 	min-width: 0;
 }
