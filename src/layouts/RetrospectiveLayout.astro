@@ -12,11 +12,21 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+const idPath = entry.id.replace(/\\/g, '/');
+const slugRaw = idPath.split('/').pop() ?? entry.id;
+const slug = slugRaw.replace(/\.md$/i, '') || entry.slug || slugRaw;
+const pageId = `kmsk99.github.io.retrospective.${slug}`;
+const badgeSrc = `https://visitor-badge.laobi.icu/badge?page_id=${encodeURIComponent(pageId)}`;
 ---
 
 <BaseLayout title={entry.data.title} seoType="article">
 	<article class="article">
-		<p class="eyebrow">Retrospective · {entry.data.created}</p>
+		<div class="article__meta">
+			<p class="eyebrow">Retrospective · {entry.data.created}</p>
+			<div class="visitor-badge" aria-label="방문자 수 배지">
+				<img src={badgeSrc} alt={`${entry.data.title} 방문자 수`} loading="lazy" decoding="async" />
+			</div>
+		</div>
 		<h1>{entry.data.title}</h1>
 		<div class="article__body">
 			<Content />
