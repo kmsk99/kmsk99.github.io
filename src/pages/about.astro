@@ -8,18 +8,77 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			<div>
 				<p class="eyebrow">About</p>
 				<h1>김민석</h1>
-				<p class="lede">제품/경험 중심으로 문제를 해결하는 엔지니어</p>
+				<p class="lede">제품/경험 중심으로 문제를 해결하는 풀스택 엔지니어</p>
 			</div>
 		</header>
 		<div class="article__body">
-			<p>
-				Obsidian에서 작성한 Markdown을 그대로 가져와 Astro로 배포하는 워크플로우를 사용합니다. 프로젝트와
-				기술 블로그가 동일한 구조로 관리되어 확장과 유지보수가 쉽습니다.
-			</p>
-			<p>
-				문의: <a href="mailto:kmsk99@gmail.com">kmsk99@gmail.com</a> ·
-				<a href="https://github.com/kmsk99" target="_blank" rel="noreferrer">GitHub</a>
-			</p>
+			<p><strong>포트존(Portzone) CTO</strong>로 초기 기획부터 시스템 아키텍처, 운영 자동화까지 전 스택을 직접 설계·구현하고 있습니다. 웹·모바일 클라이언트, 백엔드, 데이터 파이프라인, 클라우드 인프라를 일관된 흐름으로 묶어 실서비스를 성장시키는 데 집중합니다.</p>
+			<p>문의: <a href="mailto:kmsk96@naver.com">kmsk96@naver.com</a> · <a href="https://www.linkedin.com/in/kmsk99/" target="_blank" rel="noreferrer">LinkedIn</a> · <a href="https://github.com/kmsk99" target="_blank" rel="noreferrer">GitHub</a></p>
+
+			<h2>소개</h2>
+			<p>“문제를 정확히 정의하고, 작동하는 것을 빠르게 만든 뒤, 마지막 20%에서 품질을 지킨다”를 원칙으로 일합니다. 보안·자동화·가시성에 집중해 민감 데이터 보호, 장애 복구, 품질 게이트를 코드로 구현하는 것을 선호합니다.</p>
+
+			<h2>핵심 역량</h2>
+			<ul>
+				<li>엔드투엔드 제품 설계: 기획·UX부터 프론트/백엔드/인프라까지 한 흐름으로 설계</li>
+				<li>보안/개인정보 보호: AES-256, AWS KMS, Web Crypto, 다단계 인증·권한 분리로 제로 트러스트 지향</li>
+				<li>클라우드 & DevOps: AWS, Docker, GitHub Actions, pnpm 모노레포로 자동화된 CI/CD 구축</li>
+				<li>데이터 & 자동화: OCR, PDF 생성, Supabase/Firebase 기반 실시간 처리와 스케줄링 파이프라인 설계</li>
+				<li>멀티 플랫폼: Next.js App Router, React Native/Expo, PWA로 웹·모바일 동시 경험 최적화</li>
+			</ul>
+
+			<h2>기술 스택</h2>
+			<ul>
+				<li>언어: TypeScript, JavaScript, Python</li>
+				<li>프론트엔드: Next.js, React, React Native, Expo, Feature-Sliced Design, React Query</li>
+				<li>백엔드: NestJS, GraphQL, Prisma, Supabase, Firebase, Express</li>
+				<li>보안/데이터: AWS KMS, AES-GCM/ECB, Web Crypto API, HMAC, OAuth, Prisma Middleware</li>
+				<li>인프라/DevOps: AWS(Elastic Beanstalk, S3, CloudFront, CloudWatch, Lambda), Docker, pnpm, GitHub Actions, Husky, ESLint, Prettier</li>
+			</ul>
+
+			<h2>주요 경험</h2>
+			<h3>포트존 | CTO | 2023.05 - 현재</h3>
+			<ul>
+				<li>배포 리드타임/장애 대응 시간을 절반 이하로 단축하는 품질 게이트와 코드 리뷰 문화 정착</li>
+				<li>10,000+ SVG 아이콘을 React 컴포넌트로 자동 변환·트리쉐이킹하는 사내 패키지 구축</li>
+				<li>AWS KMS + Web Crypto 이중 암호화, 본인확인·결제 연동, 웹훅 이중 검증으로 민감 데이터 및 결제 안정화</li>
+				<li>Supabase Realtime 채팅 성능 최적화(Optimistic Update, Circuit Breaker, Exponential Backoff)로 응답 지연 35% 개선</li>
+				<li>Lambda cron + Supabase Edge Functions로 AI 자동화 작업 스케줄링, 실패 로그/재시도 큐 설계</li>
+				<li>CLOVA OCR + AWS Bedrock LLM 기반 문서 추출·검증 파이프라인으로 수동 검수 시간 절감</li>
+				<li>Expo Prebuild + patch-package로 네이티브 의존성 충돌 해소, 앱 심사 빌드 자동화</li>
+			</ul>
+
+			<h4>스쿨밋</h4>
+			<ul>
+				<li>SVG 아이콘 빌드 파이프라인과 npm 패키지화로 디자인 시스템 온보딩 70% 이상 절감</li>
+				<li>이중 암호화, 본인확인/결제 연동, 업로드 파이프라인 안정화로 결제 실패율·개인정보 사고 0건 유지</li>
+				<li>Supabase RPC와 병렬 호출 제어로 포인트 적립·데이터 동기화 병목 제거</li>
+				<li>Chain Flag 패턴·재시도 전략으로 세션 안정화, 오프라인/불안정 네트워크 대응</li>
+			</ul>
+
+			<h4>아이러브클럽</h4>
+			<ul>
+				<li>NestJS + GraphQL + Prisma 예약·승인 시스템 설계, 복합 도메인 트랜잭션으로 원자성 보장</li>
+				<li>AES-256 결정적 암호화 + Prisma Middleware로 이메일/전화번호 자동 암복호화 및 역할 기반 승인</li>
+				<li>pnpm 모노레포 + HeadVer + Husky로 프론트·백엔드·공용 패키지 릴리스 파이프라인 표준화</li>
+				<li>GitHub Actions + Docker + Elastic Beanstalk CI/CD로 병합 후 7분 내 배포·자동 롤백</li>
+				<li>PWA + S3 서명 URL 업로드, 오프라인 캐싱, jsPDF 자동 인증서 생성으로 운영 자동화</li>
+			</ul>
+
+			<h4>담타 (흡연 구역 지도 앱)</h4>
+			<ul>
+				<li>Firebase 서버리스 백엔드와 지오코딩 파이프라인으로 실시간 데이터 수집·정제 자동화</li>
+				<li>React Native + 지도 SDK 최적화로 대용량 마커에서도 프레임 드랍 없는 위치 기반 UX 제공</li>
+			</ul>
+
+			<h2>사이드 프로젝트 & 공개 활동</h2>
+			<ul>
+				<li>크롬 확장 프로그램(다국어 로렘 입숨 생성기) 기획~배포, Manifest V3·i18next·Webpack 경험</li>
+				<li>HeadVer + Husky 기반 버전 관리 자동화 템플릿 정리, GitHub Actions 연동 예제 제공</li>
+				<li>Next.js 기반 기술 블로그 자동 생성 시스템 설계, 문체 분석·카테고리 분류 프롬프트 문서화</li>
+				<li>기술 블로그: AES-256 + Prisma Middleware, AWS KMS + AES-GCM 업로드, Supabase 병렬 호출 제어 등 실전 사례 59편 집필</li>
+				<li>React Native 지도/업로드, Elastic Beanstalk 운영, Prisma 마이그레이션 등 트러블슈팅 아카이브 19편 정리</li>
+			</ul>
 		</div>
 	</section>
 </BaseLayout>
