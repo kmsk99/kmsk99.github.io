@@ -15,7 +15,7 @@ slug: firebaseeseo-geomsaek-gineung-guhyeonhagi
 
 firebase 에서는 부분 문자열을 통해서 문자열을 검색할수 있는 기능이 없다. 이로 인해서 검색을 구현할 떄에는 완벽히 똑같은 문자열을 통해 검색하거나, 외부 라이브러리를 써야한다. 그러나 firebase 내에서도 부분 문자열을 통한 검색이 구현 가능하다.
 
-![](./7fc57f407f52c889ef07bbc1a0b960a3_MD5.png)
+![](../../../assets/ed4e8c13-7fc57f407f52c889ef07bbc1a0b960a3-md5.png)
 
 이와 같이 미리 가능한 모든 키워드 조합을 만들어내어 Array 에 저장하는 방법이다.
 

@@ -24,7 +24,7 @@ slug: >-
 
 이러한 문제를 해결하기 위해 LINE 에서 개발한 것이 바로 HeadVer 입니다.
 
-![](./ebabd4f913d9091be1eb90a9800c531d_MD5.png)
+![](../../../assets/5dac042d-ebabd4f913d9091be1eb90a9800c531d-md5.png)
 
 프로덕트에 적용된 실제 모습
 

@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import matter from 'gray-matter';
+import { createHash } from 'node:crypto';
 import { romanize } from 'es-hangul';
 
 const ROOT = process.cwd();
@@ -9,6 +10,7 @@ const SOURCE_BASE = path.join(ROOT, 'notes');
 const ATTACH_BASE = path.resolve(ROOT, '..', '..', '9.Settings', 'Attachments');
 const TARGET_POSTS = path.join(ROOT, 'src', 'content', 'posts');
 const TARGET_PROJECTS = path.join(ROOT, 'src', 'content', 'projects');
+const TARGET_ASSETS = path.join(ROOT, 'src', 'content', 'assets');
 
 const supportedImageExt = new Set(['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg']);
 
@@ -69,21 +71,40 @@ function extractImages(content) {
 	return Array.from(results);
 }
 
-async function copyImage(imgName, targetDir) {
+async function copyImage(imgName, destName) {
 	const src = path.join(ATTACH_BASE, imgName);
 	try {
 		const stat = await fs.stat(src);
 		if (!stat.isFile()) return false;
-		await fs.copyFile(src, path.join(targetDir, imgName));
+		await fs.copyFile(src, path.join(TARGET_ASSETS, destName));
 		return true;
 	} catch {
 		return false;
 	}
 }
 
-function normalizeImages(content) {
-	// ![[img.png]] -> ![](./img.png)
-	return content.replace(/!\[\[([^[\]]+)\]\]/g, (_m, p1) => `![](${p1.trim().startsWith('http') ? p1.trim() : `./${p1.trim()}`})`);
+function hashPrefix(input) {
+	return createHash('md5').update(input).digest('hex').slice(0, 8);
+}
+
+function normalizeImages(content, renameMap, assetPrefix) {
+	const replaceName = (name) => renameMap.get(name) ?? name;
+
+	// ![[img.png]] -> ![](../../assets/hash-name.png) (relative path based on assetPrefix)
+	const wikiFixed = content.replace(/!\[\[([^[\]]+)\]\]/g, (_m, p1) => {
+		const raw = p1.trim();
+		if (raw.startsWith('http')) return `![](${raw})`;
+		const mapped = replaceName(raw);
+		return `![](${assetPrefix}${mapped})`;
+	});
+
+	// ![alt](img.png) -> ![alt](../../assets/hash-name.png)
+	return wikiFixed.replace(/!\[([^\]]*)]\(([^)]+)\)/g, (_m, alt, url) => {
+		const trimmed = url.trim();
+		if (trimmed.startsWith('http')) return `![${alt}](${trimmed})`;
+		const mapped = replaceName(path.basename(trimmed));
+		return `![${alt}](${assetPrefix}${mapped})`;
+	});
 }
 
 async function migrateFile(file) {
@@ -108,15 +129,23 @@ async function migrateFile(file) {
 	await ensureDir(targetDir);
 
 	const images = extractImages(parsed.content);
+	const renameMap = new Map();
+	const hashKey = hashPrefix(slug || categoryRaw || 'asset');
+	const relativeAssetPrefix = isProject ? '../../assets/' : '../../../assets/';
+
 	for (const img of images) {
 		if (!supportedImageExt.has(path.extname(img).toLowerCase())) continue;
-		const ok = await copyImage(img, targetDir);
+		const ext = path.extname(img);
+		const base = baseSlug(path.basename(img, ext));
+		const nextName = `${hashKey}-${base}${ext}`;
+		renameMap.set(img, nextName);
+		const ok = await copyImage(img, nextName);
 		if (!ok) {
 			console.warn(`[WARN] 이미지 없음: ${img} (from ${file})`);
 		}
 	}
 
-	const content = normalizeImages(parsed.content);
+	const content = normalizeImages(parsed.content, renameMap, relativeAssetPrefix);
 	const fm = { ...parsed.data };
 	delete fm.uploaded;
 	fm.title = title;
@@ -134,8 +163,10 @@ async function main() {
 	// 기존 게시물 제거 후 새로 마이그레이션
 	await fs.rm(TARGET_POSTS, { recursive: true, force: true });
 	await fs.rm(TARGET_PROJECTS, { recursive: true, force: true });
+	await fs.rm(TARGET_ASSETS, { recursive: true, force: true });
 	await ensureDir(TARGET_POSTS);
 	await ensureDir(TARGET_PROJECTS);
+	await ensureDir(TARGET_ASSETS);
 	const files = await walk(SOURCE_BASE);
 	for (const file of files) {
 		await migrateFile(file);
