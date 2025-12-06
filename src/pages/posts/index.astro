@@ -6,6 +6,11 @@ import Sidebar from '../../components/Sidebar.astro';
 const posts = (await getCollection('posts')).sort(
 	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
 );
+
+const getPostCategory = (entry: (typeof posts)[number]) => {
+	const id = (entry as any).id || '';
+	return id.split('/')[0] || 'posts';
+};
 ---
 
 <BaseLayout title="기술 블로그 목록">
@@ -21,13 +26,73 @@ const posts = (await getCollection('posts')).sort(
 						<p class="lede">현업에서 검증한 아키텍처와 트러블슈팅을 기록한 기술 노트</p>
 					</div>
 				</header>
-				<div class="list">
-					{posts.map((post) => (
-						<PostCard entry={post} />
-					))}
+				<div class="list filter-target">
+					{posts.map((post) => {
+						const tags = post.data.tags?.join(',') ?? '';
+						const category = getPostCategory(post);
+						return (
+							<div class="list-row" data-category={category} data-tags={tags}>
+								<PostCard entry={post} />
+							</div>
+						);
+					})}
 				</div>
 			</section>
 		</div>
 	</div>
+
+	<script is:inline>
+		const initFilters = () => {
+			const tagButtons = Array.from(document.querySelectorAll('.tag-pill'));
+			const targets = Array.from(document.querySelectorAll('.filter-target > *'));
+			const categoryButtons = Array.from(document.querySelectorAll('.tree__btn[data-type="post"]'));
+			let currentTag = '__all';
+			let currentCategory = '__all';
+
+			const params = new URLSearchParams(window.location.search);
+			const urlCategory = params.get('category');
+			const urlTag = params.get('tag');
+			if (urlCategory) currentCategory = urlCategory;
+			if (urlTag) currentTag = urlTag;
+
+			const syncTagButtons = () => {
+				tagButtons.forEach((btn) => btn.classList.toggle('active', btn.dataset.tag === currentTag));
+			};
+
+			const syncCategoryButtons = () => {
+				categoryButtons.forEach((btn) =>
+					btn.classList.toggle('active', btn.dataset.category === currentCategory),
+				);
+			};
+
+			const applyFilters = () => {
+				targets.forEach((el) => {
+					const elCategory = el.dataset.category;
+					const elTags = el.dataset.tags?.split(',').filter(Boolean) ?? [];
+					const matchCategory = currentCategory === '__all' || elCategory === currentCategory;
+					const matchTag = currentTag === '__all' || elTags.includes(currentTag);
+					el.style.display = matchCategory && matchTag ? '' : 'none';
+				});
+			};
+
+			tagButtons.forEach((btn) => {
+				btn.addEventListener('click', () => {
+					currentTag = btn.dataset.tag ?? '__all';
+					syncTagButtons();
+					applyFilters();
+				});
+			});
+
+			syncTagButtons();
+			syncCategoryButtons();
+			applyFilters();
+		};
+
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', initFilters, { once: true });
+		} else {
+			initFilters();
+		}
+	</script>
 </BaseLayout>
 

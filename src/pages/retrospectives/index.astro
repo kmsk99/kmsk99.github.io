@@ -7,6 +7,11 @@ import Sidebar from '../../components/Sidebar.astro';
 const retrospectives = (await getCollection('retrospectives')).sort(
 	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
 );
+
+const getRetroCategory = (entry: (typeof retrospectives)[number]) => {
+	const id = (entry as any).id || '';
+	return id.split('/')[0] || 'retrospectives';
+};
 ---
 
 <BaseLayout title="회고 목록">
@@ -22,13 +27,73 @@ const retrospectives = (await getCollection('retrospectives')).sort(
 						<p class="lede">실제 서비스에서 부딪힌 문제와 해결 과정을 곧바로 적은 회고</p>
 					</div>
 				</header>
-				<div class="list">
-					{retrospectives.map((ret) => (
-						<PostCard entry={ret as any} />
-					))}
+				<div class="list filter-target">
+					{retrospectives.map((ret) => {
+						const tags = ret.data.tags?.join(',') ?? '';
+						const category = getRetroCategory(ret);
+						return (
+							<div class="list-row" data-category={category} data-tags={tags}>
+								<PostCard entry={ret as any} />
+							</div>
+						);
+					})}
 				</div>
 			</section>
 		</div>
 	</div>
+
+	<script is:inline>
+		const initFilters = () => {
+			const tagButtons = Array.from(document.querySelectorAll('.tag-pill'));
+			const targets = Array.from(document.querySelectorAll('.filter-target > *'));
+			const categoryButtons = Array.from(document.querySelectorAll('.tree__btn[data-type="retro"]'));
+			let currentTag = '__all';
+			let currentCategory = '__all';
+
+			const params = new URLSearchParams(window.location.search);
+			const urlCategory = params.get('category');
+			const urlTag = params.get('tag');
+			if (urlCategory) currentCategory = urlCategory;
+			if (urlTag) currentTag = urlTag;
+
+			const syncTagButtons = () => {
+				tagButtons.forEach((btn) => btn.classList.toggle('active', btn.dataset.tag === currentTag));
+			};
+
+			const syncCategoryButtons = () => {
+				categoryButtons.forEach((btn) =>
+					btn.classList.toggle('active', btn.dataset.category === currentCategory),
+				);
+			};
+
+			const applyFilters = () => {
+				targets.forEach((el) => {
+					const elCategory = el.dataset.category;
+					const elTags = el.dataset.tags?.split(',').filter(Boolean) ?? [];
+					const matchCategory = currentCategory === '__all' || elCategory === currentCategory;
+					const matchTag = currentTag === '__all' || elTags.includes(currentTag);
+					el.style.display = matchCategory && matchTag ? '' : 'none';
+				});
+			};
+
+			tagButtons.forEach((btn) => {
+				btn.addEventListener('click', () => {
+					currentTag = btn.dataset.tag ?? '__all';
+					syncTagButtons();
+					applyFilters();
+				});
+			});
+
+			syncTagButtons();
+			syncCategoryButtons();
+			applyFilters();
+		};
+
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', initFilters, { once: true });
+		} else {
+			initFilters();
+		}
+	</script>
 </BaseLayout>
 
