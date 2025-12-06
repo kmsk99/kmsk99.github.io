@@ -9,6 +9,8 @@ interface Props {
 	description?: string;
 }
 
+const GA_ID = 'G-7Y4NLGNMD3';
+const isProd = import.meta.env.MODE === 'production';
 const { title = '김민석 · Astro 포트폴리오', description } = Astro.props as Props;
 ---
 
@@ -21,6 +23,44 @@ const { title = '김민석 · Astro 포트폴리오', description } = Astro.prop
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		{description && <meta name="description" content={description} />}
+		{isProd && GA_ID && (
+			<>
+				<script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+				<script>
+					{`
+						window.dataLayer = window.dataLayer || [];
+						function gtag(){dataLayer.push(arguments);}
+						gtag('js', new Date());
+						gtag('config', '${GA_ID}');
+
+						const trackPageView = (url) => {
+							if (!window.gtag) return;
+							gtag('event', 'page_view', {
+								page_path: url,
+							});
+						};
+
+						// 초기 로드
+						trackPageView(location.pathname + location.search);
+
+						// SPA 스타일 내비게이션 대응 (history API 감지)
+						const originalPushState = history.pushState;
+						const originalReplaceState = history.replaceState;
+						const handleRouteChange = () => trackPageView(location.pathname + location.search);
+
+						history.pushState = function (...args) {
+							originalPushState.apply(this, args);
+							handleRouteChange();
+						};
+						history.replaceState = function (...args) {
+							originalReplaceState.apply(this, args);
+							handleRouteChange();
+						};
+						window.addEventListener('popstate', handleRouteChange);
+					`}
+				</script>
+			</>
+		)}
 	</head>
 	<body>
 		<Header />
