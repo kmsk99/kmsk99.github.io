@@ -1,8 +1,4 @@
 ---
-title: "대용량 지도 마커를 실시간으로 클러스터링한 이야기"
-created: "2025-10-09 12:00"
-modified: "2025-10-09 15:20"
-uploaded: false
 tags:
   - Engineering
   - TechDeepDive
@@ -12,7 +8,10 @@ tags:
   - Expo
   - Firestore
   - Payment
-summary: "실시간 지도 클러스터링 설계와 구현 과정을 정리."
+title: 대용량 지도 마커를 실시간으로 클러스터링한 이야기
+created: '2025-10-09 12:00'
+modified: '2025-10-09 15:20'
+slug: 대용량-지도-마커를-실시간으로-클러스터링한-이야기
 ---
 
 # Intro
@@ -118,4 +117,3 @@ if (ok && data) {
 - [[React Native에서 로컬 리텐션 알림을 스케줄링하며 확인한 포인트]]
 - [[네이버 지도 SDK로 모바일 매장 지도를 설계한 과정]]
 - [[ActionSheet를 안전하게 감싸는 훅을 만든 이유]]
-

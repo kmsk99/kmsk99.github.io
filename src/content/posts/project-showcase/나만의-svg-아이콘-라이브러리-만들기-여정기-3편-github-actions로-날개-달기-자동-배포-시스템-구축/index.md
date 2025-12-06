@@ -8,9 +8,11 @@ tags:
   - Husky
   - React
   - Performance
-
-created: 2025-06-21 03:41
-modified: 2025-12-06 10:35
+created: '2025-06-21 03:41'
+modified: '2025-12-06 10:35'
+title: '나만의 SVG 아이콘 라이브러리 만들기 여정기 (3편) - GitHub Actions로 날개 달기, 자동 배포 시스템 구축!'
+slug: >-
+  나만의-svg-아이콘-라이브러리-만들기-여정기-3편-github-actions로-날개-달기-자동-배포-시스템-구축
 ---
 드디어 대망의 마지막 편입니다! 지난 1 편에서는 [SVG 파일을 React 컴포넌트로 만들고 컴파일하는 과정]([1편_링크_가상](https://velog.io/@kmsk99/%EB%82%98%EB%A7%8C%EC%9D%98-SVG-%EC%95%84%EC%9D%B4%EC%BD%98-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-%EB%A7%8C%EB%93%A4%EA%B8%B0-%EC%97%AC%EC%A0%95%EA%B8%B0-1%ED%8E%B8-React-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EB%B3%80%ED%99%98%EA%B3%BC-%EC%BB%B4%ED%8C%8C%EC%9D%BC-%EC%9E%90%EB%8F%99%ED%99%94)) 을, 2 편에서는 [컴파일된 결과물들을 스타일별로 나누어 모노레포 패키지로 만들고, 각 패키지에 필요한 진입점 파일들을 자동으로 생성하는 마법 같은 이야기](https://velog.io/@kmsk99/%EB%82%98%EB%A7%8C%EC%9D%98-SVG-%EC%95%84%EC%9D%B4%EC%BD%98-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-%EB%A7%8C%EB%93%A4%EA%B8%B0-%EC%97%AC%EC%A0%95%EA%B8%B0-2%ED%8E%B8-%EB%AA%A8%EB%85%B8%EB%A0%88%ED%8F%AC-%ED%8C%A8%ED%82%A4%EC%A7%95-%EB%A7%88%EB%B2%95%EA%B3%BC-%EC%A7%84%EC%9E%85%EC%A0%90-%ED%8C%8C%EC%9D%BC-%EC%9E%90%EB%8F%99-%EC%83%9D%EC%84%B1) 를 함께했습니다. 이제 우리 손에는 언제든 세상에 나갈 준비가 된, 반짝반짝 빛나는 아이콘 패키지들이 한가득이죠!
 
