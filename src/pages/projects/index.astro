@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
+import PostCard from '../../components/PostCard.astro';
 import Sidebar from '../../components/Sidebar.astro';
 const projects = (await getCollection('projects')).sort(
 	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
@@ -23,7 +23,7 @@ const projects = (await getCollection('projects')).sort(
 				</header>
 				<div class="list">
 					{projects.map((project) => (
-						<ProjectCard entry={project} />
+						<PostCard entry={project as any} />
 					))}
 				</div>
 			</section>

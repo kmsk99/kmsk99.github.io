@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ProjectCard from '../components/ProjectCard.astro';
 import PostCard from '../components/PostCard.astro';
 import Sidebar from '../components/Sidebar.astro';
 import Pagination from '../components/Pagination.astro';
@@ -141,11 +140,7 @@ const pageCount = Math.max(1, Math.ceil(combined.length / pageSize));
 								data-tags={tags}
 								data-page={page}
 							>
-								{item.type === 'project' ? (
-									<ProjectCard entry={item.entry as any} category="project-showcase" />
-								) : (
-									<PostCard entry={item.entry as any} category={item.category} />
-								)}
+								<PostCard entry={item.entry as any} category={item.category} />
 							</div>
 						);
 					})}
