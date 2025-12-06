@@ -1,4 +1,11 @@
 ---
+tags:
+  - Startup
+  - Fundraising
+  - Retrospective
+  - TeamManagement
+  - ProductDevelopment
+  - Growth
 created: '2023-12-21 11:24'
 modified: '2023-12-26 01:32'
 title: 스타트업 시작부터 투자를 받기까지

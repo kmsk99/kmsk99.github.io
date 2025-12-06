@@ -1,6 +1,12 @@
 ---
 aliases: 
-tag: 
+tags:
+  - Startup
+  - CTO
+  - Retrospective
+  - TeamBuilding
+  - ProductDevelopment
+  - FounderStory
 my_rate: 
 created: 2023-07-18 04:47
 modified: 2023-07-18 04:48

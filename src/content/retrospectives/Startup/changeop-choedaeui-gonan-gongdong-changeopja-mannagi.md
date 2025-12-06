@@ -1,4 +1,11 @@
 ---
+tags:
+  - Startup
+  - Cofounder
+  - FounderStory
+  - Networking
+  - Incubation
+  - Retrospective
 created: '2023-12-18 12:52'
 modified: '2023-12-18 12:53'
 title: 창업 최대의 고난 - 공동 창업자 만나기 -

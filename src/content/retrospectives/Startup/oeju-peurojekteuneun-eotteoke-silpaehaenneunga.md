@@ -1,4 +1,11 @@
 ---
+tags:
+  - Retrospective
+  - ClientWork
+  - ProjectFailure
+  - Process
+  - Firebase
+  - QA
 created: '2023-12-21 11:24'
 modified: '2023-12-26 02:02'
 title: 외주 프로젝트는 어떻게 실패했는가

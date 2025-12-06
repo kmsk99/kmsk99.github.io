@@ -1,4 +1,13 @@
 ---
+tags:
+  - Engineering
+  - TechDeepDive
+  - Monorepo
+  - Automation
+  - TypeScript
+  - NodeJS
+  - Packaging
+  - Frontend
 created: 2025-06-21 03:39
 modified: 2025-12-06 10:35
 ---
