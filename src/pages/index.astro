@@ -52,6 +52,7 @@ const tags = [...projects, ...posts].reduce<Record<string, number>>((acc, item) 
 	});
 	return acc;
 }, {});
+const sortedTags = Object.entries(tags).sort((a, b) => b[1] - a[1]);
 
 const combined = [
 	...projects.map((p) => ({ type: 'project', entry: p, category: 'project-showcase' })),
@@ -94,7 +95,7 @@ const pageCount = Math.max(1, Math.ceil(combined.length / pageSize));
 				<p class="eyebrow">Tags</p>
 				<div class="tag-list" id="tag-list">
 					<button class="tag-pill active" data-tag="__all">All ({projects.length + posts.length})</button>
-					{Object.entries(tags).map(([tag, count]) => (
+					{sortedTags.map(([tag, count]) => (
 						<button class="tag-pill" data-tag={tag}>
 							#{tag} ({count})
 						</button>

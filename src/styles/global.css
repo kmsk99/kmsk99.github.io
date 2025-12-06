@@ -360,12 +360,17 @@ h3 {
 	padding: 6px 10px;
 	font-size: 12px;
 	cursor: pointer;
+	transition: border 120ms ease, background 120ms ease, color 120ms ease, transform 120ms ease,
+		box-shadow 120ms ease;
 }
 
 .tag-pill.active,
 .tag-pill:hover {
 	border-color: #2f374f;
-	color: var(--text);
+	background: linear-gradient(135deg, #1e90ff, #7dd3fc);
+	color: #0b0c0f;
+	box-shadow: 0 10px 30px rgba(125, 211, 252, 0.18);
+	transform: translateY(-1px);
 }
 
 .pagination {
