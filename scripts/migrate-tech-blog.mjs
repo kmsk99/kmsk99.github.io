@@ -3,11 +3,11 @@ import path from 'node:path';
 import matter from 'gray-matter';
 
 const ROOT = process.cwd();
-const SOURCE_BASE = path.join(ROOT, '기술 블로그');
-// 프로젝트 루트가 .../Minseok/4.Projects/kmsk99.github.io 이므로
-// 첨부폴더는 상위 두 단계인 .../Minseok/9.Settings/Attachments
+const SOURCE_BASE = path.join(ROOT, 'notes');
+// 첨부폴더는 상위 두 단계인 .../Minseok/9.Settings/Attachments (Obsidian에서 사용 중)
 const ATTACH_BASE = path.resolve(ROOT, '..', '..', '9.Settings', 'Attachments');
-const TARGET_BASE = path.join(ROOT, 'src', 'content', 'posts');
+const TARGET_POSTS = path.join(ROOT, 'src', 'content', 'posts');
+const TARGET_PROJECTS = path.join(ROOT, 'src', 'content', 'projects');
 
 const supportedImageExt = new Set(['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg']);
 
@@ -72,8 +72,7 @@ function normalizeImages(content) {
 
 async function migrateFile(file) {
 	const rel = path.relative(SOURCE_BASE, file);
-	const [categoryRaw] = rel.split(path.sep);
-	const category = slugify(categoryRaw || 'misc');
+	const [categoryRaw, ...rest] = rel.split(path.sep);
 
 	const stat = await fs.stat(file);
 	const raw = await fs.readFile(file, 'utf8');
@@ -84,7 +83,12 @@ async function migrateFile(file) {
 	const created = parsed.data.created || stat.birthtime.toISOString();
 	const modified = parsed.data.modified || stat.mtime.toISOString();
 
-	const targetDir = path.join(TARGET_BASE, category, slug);
+	const isProject = categoryRaw === 'project' || slugify(categoryRaw) === 'project-showcase';
+	const postCategory = slugify(rest[0] || 'misc');
+
+	const targetDir = isProject
+		? path.join(TARGET_PROJECTS, slug)
+		: path.join(TARGET_POSTS, postCategory, slug);
 	await ensureDir(targetDir);
 
 	const images = extractImages(parsed.content);
@@ -106,13 +110,16 @@ async function migrateFile(file) {
 	const next = matter.stringify(content, fm);
 	await fs.writeFile(path.join(targetDir, 'index.md'), next, 'utf8');
 
-	console.log(`[OK] ${rel} -> ${path.relative(TARGET_BASE, targetDir)}/index.md`);
+	const base = isProject ? TARGET_PROJECTS : TARGET_POSTS;
+	console.log(`[OK] ${rel} -> ${path.relative(base, targetDir)}/index.md`);
 }
 
 async function main() {
 	// 기존 게시물 제거 후 새로 마이그레이션
-	await fs.rm(TARGET_BASE, { recursive: true, force: true });
-	await ensureDir(TARGET_BASE);
+	await fs.rm(TARGET_POSTS, { recursive: true, force: true });
+	await fs.rm(TARGET_PROJECTS, { recursive: true, force: true });
+	await ensureDir(TARGET_POSTS);
+	await ensureDir(TARGET_PROJECTS);
 	const files = await walk(SOURCE_BASE);
 	for (const file of files) {
 		await migrateFile(file);
