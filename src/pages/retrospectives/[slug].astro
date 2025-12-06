@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+import RetrospectiveLayout from '../../layouts/RetrospectiveLayout.astro';
+
+export async function getStaticPaths() {
+	const retros = await getCollection('retrospectives');
+	return retros.map((ret) => ({
+		params: { slug: ret.id.split('/') },
+		props: { entry: ret },
+	}));
+}
+
+const { entry } = Astro.props;
+---
+
+<RetrospectiveLayout entry={entry} />
+

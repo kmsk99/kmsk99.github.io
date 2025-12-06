@@ -1,0 +1,124 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+
+const retrospectives = (await getCollection('retrospectives')).sort(
+	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
+);
+const posts = (await getCollection('posts')).sort(
+	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
+);
+const projects = (await getCollection('projects')).sort(
+	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
+);
+
+const labelFromFolder = (slug: string) => slug.replace(/-/g, ' ');
+
+const getPostCategory = (entry: (typeof posts)[number]) => {
+	const id = (entry as any).id || '';
+	return id.split('/')[0] || 'misc';
+};
+
+const postCategories = posts.reduce<Record<string, { count: number; label: string }>>((acc, p) => {
+	const cat = getPostCategory(p);
+	if (!acc[cat]) acc[cat] = { count: 0, label: labelFromFolder(cat) };
+	acc[cat].count += 1;
+	return acc;
+}, {});
+
+const projectsCategory = { key: 'project-showcase', label: 'Project Showcase', count: projects.length };
+const projectTree = [{ folder: projectsCategory.label, title: projectsCategory.label, slug: projectsCategory.key }];
+const postTree = Object.entries(postCategories).map(([key, info]) => ({
+	folder: info.label,
+	title: info.label,
+	slug: key,
+	count: info.count,
+}));
+const retroTree = retrospectives.map((r) => ({
+	title: r.data.title,
+	slug: r.id.replace(/\\/g, '/'),
+}));
+
+const tags = [...projects, ...posts, ...retrospectives].reduce<Record<string, number>>((acc, item) => {
+	(item.data.tags ?? []).forEach((tag) => {
+		acc[tag] = (acc[tag] ?? 0) + 1;
+	});
+	return acc;
+}, {});
+const sortedTags = Object.entries(tags).sort((a, b) => b[1] - a[1]);
+---
+
+<BaseLayout title="회고 목록">
+	<div class="layout-grid">
+		<aside class="sidebar">
+			<section class="block compact">
+				<p class="eyebrow">Categories</p>
+				<ul class="tree">
+					<li class="tree__section">Projects ({projects.length})</li>
+					{projectTree.map((item) => (
+						<li>
+							<button class="tree__btn" data-type="project" data-category={item.slug}>
+								<span class="tree__folder">📁</span>
+								<span class="tree__title">{item.title}</span>
+							</button>
+						</li>
+					))}
+					<li class="tree__section">Posts ({posts.length})</li>
+					{postTree.map((item) => (
+						<li>
+							<button class="tree__btn" data-type="post" data-category={item.slug}>
+								<span class="tree__folder">📁</span>
+								<span class="tree__title">
+									{item.title} ({item.count})
+								</span>
+							</button>
+						</li>
+					))}
+					<li class="tree__section">Retrospectives ({retrospectives.length})</li>
+					{retroTree.map((item) => (
+						<li>
+							<button class="tree__btn" data-type="retro" data-category={item.slug}>
+								<span class="tree__folder">📁</span>
+								<span class="tree__title">{item.title}</span>
+							</button>
+						</li>
+					))}
+				</ul>
+			</section>
+
+			<section class="block compact">
+				<p class="eyebrow">Tags</p>
+				<div class="tag-list" id="tag-list">
+					<button class="tag-pill active" data-tag="__all">
+						All ({projects.length + posts.length + retrospectives.length})
+					</button>
+					{sortedTags.map(([tag, count]) => (
+						<button class="tag-pill" data-tag={tag}>
+							#{tag} ({count})
+						</button>
+					))}
+				</div>
+			</section>
+		</aside>
+
+		<div class="main-column">
+			<section class="block">
+				<header class="block__header">
+					<div>
+						<p class="eyebrow">Retrospectives</p>
+						<h1>회고</h1>
+						<p class="lede">프로젝트와 경험에서 배운 점을 정리한 회고 모음</p>
+					</div>
+				</header>
+				<div class="list">
+					{retrospectives.map((ret) => (
+						<PostCard entry={ret as any} />
+					))}
+				</div>
+			</section>
+		</div>
+	</div>
+</BaseLayout>
+

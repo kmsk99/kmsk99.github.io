@@ -7,17 +7,20 @@ interface Props {
 }
 
 const { entry, category } = Astro.props as Props;
+const idPath = entry.id.replace(/\\/g, '/');
+const catFromId = (entry.id || '').split('/')[0] || 'project-showcase';
+const href = `/projects/${idPath}`;
 ---
 
 <article
 	class="card"
 	data-tags={entry.data.tags?.join(',') ?? ''}
 	data-type="project"
-	data-category={category ?? 'project-showcase'}
+	data-category={category ?? catFromId}
 >
 	<p class="eyebrow">{entry.data.created}</p>
 	<h3 class="card__title">
-		<a href={`/projects/${entry.slug}`}>{entry.data.title}</a>
+		<a href={href}>{entry.data.title}</a>
 	</h3>
 	{entry.data.summary && <p class="card__summary">{entry.data.summary}</p>}
 	{entry.data.tags && (

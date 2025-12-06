@@ -8,7 +8,6 @@ const projects = defineCollection({
 		modified: z.string().optional(),
 		tags: z.array(z.string()).optional(),
 		summary: z.string().optional(),
-		uploaded: z.boolean().optional(),
 	}),
 });
 
@@ -20,9 +19,19 @@ const posts = defineCollection({
 		modified: z.string().optional(),
 		tags: z.array(z.string()).optional(),
 		summary: z.string().optional(),
-		uploaded: z.boolean().optional(),
 	}),
 });
 
-export const collections = { projects, posts };
+const retrospectives = defineCollection({
+	type: 'content',
+	schema: z.object({
+		title: z.string(),
+		created: z.string(),
+		modified: z.string().optional(),
+		tags: z.array(z.string()).optional(),
+		summary: z.string().optional(),
+	}),
+});
+
+export const collections = { projects, posts, retrospectives };
 

@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+
+export async function getStaticPaths() {
+	const retrospectives = await getCollection('retrospectives');
+	return retrospectives.map((ret) => ({
+		params: { slug: ret.slug },
+		props: { entry: ret },
+	}));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<BaseLayout title={entry.data.title}>
+	<article class="article">
+		<p class="eyebrow">Retrospective · {entry.data.created}</p>
+		<h1>{entry.data.title}</h1>
+		<div class="article__body">
+			<Content />
+		</div>
+	</article>
+</BaseLayout>
+

@@ -10,17 +10,13 @@ const projects = (await getCollection('projects')).sort(
 const posts = (await getCollection('posts')).sort(
 	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
 );
+const retrospectives = (await getCollection('retrospectives')).sort(
+	(a, b) => new Date(b.data.created).getTime() - new Date(a.data.created).getTime(),
+);
 
 const pageSize = 20;
 
-const categoryLabel = (slug: string) =>
-	({
-		'dev-hacks': 'Dev Hacks',
-		'tech-deep-dive': 'Tech Deep Dive',
-		'troubleshooter-s-corner': "Troubleshooter's Corner",
-		'tech-pulse': 'Tech Pulse',
-		prompt: 'prompt',
-	}[slug] ?? slug.replace(/-/g, ' '));
+const labelFromFolder = (slug: string) => slug.replace(/-/g, ' ');
 
 const getPostCategory = (entry: (typeof posts)[number]) => {
 	const id = (entry as any).id || '';
@@ -28,16 +24,36 @@ const getPostCategory = (entry: (typeof posts)[number]) => {
 	return cat;
 };
 
+const getRetroCategory = (entry: (typeof retrospectives)[number]) => {
+	const id = (entry as any).id || '';
+	return id.split('/')[0] || 'retrospectives';
+};
+
 const postCategories = posts.reduce<Record<string, { count: number; label: string }>>((acc, p) => {
 	const cat = getPostCategory(p);
-	if (!acc[cat]) acc[cat] = { count: 0, label: categoryLabel(cat) };
+	if (!acc[cat]) acc[cat] = { count: 0, label: labelFromFolder(cat) };
 	acc[cat].count += 1;
 	return acc;
 }, {});
 
-const projectsCategory = { key: 'project-showcase', label: 'Project Showcase', count: projects.length };
+const getProjectCategory = (entry: (typeof projects)[number]) => {
+	const id = (entry as any).id || '';
+	return id.split('/')[0] || 'project-showcase';
+};
 
-const projectTree = [{ folder: projectsCategory.label, title: projectsCategory.label, slug: projectsCategory.key }];
+const projectCategories = projects.reduce<Record<string, { count: number; label: string }>>((acc, p) => {
+	const cat = getProjectCategory(p);
+	if (!acc[cat]) acc[cat] = { count: 0, label: labelFromFolder(cat) };
+	acc[cat].count += 1;
+	return acc;
+}, {});
+
+const projectTree = Object.entries(projectCategories).map(([key, info]) => ({
+	folder: info.label,
+	title: info.label,
+	slug: key,
+	count: info.count,
+}));
 
 const postTree = Object.entries(postCategories).map(([key, info]) => ({
 	folder: info.label,
@@ -46,7 +62,21 @@ const postTree = Object.entries(postCategories).map(([key, info]) => ({
 	count: info.count,
 }));
 
-const tags = [...projects, ...posts].reduce<Record<string, number>>((acc, item) => {
+const retroCategories = retrospectives.reduce<Record<string, { count: number; label: string }>>((acc, r) => {
+	const cat = getRetroCategory(r);
+	if (!acc[cat]) acc[cat] = { count: 0, label: labelFromFolder(cat) };
+	acc[cat].count += 1;
+	return acc;
+}, {});
+
+const retroTree = Object.entries(retroCategories).map(([key, info]) => ({
+	folder: info.label,
+	title: info.label,
+	slug: key,
+	count: info.count,
+}));
+
+const tags = [...projects, ...posts, ...retrospectives].reduce<Record<string, number>>((acc, item) => {
 	(item.data.tags ?? []).forEach((tag) => {
 		acc[tag] = (acc[tag] ?? 0) + 1;
 	});
@@ -55,8 +85,9 @@ const tags = [...projects, ...posts].reduce<Record<string, number>>((acc, item) 
 const sortedTags = Object.entries(tags).sort((a, b) => b[1] - a[1]);
 
 const combined = [
-	...projects.map((p) => ({ type: 'project', entry: p, category: 'project-showcase' })),
+	...projects.map((p) => ({ type: 'project', entry: p, category: getProjectCategory(p) })),
 	...posts.map((p) => ({ type: 'post', entry: p, category: getPostCategory(p) })),
+	...retrospectives.map((r) => ({ type: 'retro', entry: r, category: getRetroCategory(r) })),
 ].sort((a, b) => new Date(b.entry.data.created).getTime() - new Date(a.entry.data.created).getTime());
 
 const pageCount = Math.max(1, Math.ceil(combined.length / pageSize));
@@ -88,13 +119,26 @@ const pageCount = Math.max(1, Math.ceil(combined.length / pageSize));
 							</button>
 						</li>
 					))}
+					<li class="tree__section">Retrospectives ({retrospectives.length})</li>
+					{retroTree.map((item) => (
+						<li>
+							<button class="tree__btn" data-type="retro" data-category={item.slug}>
+								<span class="tree__folder">📁</span>
+								<span class="tree__title">
+									{item.title} ({item.count})
+								</span>
+							</button>
+						</li>
+					))}
 				</ul>
 			</section>
 
 			<section class="block compact">
 				<p class="eyebrow">Tags</p>
 				<div class="tag-list" id="tag-list">
-					<button class="tag-pill active" data-tag="__all">All ({projects.length + posts.length})</button>
+					<button class="tag-pill active" data-tag="__all">
+						All ({projects.length + posts.length + retrospectives.length})
+					</button>
 					{sortedTags.map(([tag, count]) => (
 						<button class="tag-pill" data-tag={tag}>
 							#{tag} ({count})

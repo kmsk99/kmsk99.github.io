@@ -10,6 +10,7 @@ const SOURCE_BASE = path.join(ROOT, 'notes');
 const ATTACH_BASE = path.resolve(ROOT, '..', '..', '9.Settings', 'Attachments');
 const TARGET_POSTS = path.join(ROOT, 'src', 'content', 'posts');
 const TARGET_PROJECTS = path.join(ROOT, 'src', 'content', 'projects');
+const TARGET_RETROS = path.join(ROOT, 'src', 'content', 'retrospectives');
 const TARGET_ASSETS = path.join(ROOT, 'src', 'content', 'assets');
 
 const supportedImageExt = new Set(['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg']);
@@ -120,16 +121,30 @@ async function migrateFile(file) {
 	const created = parsed.data.created || stat.birthtime.toISOString();
 	const modified = parsed.data.modified || stat.mtime.toISOString();
 
-	const isProject = categoryRaw === 'project' || slugify(categoryRaw) === 'project-showcase';
-	const postCategory = slugify(rest[0] || 'misc');
+	const isProject = categoryRaw === 'project';
+	const isRetro = categoryRaw === 'retrospectives';
+	const postCategoryRaw = rest[0] || 'misc'; // keep original casing for folder name
+	const projectCategoryRaw = rest[0] || 'Project-Showcase'; // keep original casing for folder name
+	const retroCategoryRaw = rest[0] || 'retrospectives'; // keep original casing for folder name
 
-	const targetDir = isProject ? TARGET_PROJECTS : path.join(TARGET_POSTS, postCategory);
+	let targetDir;
+	let relativeAssetPrefix;
+
+	if (isProject) {
+		targetDir = path.join(TARGET_PROJECTS, projectCategoryRaw);
+		relativeAssetPrefix = '../../assets/';
+	} else if (isRetro) {
+		targetDir = path.join(TARGET_RETROS, retroCategoryRaw);
+		relativeAssetPrefix = '../../assets/';
+	} else {
+		targetDir = path.join(TARGET_POSTS, postCategoryRaw);
+		relativeAssetPrefix = '../../assets/';
+	}
 	await ensureDir(targetDir);
 
 	const images = extractImages(parsed.content);
 	const renameMap = new Map();
 	const hashKey = hashPrefix(slug || categoryRaw || 'asset');
-	const relativeAssetPrefix = isProject ? '../assets/' : '../../assets/';
 
 	for (const img of images) {
 		if (!supportedImageExt.has(path.extname(img).toLowerCase())) continue;
@@ -147,16 +162,13 @@ async function migrateFile(file) {
 	const fm = { ...parsed.data };
 	delete fm.uploaded;
 	fm.title = title;
-	fm.slug = slug;
 	fm.created = created;
 	fm.modified = modified;
 	const next = matter.stringify(content, fm);
-	const outputPath = isProject
-		? path.join(targetDir, `${slug}.md`)
-		: path.join(targetDir, `${slug}.md`);
+	const outputPath = path.join(targetDir, `${slug}.md`);
 	await fs.writeFile(outputPath, next, 'utf8');
 
-	const base = isProject ? TARGET_PROJECTS : TARGET_POSTS;
+	const base = isProject ? TARGET_PROJECTS : isRetro ? TARGET_RETROS : TARGET_POSTS;
 	console.log(`[OK] ${rel} -> ${path.relative(base, outputPath)}`);
 }
 
@@ -164,9 +176,11 @@ async function main() {
 	// 기존 게시물 제거 후 새로 마이그레이션
 	await fs.rm(TARGET_POSTS, { recursive: true, force: true });
 	await fs.rm(TARGET_PROJECTS, { recursive: true, force: true });
+	await fs.rm(TARGET_RETROS, { recursive: true, force: true });
 	await fs.rm(TARGET_ASSETS, { recursive: true, force: true });
 	await ensureDir(TARGET_POSTS);
 	await ensureDir(TARGET_PROJECTS);
+	await ensureDir(TARGET_RETROS);
 	await ensureDir(TARGET_ASSETS);
 	const files = await walk(SOURCE_BASE);
 	for (const file of files) {
