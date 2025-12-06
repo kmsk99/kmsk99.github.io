@@ -38,6 +38,14 @@ const slugify = (value) => {
 	return baseSlug(candidate);
 };
 
+// 폴더명은 영문 기준, 대소문자 유지하며 공백만 하이픈으로 치환
+const folderify = (value = '') =>
+	value
+		.trim()
+		.replace(/\s+/g, '-')
+		.replace(/-+/g, '-')
+		.replace(/^[-]+|[-]+$/g, '');
+
 async function ensureDir(dir) {
 	await fs.mkdir(dir, { recursive: true });
 }
@@ -123,21 +131,26 @@ async function migrateFile(file) {
 
 	const isProject = categoryRaw === 'project';
 	const isRetro = categoryRaw === 'retrospectives';
-	const postCategoryRaw = rest[0] || 'misc'; // keep original casing for folder name
-	const projectCategoryRaw = rest[0] || 'Project-Showcase'; // keep original casing for folder name
-	const retroCategoryRaw = rest[0] || 'retrospectives'; // keep original casing for folder name
+	const postCategoryRaw = rest[0] || 'misc';
+	const projectCategoryRaw = rest[0] || 'Project-Showcase';
+	const retroCategoryRaw = rest[0] || 'retrospectives';
+
+	// slugify 폴더명: 공백 등을 '-'로 치환해 경로 인코딩 문제 방지
+	const postCategorySlug = folderify(postCategoryRaw);
+	const projectCategorySlug = folderify(projectCategoryRaw);
+	const retroCategorySlug = folderify(retroCategoryRaw);
 
 	let targetDir;
 	let relativeAssetPrefix;
 
 	if (isProject) {
-		targetDir = path.join(TARGET_PROJECTS, projectCategoryRaw);
+		targetDir = path.join(TARGET_PROJECTS, projectCategorySlug);
 		relativeAssetPrefix = '../../assets/';
 	} else if (isRetro) {
-		targetDir = path.join(TARGET_RETROS, retroCategoryRaw);
+		targetDir = path.join(TARGET_RETROS, retroCategorySlug);
 		relativeAssetPrefix = '../../assets/';
 	} else {
-		targetDir = path.join(TARGET_POSTS, postCategoryRaw);
+		targetDir = path.join(TARGET_POSTS, postCategorySlug);
 		relativeAssetPrefix = '../../assets/';
 	}
 	await ensureDir(targetDir);
