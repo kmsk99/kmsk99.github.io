@@ -1,7 +1,6 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { getCollection } from 'astro:content';
 import '../styles/global.css';
 import '../styles/theme.css';
 
@@ -11,23 +10,6 @@ interface Props {
 }
 
 const { title = '김민석 · Astro 포트폴리오', description } = Astro.props as Props;
-
-const allProjects = await getCollection('projects');
-const allPosts = await getCollection('posts');
-
-const linkIndex = Object.fromEntries(
-	[...allProjects, ...allPosts].map((entry) => [
-		entry.data.title,
-		entry.collection === 'projects' ? `/projects/${entry.slug}` : `/posts/${entry.slug}`,
-	]),
-);
-
-const linkSlugIndex = Object.fromEntries(
-	[...allProjects, ...allPosts].map((entry) => [
-		entry.slug,
-		entry.collection === 'projects' ? `/projects/${entry.slug}` : `/posts/${entry.slug}`,
-	]),
-);
 ---
 
 <!doctype html>
@@ -46,34 +28,6 @@ const linkSlugIndex = Object.fromEntries(
 			<slot />
 		</main>
 		<Footer />
-
-		<script>
-			const linkIndex = JSON.parse('{JSON.stringify(linkIndex)}');
-			const linkSlugIndex = JSON.parse('{JSON.stringify(linkSlugIndex)}');
-
-			const slugify = (value) =>
-				value
-					.toString()
-					.normalize('NFKD')
-					.replace(/[^\p{L}\p{N}]+/gu, '-')
-					.replace(/^-+|-+$/g, '')
-					.toLowerCase();
-
-			function resolveLink(label) {
-				if (linkIndex[label]) return linkIndex[label];
-				const s = slugify(label);
-				if (linkSlugIndex[s]) return linkSlugIndex[s];
-				return `/search?q=${encodeURIComponent(label)}`;
-			}
-
-			document.querySelectorAll('.article__body').forEach((body) => {
-				body.innerHTML = body.innerHTML.replace(/\[\[([^[\]]+)\]\]/g, (_, label) => {
-					const trimmed = label.trim();
-					const url = resolveLink(trimmed);
-					return `<a class="wikilink" href="${url}">${trimmed}</a>`;
-				});
-			});
-		</script>
 	</body>
 </html>
 
