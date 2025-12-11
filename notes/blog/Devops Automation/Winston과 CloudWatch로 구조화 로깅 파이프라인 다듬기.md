@@ -1,17 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - Logging
-  - AWS
+  - Winston
+  - CloudWatch
   - NestJS
   - GraphQL
-  - CICD
-  - Performance
+  - DevOps
 title: Winston과 CloudWatch로 구조화 로깅 파이프라인 다듬기
 created: 2025-02-14 10:10
 modified: 2025-02-14 10:10
-uploaded: "false"
 ---
 
 # Intro

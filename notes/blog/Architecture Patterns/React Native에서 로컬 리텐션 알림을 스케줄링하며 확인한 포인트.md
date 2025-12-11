@@ -1,17 +1,13 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
-  - PushNotification
-  - Expo
-  - Android
-  - iOS
   - ReactNative
-  - Payment
+  - Expo
+  - Notifications
+  - Engagement
+  - Mobile
 title: React Native에서 로컬 리텐션 알림을 스케줄링하며 확인한 포인트
 created: 2024-11-27 10:20
 modified: 2024-11-27 10:20
-uploaded: "false"
 ---
 
 # Intro

@@ -1,17 +1,13 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
+  - ReactNative
+  - NaverMap
   - Maps
   - UX
-  - ReactNative
-  - Expo
-  - Performance
-  - Payment
+  - Mobile
 title: 네이버 지도 SDK로 모바일 매장 지도를 설계한 과정
 created: 2024-11-27 10:40
 modified: 2024-11-27 10:40
-uploaded: "false"
 ---
 
 # Intro

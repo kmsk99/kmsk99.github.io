@@ -1,15 +1,13 @@
 ---
 tags:
-  - Engineering
-  - IssueNote
   - ReactNative
   - Android
-  - Frontend
-  - Mobile
+  - Keystore
+  - SHA1
+  - Troubleshooting
 title: React Native에서 Android SHA-1 인증서 추출 방법
 created: 2023-03-20 11:11
 modified: 2023-03-20 11:18
-uploaded: "true"
 ---
 
 # Intro

@@ -1,17 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
-  - PDF
   - React
-  - Payment
-  - AI
-  - UX
+  - Canvas
+  - jsPDF
+  - PDF
   - Automation
+  - Docs
 title: Canvas와 jsPDF로 인증 문서 자동생성 흐름을 만들며
 created: 2025-02-14 10:25
 modified: 2025-02-14 10:25
-uploaded: "false"
 ---
 
 # Intro

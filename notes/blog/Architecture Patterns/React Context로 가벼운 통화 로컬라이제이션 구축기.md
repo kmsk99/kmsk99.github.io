@@ -1,16 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
-  - Localization
   - React
   - NextJS
-  - UX
+  - Localization
+  - Currency
   - Frontend
+  - UX
 title: React Context로 가벼운 통화 로컬라이제이션 구축기
 created: 2025-10-09 10:00
 modified: 2025-10-09 10:00
-uploaded: "false"
 ---
 
 # Intro

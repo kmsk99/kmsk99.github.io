@@ -1,15 +1,12 @@
 ---
 tags:
-  - Engineering
-  - IssueNote
-  - Firebase
+  - PWA
   - iOS
-  - Backend
-  - Mobile
+  - Build
+  - Troubleshooting
 title: IOS 빌드 시 오류 해결
 created: 2024-06-18 02:28
 modified: 2024-06-19 01:56
-uploaded: "false"
 ---
 
 # Intro

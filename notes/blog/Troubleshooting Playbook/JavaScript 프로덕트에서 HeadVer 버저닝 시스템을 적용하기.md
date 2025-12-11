@@ -1,15 +1,12 @@
 ---
 tags:
-  - Engineering
-  - IssueNote
-  - TypeScript
-  - Automation
-  - Frontend
-  - Tooling
+  - HeadVer
+  - Versioning
+  - JavaScript
+  - Troubleshooting
 title: JS 프로덕트에서 HeadVer 버저닝 시스템을 적용하기
 created: 2024-06-03 10:15
 modified: 2024-06-03 10:38
-uploaded: "false"
 ---
 
 # Intro

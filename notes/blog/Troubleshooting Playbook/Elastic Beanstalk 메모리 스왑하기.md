@@ -1,15 +1,13 @@
 ---
 tags:
-  - Engineering
-  - IssueNote
-  - AWS
   - ElasticBeanstalk
-  - Caching
-  - DevOps
+  - AWS
+  - Memory
+  - Swap
+  - Troubleshooting
 title: Elastic Beanstalk 메모리 스왑하기
 created: 2024-01-26 11:05
 modified: 2024-01-26 01:42
-uploaded: "false"
 ---
 
 # Intro

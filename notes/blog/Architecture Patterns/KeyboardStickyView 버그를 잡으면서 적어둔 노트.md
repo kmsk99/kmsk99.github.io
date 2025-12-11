@@ -1,17 +1,13 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
-  - Android
   - ReactNative
-  - iOS
-  - Performance
+  - Keyboard
+  - UI
   - Expo
-  - Caching
+  - Mobile
 title: KeyboardStickyView 버그를 잡으면서 적어둔 노트
 created: 2024-11-27 11:20
 modified: 2024-11-27 11:20
-uploaded: "false"
 ---
 
 # Intro

@@ -1,11 +1,13 @@
 ---
+tags:
+  - PowerShell
+  - Yarn
+  - Windows
+  - Node
+  - Troubleshooting
 created: 2022-05-03 09:45
 modified: 2022-05-03 09:50
-tags:
-  - Engineering
-  - IssueNote
 title: PowerShell yarn 사용 불가 문제
-uploaded: "true"
 ---
 
 # Intro

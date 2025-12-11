@@ -1,14 +1,14 @@
 ---
-aliases: 
 tags:
-  - Engineering
-  - IssueNote
+  - NestJS
   - Prisma
+  - Transactions
   - Backend
+  - Troubleshooting
+aliases: 
 my_rate: 
 created: 2023-06-01 11:57
 modified: 2023-06-01 11:58
-uploaded: "false"
 ---
 https://chat.openai.com/share/a36bbeb8-c515-4012-8d3e-27cd73a8391a
 

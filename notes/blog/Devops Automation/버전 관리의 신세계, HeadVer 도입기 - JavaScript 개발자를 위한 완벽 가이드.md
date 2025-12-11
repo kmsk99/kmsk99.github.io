@@ -1,12 +1,10 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
-  - Automation
-  - GitHubActions
+  - HeadVer
+  - Versioning
+  - Release
+  - JavaScript
   - DevOps
-  - Tooling
-
 created: 2024-09-09 11:01
 modified: 2024-09-09 11:19
 ---

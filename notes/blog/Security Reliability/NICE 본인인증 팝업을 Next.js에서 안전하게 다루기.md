@@ -1,16 +1,13 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - NextJS
-  - UX
+  - Verification
+  - Popup
   - Security
-  - React
-  - Frontend
+  - UX
 title: NICE 본인인증 팝업을 Next.js에서 안전하게 다루기
 created: 2025-10-09 14:06
 modified: 2025-10-09 14:06
-uploaded: "false"
 ---
 
 # Intro

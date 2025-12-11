@@ -1,17 +1,15 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
+  - OAuth
+  - Kakao
   - Supabase
+  - Expo
   - Android
   - iOS
-  - Expo
-  - Backend
-  - Frontend
+  - Auth
 title: 카카오 OAuth를 iOS와 Android에 동시에 붙인 경험
 created: 2024-11-27 12:00
 modified: 2024-11-27 12:00
-uploaded: "false"
 ---
 
 # Intro

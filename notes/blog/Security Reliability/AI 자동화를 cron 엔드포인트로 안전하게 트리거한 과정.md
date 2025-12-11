@@ -1,15 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
-  - AI
-  - Cron
   - Supabase
+  - Cron
+  - AI
   - Backend
+  - Security
+  - RateLimit
 title: AI 자동화를 cron 엔드포인트로 안전하게 트리거한 과정
 created: 2025-10-09 14:06
 modified: 2025-10-09 14:06
-uploaded: "false"
 ---
 
 # Intro

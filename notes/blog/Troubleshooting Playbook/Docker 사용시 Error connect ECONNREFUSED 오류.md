@@ -1,13 +1,12 @@
 ---
+tags:
+  - Docker
+  - Node
+  - Networking
+  - Troubleshooting
 created: 2022-05-03 11:11
 modified: 2022-05-03 11:15
-tags:
-  - Engineering
-  - IssueNote
-  - Docker
-  - DevOps
 title: Docker 사용시 Error connect ECONNREFUSED 오류
-uploaded: "true"
 ---
 
 # Intro

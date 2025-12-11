@@ -1,13 +1,10 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - Firebase
-  - Performance
-  - Firestore
-  - UX
+  - Search
+  - Indexing
   - Backend
-
+  - UX
 created: 2024-09-09 11:52
 modified: 2024-09-09 11:54
 ---

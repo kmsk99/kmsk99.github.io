@@ -1,14 +1,12 @@
 ---
 tags:
-  - Engineering
-  - IssueNote
   - ReactNative
-  - Frontend
-  - Mobile
+  - Maps
+  - Android
+  - Troubleshooting
 title: React Native Map 실제 기기에서 실행 시 로고만 뜨고 지도가 안뜰때 대처방법
 created: 2023-03-20 11:19
 modified: 2023-03-20 11:24
-uploaded: "true"
 ---
 
 # Intro

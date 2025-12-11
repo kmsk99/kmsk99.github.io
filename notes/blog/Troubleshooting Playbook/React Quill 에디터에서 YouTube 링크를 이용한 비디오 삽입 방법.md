@@ -1,14 +1,13 @@
 ---
 tags:
-  - Engineering
-  - IssueNote
   - React
-  - UX
-  - Frontend
+  - ReactQuill
+  - YouTube
+  - RichText
+  - Troubleshooting
 title: React Quill 에디터에서 YouTube 링크를 이용한 비디오 삽입 방법
 created: 2024-04-25 10:49
 modified: 2024-04-25 10:59
-uploaded: "false"
 ---
 
 ## React-Quill 에디터에서 YouTube 비디오 삽입 확장 기능 상세 구현

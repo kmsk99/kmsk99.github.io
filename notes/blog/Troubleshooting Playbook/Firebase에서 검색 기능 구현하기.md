@@ -1,14 +1,12 @@
 ---
 tags:
-  - Engineering
-  - IssueNote
   - Firebase
+  - Search
   - Firestore
-  - Backend
+  - Troubleshooting
 title: Firebase에서 검색 기능 구현하기
 created: 2023-12-22 03:15
 modified: 2023-12-22 03:50
-uploaded: "true"
 ---
 
 # Intro

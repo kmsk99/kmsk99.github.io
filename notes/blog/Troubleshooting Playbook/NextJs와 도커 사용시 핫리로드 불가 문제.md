@@ -1,16 +1,13 @@
 ---
-created: 2022-04-28 10:10
-modified: 2022-04-28 10:27
 tags:
-  - Engineering
-  - IssueNote
   - NextJS
   - Docker
-  - Performance
-  - DevOps
-  - Frontend
+  - HotReload
+  - DevEnv
+  - Troubleshooting
+created: 2022-04-28 10:10
+modified: 2022-04-28 10:27
 title: NextJs와 도커 사용시 핫리로드 불가 문제
-uploaded: "true"
 ---
 
 # Intro

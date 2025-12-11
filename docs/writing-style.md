@@ -10,7 +10,7 @@
 3) 마무리: 결과, 교훈, 다음 계획, 독자에게 질문/피드백 요청
 
 ## 포맷팅
-- 문서 맨 위 프론트매터: `title`, `created`, `modified?`, `tags?`, `summary?`, `uploaded?`
+- 문서 맨 위 프론트매터: `title`, `created`, `modified?`, `tags?`, `summary?`
 - 본문은 `# Intro` 또는 `##`로 시작해 흐름을 잡고, 단계는 번호/리스트 적극 활용.
 - 코드 블록에는 언어 라벨과 의도 주석을 짧게 추가.
 - 이미지 자리표시자는 `![[file.png]]`를 사용하고, Reference 섹션을 마지막에 둡니다.

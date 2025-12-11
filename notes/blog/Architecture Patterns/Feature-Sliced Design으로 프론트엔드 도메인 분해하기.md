@@ -1,15 +1,13 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
-  - Monorepo
+  - FeatureSlicedDesign
+  - Architecture
+  - React
   - TypeScript
   - Frontend
-  - Tooling
 title: Feature-Sliced Design으로 프론트엔드 도메인 분해하기
 created: 2025-10-09 14:06
 modified: 2025-10-09 14:06
-uploaded: "false"
 ---
 
 # Intro

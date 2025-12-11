@@ -1,17 +1,13 @@
 ---
 tags:
-  - Engineering
-  - IssueNote
-  - Encryption
-  - Prisma
   - NestJS
-  - TypeScript
-  - Security
-  - Logging
+  - Prisma
+  - Encryption
+  - Backend
+  - Troubleshooting
 title: Nestjs + Prisma 백엔드에서 고객 정보 암호화하기
 created: 2024-06-03 10:44
 modified: 2024-06-03 11:17
-uploaded: "false"
 ---
 
 # Intro

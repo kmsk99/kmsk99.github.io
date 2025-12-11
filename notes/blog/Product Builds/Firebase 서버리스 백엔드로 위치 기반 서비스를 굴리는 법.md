@@ -1,17 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - Firebase
   - Firestore
-  - Caching
-  - Security
+  - Serverless
   - ReactNative
   - Maps
+  - Backend
 title: Firebase 서버리스 백엔드로 위치 기반 서비스를 굴리는 법
 created: 2025-10-09 10:00
 modified: 2025-10-09 15:10
-uploaded: "false"
 ---
 
 # Intro

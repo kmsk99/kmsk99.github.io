@@ -1,17 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - OCR
   - AI
-  - PDF
+  - Pipeline
+  - NextJS
   - AWS
   - Security
-  - Encryption
 title: Fluid Pipeline으로 OCR과 AI 검증을 한 번에 묶어낸 기록
 created: 2025-10-10 10:45
 modified: 2025-10-10 10:45
-uploaded: "false"
 ---
 
 # Intro

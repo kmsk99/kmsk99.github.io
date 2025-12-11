@@ -1,16 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - Android
-  - Payment
   - Expo
-  - Frontend
+  - Navigation
+  - BackHandler
+  - UX
   - Mobile
 title: Android 더블백 종료 규칙을 직접 다듬으며 배운 것
 created: 2024-11-27 12:40
 modified: 2024-11-27 12:40
-uploaded: "false"
 ---
 
 # Intro

@@ -1,16 +1,13 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
-  - UX
   - Supabase
   - React
-  - Backend
-  - Frontend
+  - Session
+  - Retry
+  - Reliability
 title: 네트워크 흔들릴 때도 프로필 세션을 지키는 useProfileWithRetry 만들기
 created: 2025-10-09 14:06
 modified: 2025-10-09 14:06
-uploaded: "false"
 ---
 
 # Intro

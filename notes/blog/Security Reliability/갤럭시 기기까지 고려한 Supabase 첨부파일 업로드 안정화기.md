@@ -1,15 +1,13 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - Supabase
-  - Security
-  - Performance
-  - Backend
+  - Uploads
+  - Android
+  - Mobile
+  - Reliability
 title: 갤럭시 기기까지 고려한 Supabase 첨부파일 업로드 안정화기
 created: 2025-10-09 14:06
 modified: 2025-10-09 14:06
-uploaded: "false"
 ---
 
 # Intro

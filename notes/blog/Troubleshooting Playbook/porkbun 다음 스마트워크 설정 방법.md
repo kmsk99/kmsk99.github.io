@@ -1,15 +1,15 @@
 ---
 tags:
-  - Engineering
-  - IssueNote
   - DNS
-  - DevOps
+  - Email
+  - porkbun
+  - Configuration
+  - Troubleshooting
 title: porkbun 다음 스마트워크 설정 방법
 created: 2023-05-24 10:56
 modified: 2023-05-24 10:58
 aliases: 
 my_rate: 
-uploaded: "false"
 ---
 
 # Intro

@@ -1,13 +1,12 @@
 ---
 tags:
-  - Engineering
-  - IssueNote
   - React
-  - Frontend
+  - StrictMode
+  - DoubleRender
+  - Troubleshooting
 title: React 개발 시 함수가 두번 호출되는 문제
 created: 2023-01-17 01:47
 modified: 2023-01-17 01:55
-uploaded: "true"
 ---
 
 # Intro

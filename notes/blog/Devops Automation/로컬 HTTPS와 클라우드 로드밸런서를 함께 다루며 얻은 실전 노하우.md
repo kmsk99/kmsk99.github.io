@@ -1,14 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
+  - HTTPS
   - AWS
-  - Automation
+  - ALB
+  - NodeJS
   - DevOps
+  - LocalDev
 title: 로컬 HTTPS와 클라우드 로드밸런서를 함께 다루며 얻은 실전 노하우
 created: 2024-11-28 10:00
 modified: 2024-11-28 10:00
-uploaded: "false"
 ---
 
 # Intro

@@ -1,16 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
+  - NextJS
   - AI
   - OCR
-  - NextJS
+  - Workflow
   - Performance
-  - Frontend
+  - Backend
 title: Chain Flag로 긴 호출 시간을 견디는 법
 created: 2025-10-10 10:55
 modified: 2025-10-10 10:55
-uploaded: "false"
 ---
 
 # Intro

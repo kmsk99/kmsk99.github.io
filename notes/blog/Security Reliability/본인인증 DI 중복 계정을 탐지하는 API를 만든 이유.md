@@ -1,13 +1,13 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - Supabase
+  - Auth
+  - DI
   - Backend
+  - Security
 title: 본인인증 DI 중복 계정을 탐지하는 API를 만든 이유
 created: 2025-10-09 14:06
 modified: 2025-10-09 14:06
-uploaded: "false"
 ---
 
 # Intro

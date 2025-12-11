@@ -1,17 +1,13 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
-  - Supabase
   - NextJS
-  - ReactNative
+  - Supabase
+  - Auth
   - ServerActions
-  - Backend
-  - Frontend
+  - Security
 title: Bearer 토큰을 Supabase 쿠키로 바꿔주는 Next.js 서버 클라이언트
 created: 2025-10-09 14:06
 modified: 2025-10-09 14:06
-uploaded: "false"
 ---
 
 # Intro

@@ -1,17 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
-  - PDF
   - OCR
-  - Performance
+  - CLOVA
+  - PDF
   - NextJS
-  - CICD
-  - DevOps
+  - Automation
+  - Concurrency
 title: CLOVA OCR API와 PDF 페이지 분할로 학력 증빙 자동화
 created: 2025-10-09 14:06
 modified: 2025-10-09 14:06
-uploaded: "false"
 ---
 
 # Intro

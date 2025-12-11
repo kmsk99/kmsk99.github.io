@@ -1,14 +1,13 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - Supabase
+  - RPC
+  - Points
   - Security
   - Backend
 title: Supabase RPC로 포인트 적립·차감을 안전하게 처리한 방법
 created: 2025-10-09 14:06
 modified: 2025-10-09 14:06
-uploaded: "false"
 ---
 
 # Intro

@@ -1,17 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
-  - Supabase
-  - Expo
   - ReactNative
-  - Payment
-  - CICD
-  - DevOps
+  - Expo
+  - Supabase
+  - Uploads
+  - Mobile
+  - Backend
 title: React Native 파일 업로드 파이프라인을 정리한 기록
 created: 2024-11-27 13:00
 modified: 2024-11-27 13:00
-uploaded: "false"
 ---
 
 # Intro

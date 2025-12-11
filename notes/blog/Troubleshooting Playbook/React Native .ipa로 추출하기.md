@@ -1,12 +1,9 @@
 ---
 tags:
-  - Engineering
-  - IssueNote
-  - iOS
   - ReactNative
-  - Frontend
-  - Mobile
-
+  - iOS
+  - Build
+  - Troubleshooting
 aliases: 
 tag: 
 my_rate: 

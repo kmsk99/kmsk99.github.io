@@ -221,7 +221,6 @@ async function migrateFile(file) {
 	const contentWithImages = normalizeImages(parsed.content, renameMap, relativeAssetPrefix);
 	const content = normalizeLinks(contentWithImages);
 	const fm = { ...parsed.data };
-	delete fm.uploaded;
 	fm.title = title;
 	fm.created = created;
 	fm.modified = modified;

@@ -1,13 +1,12 @@
 ---
 tags:
-  - Engineering
-  - IssueNote
   - Prisma
-  - Backend
+  - Migrations
+  - Database
+  - Troubleshooting
 title: Prisma 개발 시 migration 기록 지우기
 created: 2023-10-06 03:53
 modified: 2023-10-06 03:57
-uploaded: "false"
 ---
 
 # Intro

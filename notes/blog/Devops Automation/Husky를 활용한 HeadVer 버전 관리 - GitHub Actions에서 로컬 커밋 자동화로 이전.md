@@ -1,14 +1,11 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - Husky
-  - CICD
-  - GitHubActions
-  - Monorepo
+  - HeadVer
+  - GitHooks
+  - Versioning
   - Automation
-  - TypeScript
-
+  - Monorepo
 created: 2025-06-21 03:27
 modified: 2025-06-21 03:28
 ---

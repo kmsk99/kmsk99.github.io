@@ -1,17 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
-  - iOS
-  - Android
-  - Expo
   - ReactNative
-  - Frontend
+  - Expo
   - Mobile
+  - UI
+  - Hooks
+  - ActionSheet
 title: ActionSheet를 안전하게 감싸는 훅을 만든 이유
 created: 2024-11-27 12:20
 modified: 2024-11-27 12:20
-uploaded: "false"
 ---
 
 # Intro

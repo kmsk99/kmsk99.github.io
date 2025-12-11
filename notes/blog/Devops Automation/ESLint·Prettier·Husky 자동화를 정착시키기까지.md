@@ -1,17 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
-  - Monorepo
+  - ESLint
+  - Prettier
   - Husky
-  - TypeScript
-  - Automation
+  - CI/CD
   - NextJS
-  - React
+  - TypeScript
 title: ESLint·Prettier·Husky 자동화를 정착시키기까지
 created: 2025-10-09 14:06
 modified: 2025-10-09 14:06
-uploaded: "false"
 ---
 
 # Intro

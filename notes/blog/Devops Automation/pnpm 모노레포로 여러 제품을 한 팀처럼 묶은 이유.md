@@ -1,17 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
+  - pnpm
   - Monorepo
-  - Prisma
-  - Caching
   - Docker
-  - CICD
+  - CI/CD
+  - Prisma
   - NextJS
 title: pnpm 모노레포로 여러 제품을 한 팀처럼 묶은 이유
 created: 2025-02-14 10:00
 modified: 2025-02-14 10:00
-uploaded: "false"
 ---
 
 # Intro

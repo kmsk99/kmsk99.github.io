@@ -1,14 +1,13 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - NextJS
+  - Proxy
+  - API
   - Security
-  - Frontend
+  - CORS
 title: 공공데이터 대학 API 프록시를 만들며 챙긴 보안 옵션
 created: 2025-10-09 14:06
 modified: 2025-10-09 14:06
-uploaded: "false"
 ---
 
 # Intro

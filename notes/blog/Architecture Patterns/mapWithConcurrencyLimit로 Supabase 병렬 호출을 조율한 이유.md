@@ -1,14 +1,13 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - Supabase
+  - Concurrency
   - Performance
+  - NodeJS
   - Backend
 title: mapWithConcurrencyLimit로 Supabase 병렬 호출을 조율한 이유
 created: 2025-10-09 14:06
 modified: 2025-10-09 14:06
-uploaded: "false"
 ---
 
 # Intro

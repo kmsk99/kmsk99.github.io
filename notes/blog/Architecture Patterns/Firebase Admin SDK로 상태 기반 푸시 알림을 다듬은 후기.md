@@ -1,16 +1,13 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - Firebase
-  - PushNotification
-  - NestJS
+  - AdminSDK
+  - PushNotifications
   - Backend
-  - Mobile
+  - NestJS
 title: Firebase Admin SDK로 상태 기반 푸시 알림을 다듬은 후기
 created: 2025-02-14 10:40
 modified: 2025-02-14 10:40
-uploaded: "false"
 ---
 
 # Intro

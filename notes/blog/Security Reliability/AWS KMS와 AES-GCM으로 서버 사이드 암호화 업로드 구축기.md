@@ -1,17 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
-  - Encryption
   - AWS
+  - KMS
+  - AES-GCM
   - Supabase
+  - Uploads
   - Security
-  - CICD
-  - Performance
 title: AWS KMS와 AES-GCM으로 서버 사이드 암호화 업로드 구축기
 created: 2025-10-09 14:06
 modified: 2025-10-09 14:06
-uploaded: "false"
 ---
 
 # Intro

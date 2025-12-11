@@ -1,17 +1,13 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - NextJS
-  - Caching
-  - AWS
-  - OCR
-  - PDF
-  - AI
+  - Architecture
+  - EdgeRuntime
+  - NodeJS
+  - Performance
 title: Next.js Fluid Computing으로 서버 리듬을 조율한 이야기
 created: 2025-10-10 10:50
 modified: 2025-10-10 10:50
-uploaded: "false"
 ---
 
 # Intro

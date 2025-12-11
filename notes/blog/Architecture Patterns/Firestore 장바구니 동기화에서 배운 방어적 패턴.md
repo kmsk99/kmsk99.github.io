@@ -1,17 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - Firestore
-  - Firebase
+  - Cart
+  - Ecommerce
+  - DataIntegrity
   - NextJS
-  - Payment
   - Backend
-  - Frontend
 title: Firestore 장바구니 동기화에서 배운 방어적 패턴
 created: 2025-10-09 10:30
 modified: 2025-10-09 10:30
-uploaded: "false"
 ---
 
 # Intro

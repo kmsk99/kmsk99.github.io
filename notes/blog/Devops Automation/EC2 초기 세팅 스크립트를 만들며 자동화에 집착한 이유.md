@@ -1,16 +1,13 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - AWS
+  - EC2
   - Automation
-  - GitHubActions
+  - Shell
   - DevOps
-  - Tooling
 title: EC2 초기 세팅 스크립트를 만들며 자동화에 집착한 이유
 created: 2024-11-28 10:30
 modified: 2024-11-28 10:30
-uploaded: "false"
 ---
 
 # Intro

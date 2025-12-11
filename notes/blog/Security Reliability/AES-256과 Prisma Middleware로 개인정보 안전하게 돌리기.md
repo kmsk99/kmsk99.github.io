@@ -1,17 +1,14 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
-  - Encryption
   - Prisma
-  - NestJS
-  - Security
-  - Cron
+  - AES
+  - Encryption
   - Backend
+  - Security
+  - NestJS
 title: AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기
 created: 2025-02-14 10:30
 modified: 2025-02-14 10:30
-uploaded: "false"
 ---
 
 # Intro

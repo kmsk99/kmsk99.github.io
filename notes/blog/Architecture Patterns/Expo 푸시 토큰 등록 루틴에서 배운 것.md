@@ -1,17 +1,13 @@
 ---
 tags:
-  - Engineering
-  - TechDeepDive
   - Expo
-  - PushNotification
+  - PushNotifications
   - Supabase
-  - Android
-  - iOS
-  - Performance
+  - Mobile
+  - Reliability
 title: Expo 푸시 토큰 등록 루틴에서 배운 것
 created: 2024-11-27 10:00
 modified: 2024-11-27 10:00
-uploaded: "false"
 ---
 
 # Intro
