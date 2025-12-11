@@ -1,42 +1,91 @@
 ---
+import { SITE, absoluteUrl } from '../config/seo';
+
+type StructuredData = Record<string, any> | Record<string, any>[];
+
 interface Props {
 	title?: string;
 	description?: string;
 	image?: string;
 	type?: 'website' | 'article';
+	canonical?: string;
+	structuredData?: StructuredData;
+	noindex?: boolean;
+	publishedTime?: string;
+	modifiedTime?: string;
+	tags?: string[];
+	locale?: string;
+	siteName?: string;
 }
 
 const {
-	title = '김민석 · Astro 포트폴리오',
-	description = '김민석의 포트폴리오와 기술 블로그.',
+	title = SITE.title,
+	description = SITE.description,
 	image,
 	type = 'website',
+	canonical,
+	structuredData,
+	noindex = false,
+	publishedTime,
+	modifiedTime,
+	tags = [],
+	locale = SITE.locale,
+	siteName = SITE.siteName,
 } = Astro.props as Props;
 
-const canonical = Astro.site
-	? new URL(`${Astro.url.pathname}${Astro.url.search}`, Astro.site).toString()
-	: undefined;
+const siteUrl = Astro.site ?? SITE.url;
+const canonicalUrl =
+	canonical ??
+	(siteUrl ? new URL(`${Astro.url.pathname}${Astro.url.search}`, siteUrl).toString() : undefined);
 
-const resolvedImage = image
-	? image.startsWith('http')
-		? image
-		: Astro.site
-			? new URL(image, Astro.site).toString()
-			: image
-	: undefined;
+const resolvedImage = absoluteUrl(image ?? SITE.defaultImage, siteUrl);
+const robots = noindex ? 'noindex, nofollow' : 'index, follow';
+const isArticle = type === 'article';
+
+const structuredArray = Array.isArray(structuredData)
+	? structuredData.filter(Boolean)
+	: structuredData
+		? [structuredData]
+		: [];
+
+const hasWebSiteLd = structuredArray.some((item) => item?.['@type'] === 'WebSite');
+if (!hasWebSiteLd && siteUrl) {
+	structuredArray.unshift({
+		'@context': 'https://schema.org',
+		'@type': 'WebSite',
+		url: siteUrl,
+		name: SITE.title,
+		description: SITE.description,
+		inLanguage: 'ko',
+	});
+}
 ---
 
 <title>{title}</title>
 <meta name="description" content={description} />
-{canonical && <link rel="canonical" href={canonical} />}
+<meta name="robots" content={robots} />
+{canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 <meta property="og:type" content={type} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-{canonical && <meta property="og:url" content={canonical} />}
+{canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
 {resolvedImage && <meta property="og:image" content={resolvedImage} />}
-<meta property="og:site_name" content="김민석 블로그" />
+{resolvedImage && <meta property="og:image:alt" content={title} />}
+<meta property="og:site_name" content={siteName} />
+<meta property="og:locale" content={locale} />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 {resolvedImage && <meta name="twitter:image" content={resolvedImage} />}
+{resolvedImage && <meta name="twitter:image:alt" content={title} />}
+{isArticle && publishedTime && <meta property="article:published_time" content={publishedTime} />}
+{isArticle && (modifiedTime ?? publishedTime) && (
+	<meta property="article:modified_time" content={modifiedTime ?? publishedTime} />
+)}
+{isArticle &&
+	tags?.map((tag) => <meta property="article:tag" content={tag} />)}
+
+{structuredArray.map((data, idx) => (
+	<script type="application/ld+json">{JSON.stringify(data)}</script>
+))}
 

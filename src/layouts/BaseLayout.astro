@@ -2,21 +2,100 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Seo from '../components/Seo.astro';
+import { SITE, absoluteUrl } from '../config/seo';
 import '../styles/global.css';
 import '../styles/theme.css';
+
+interface Breadcrumb {
+	label: string;
+	url: string;
+}
 
 interface Props {
 	title?: string;
 	description?: string;
 	seoType?: 'website' | 'article';
 	image?: string;
+	publishedTime?: string;
+	modifiedTime?: string;
+	tags?: string[];
+	breadcrumbs?: Breadcrumb[];
+	noindex?: boolean;
 }
 
 const GA_ID = 'G-7Y4NLGNMD3';
 const isProd = import.meta.env.MODE === 'production';
-const defaultDescription = '김민석의 포트폴리오와 기술 블로그.';
-const { title = '김민석 · Astro 포트폴리오', description, seoType = 'website', image } =
-	Astro.props as Props;
+const {
+	title = SITE.title,
+	description = SITE.description,
+	seoType = 'website',
+	image,
+	publishedTime,
+	modifiedTime,
+	tags = [],
+	breadcrumbs = [],
+	noindex = false,
+} = Astro.props as Props;
+
+const siteUrl = Astro.site ?? SITE.url;
+const canonical = siteUrl ? new URL(`${Astro.url.pathname}${Astro.url.search}`, siteUrl).toString() : undefined;
+const resolvedImage = absoluteUrl(image ?? SITE.defaultImage, siteUrl);
+
+const breadcrumbStructured =
+	breadcrumbs.length > 0
+		? {
+				'@context': 'https://schema.org',
+				'@type': 'BreadcrumbList',
+				itemListElement: breadcrumbs.map((crumb, index) => ({
+					'@type': 'ListItem',
+					position: index + 1,
+					name: crumb.label,
+					item: absoluteUrl(crumb.url, siteUrl) ?? canonical,
+				})),
+		  }
+		: null;
+
+const structuredData = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'WebSite',
+		url: siteUrl,
+		name: SITE.title,
+		description: SITE.description,
+		inLanguage: 'ko',
+	},
+	...(breadcrumbStructured ? [breadcrumbStructured] : []),
+	...(seoType === 'article' && canonical
+		? [
+				{
+					'@context': 'https://schema.org',
+					'@type': 'BlogPosting',
+					headline: title,
+					description: description ?? SITE.description,
+					url: canonical,
+					mainEntityOfPage: canonical,
+					datePublished: publishedTime ?? undefined,
+					dateModified: modifiedTime ?? publishedTime ?? undefined,
+					author: SITE.author?.name
+						? {
+								'@type': 'Person',
+								name: SITE.author.name,
+								url: SITE.author.url ?? siteUrl,
+						  }
+						: undefined,
+					image: resolvedImage ? [resolvedImage] : undefined,
+					keywords: tags.length ? tags : undefined,
+					publisher: SITE.author?.name
+						? {
+								'@type': 'Person',
+								name: SITE.author.name,
+								url: SITE.author.url ?? siteUrl,
+						  }
+						: undefined,
+				},
+		  ]
+		: []),
+];
 ---
 
 <!doctype html>
@@ -27,7 +106,18 @@ const { title = '김민석 · Astro 포트폴리오', description, seoType = 'we
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="google-site-verification" content="N3LgsarXgf8bqg5HCpqkwSfmmdHjSp2crgpuW6Aopr8" />
-		<Seo title={title} description={description ?? defaultDescription} type={seoType} image={image} />
+		<Seo
+			title={title}
+			description={description ?? SITE.description}
+			type={seoType}
+			image={resolvedImage}
+			canonical={canonical}
+			structuredData={structuredData}
+			publishedTime={publishedTime}
+			modifiedTime={modifiedTime}
+			tags={tags}
+			noindex={noindex}
+		/>
 		{isProd && GA_ID && (
 			<>
 				<script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
