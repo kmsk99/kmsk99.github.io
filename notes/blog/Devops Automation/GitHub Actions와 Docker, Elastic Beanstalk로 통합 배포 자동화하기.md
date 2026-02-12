@@ -7,8 +7,8 @@ tags:
   - CI/CD
   - Monorepo
 title: GitHub Actions와 Docker, Elastic Beanstalk로 통합 배포 자동화하기
-created: 2025-02-14 10:20
-modified: 2025-02-14 10:20
+created: 2024-02-14 10:20
+modified: 2024-02-14 10:20
 ---
 
 # Intro

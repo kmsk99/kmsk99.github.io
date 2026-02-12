@@ -6,8 +6,8 @@ tags:
   - RBAC
   - Security
 title: App Router에서 Firebase Auth로 관리자 접근을 지키는 방법
-created: 2025-10-09 09:00
-modified: 2025-10-09 09:00
+created: 2024-10-09 09:00
+modified: 2024-10-09 09:00
 ---
 
 # Intro

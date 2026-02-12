@@ -7,8 +7,8 @@ tags:
   - Workflow
   - Security
 title: 역할 기반 승인 흐름 설계기 다단계 검증을 코드로 담다
-created: '2025-02-14 10:35'
-modified: '2025-02-14 10:35'
+created: '2024-02-14 10:35'
+modified: '2024-02-14 10:35'
 ---
 
 # Intro

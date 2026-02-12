@@ -6,8 +6,8 @@ tags:
   - Mobile
   - Reliability
 title: Expo 푸시 토큰 등록 루틴에서 배운 것
-created: '2024-11-27 10:00'
-modified: '2024-11-27 10:00'
+created: '2025-11-27 10:00'
+modified: '2025-11-27 10:00'
 ---
 
 # Intro

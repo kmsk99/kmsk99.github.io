@@ -7,8 +7,8 @@ tags:
   - Mobile
   - Backend
 title: React Native 파일 업로드 파이프라인을 정리한 기록
-created: 2024-11-27 13:00
-modified: 2024-11-27 13:00
+created: 2025-11-27 13:00
+modified: 2025-11-27 13:00
 ---
 
 # Intro

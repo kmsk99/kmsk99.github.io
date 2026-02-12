@@ -7,8 +7,8 @@ tags:
   - Reservations
   - Backend
 title: NestJS GraphQL 예약 도메인에서 실시간성을 확보한 과정
-created: 2025-02-14 10:05
-modified: 2025-02-14 10:05
+created: 2024-02-14 10:05
+modified: 2024-02-14 10:05
 ---
 
 # Intro

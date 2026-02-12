@@ -7,8 +7,8 @@ tags:
   - Offline
   - Mobile
 title: PWA로 모바일 사용성을 챙기며 S3 업로드와 오프라인 캐싱을 조율한 기록
-created: '2025-02-14 10:15'
-modified: '2025-02-14 10:15'
+created: '2024-02-14 10:15'
+modified: '2024-02-14 10:15'
 ---
 
 # Intro

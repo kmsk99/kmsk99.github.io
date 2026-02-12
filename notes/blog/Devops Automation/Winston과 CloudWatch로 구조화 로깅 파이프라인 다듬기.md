@@ -7,8 +7,8 @@ tags:
   - GraphQL
   - DevOps
 title: Winston과 CloudWatch로 구조화 로깅 파이프라인 다듬기
-created: 2025-02-14 10:10
-modified: 2025-02-14 10:10
+created: 2024-02-14 10:10
+modified: 2024-02-14 10:10
 ---
 
 # Intro

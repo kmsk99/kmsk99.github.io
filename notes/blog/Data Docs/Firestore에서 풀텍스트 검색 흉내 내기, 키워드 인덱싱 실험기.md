@@ -5,8 +5,8 @@ tags:
   - Indexing
   - Backend
 title: Firestore에서 풀텍스트 검색 흉내 내기, 키워드 인덱싱 실험기
-created: 2025-10-09 09:30
-modified: 2025-10-09 09:30
+created: 2023-12-09 09:30
+modified: 2023-12-09 09:30
 ---
 
 # Intro

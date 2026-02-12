@@ -7,8 +7,8 @@ tags:
   - Security
   - NestJS
 title: AES-256과 Prisma Middleware로 개인정보 안전하게 돌리기
-created: 2025-02-14 10:30
-modified: 2025-02-14 10:30
+created: 2024-02-14 10:30
+modified: 2024-02-14 10:30
 ---
 
 # Intro

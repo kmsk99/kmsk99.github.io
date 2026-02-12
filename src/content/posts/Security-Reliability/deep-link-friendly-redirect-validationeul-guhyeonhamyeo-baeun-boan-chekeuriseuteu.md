@@ -6,8 +6,8 @@ tags:
   - Expo
   - Validation
 title: Deep Link Friendly Redirect Validation을 구현하며 배운 보안 체크리스트
-created: '2024-11-28 09:00'
-modified: '2024-11-28 09:00'
+created: '2025-11-28 09:00'
+modified: '2025-11-28 09:00'
 ---
 
 # Intro

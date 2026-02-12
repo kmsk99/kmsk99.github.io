@@ -7,8 +7,8 @@ tags:
   - Firebase
   - ReactNative
 title: 공공기관 위치 데이터를 우리가 쓰는 방식으로 정제하기
-created: '2025-10-09 11:00'
-modified: '2025-10-09 15:15'
+created: '2023-03-09 11:00'
+modified: '2023-03-09 15:15'
 ---
 
 # Intro

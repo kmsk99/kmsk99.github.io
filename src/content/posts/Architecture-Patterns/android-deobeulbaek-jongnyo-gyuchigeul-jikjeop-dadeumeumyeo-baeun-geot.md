@@ -7,8 +7,8 @@ tags:
   - UX
   - Mobile
 title: Android 더블백 종료 규칙을 직접 다듬으며 배운 것
-created: '2024-11-27 12:40'
-modified: '2024-11-27 12:40'
+created: '2025-11-27 12:40'
+modified: '2025-11-27 12:40'
 ---
 
 # Intro

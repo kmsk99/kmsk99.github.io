@@ -91,20 +91,52 @@ const pageCount = Math.max(1, Math.ceil(combined.length / pageSize));
 		<Sidebar />
 
 		<div class="main-column">
-			<section class="hero">
-				<div>
-					<p class="eyebrow">Fullstack Developer · CTO @ Portzone</p>
-					<h1>김민석 · 문제를 제품으로 잇는 엔지니어</h1>
-					<p class="lede" style="margin-bottom: 10px;">
-						아이디어를 빠르게 검증하고, 마지막 20%까지 품질을 지키는 것을 즐깁니다. 기획부터 프론트·백엔드·데이터·클라우드까지 직접
-						잇는 풀스택 흐름을 만들고 있습니다.
-					</p>
-					<ul class="lede" style="list-style: disc; padding-left: 18px; margin: 0 0 14px;">
-						<li>포트존 CTO · 서강대 데이터사이언스/AI 전공</li>
-						<li>관심사: AI 추천·강화학습, Next.js·NestJS, 보안·자동화 설계</li>
-					</ul>
-				</div>
-			</section>
+		<section class="hero">
+			<div>
+				<p class="eyebrow">Fullstack Developer · CTO @ Portzone</p>
+				<h1>김민석 · 문제를 제품으로 잇는 엔지니어</h1>
+				<p class="lede" style="margin-bottom: 10px;">
+					아이디어를 빠르게 검증하고, 마지막 20%까지 품질을 지키는 것을 즐깁니다. 기획부터 프론트·백엔드·데이터·클라우드까지 직접
+					잇는 풀스택 흐름을 만들고 있습니다.
+				</p>
+				<p class="lede" style="margin-bottom: 10px;">
+					포트존 CTO · 서강대 데이터사이언스/AI 전공
+				</p>
+				<details class="hero-journey" style="margin-bottom: 14px;">
+					<summary class="lede" style="cursor: pointer; font-weight: 600;">관심사의 여정 펼쳐보기</summary>
+					<div class="journey-timeline" style="margin-top: 10px; padding-left: 16px; border-left: 2px solid var(--clr-border, #e2e8f0);">
+						<div class="journey-item" style="margin-bottom: 12px; padding-left: 12px;">
+							<p class="journey-year" style="font-weight: 700; margin: 0;">2020 — 군 복무 중, 개발에 눈을 뜨다</p>
+							<p class="lede" style="margin: 2px 0 0;">육군 화생방 소대장으로 복무하면서 퇴근 후 Codecademy로 데이터 사이언스와 머신러닝을 독학했습니다. Python으로 데이터 분석과 TensorFlow 딥러닝 모델을 만들며, 기술로 문제를 푸는 재미에 빠졌습니다.</p>
+						</div>
+						<div class="journey-item" style="margin-bottom: 12px; padding-left: 12px;">
+							<p class="journey-year" style="font-weight: 700; margin: 0;">2021 — 전역, 풀스택 개발 입문</p>
+							<p class="lede" style="margin: 2px 0 0;">전역 후 Codecademy Full-Stack Engineer 과정과 Android 개발을 거치며 웹·앱 양쪽의 기초를 다졌습니다. 정보처리기사를 취득하고, 정보통신산업진흥원 AI 중급 과정을 수료하며 개발자로서의 방향을 잡았습니다.</p>
+						</div>
+						<div class="journey-item" style="margin-bottom: 12px; padding-left: 12px;">
+							<p class="journey-year" style="font-weight: 700; margin: 0;">2022 — AI 대회 입상과 창업 준비</p>
+							<p class="lede" style="margin: 2px 0 0;">LG Aimers AI 해커톤 우수상, 빅데이터 스타트업 경진대회 특별상을 수상하며 데이터·AI 역량을 검증했습니다. POSCO 창업 인큐베이팅 스쿨에서 사업계획서 우수상을 받고, 링크드인에서 만난 동업자와 함께 창업의 첫 걸음을 내딛었습니다. React와 Next.js로 첫 웹 서비스를 만들고, Docker 위에서 돌아가는 백엔드를 처음 구성하며 기초를 쌓았습니다.</p>
+						</div>
+						<div class="journey-item" style="margin-bottom: 12px; padding-left: 12px;">
+							<p class="journey-year" style="font-weight: 700; margin: 0;">2023 — 담타 개발과 포트존 창업</p>
+							<p class="lede" style="margin: 2px 0 0;">React Native와 Firebase 서버리스 백엔드로 흡연 구역 지도 앱 <em>담타</em>를 만들어 앱스토어에 출시했습니다. 대용량 지도 마커 클러스터링, 공공 데이터 정제, 실시간 위치 기반 서비스를 직접 구현하며 모바일 제품을 처음부터 끝까지 굴려봤습니다. 같은 해 5월 포트존을 공동 창업하고, 동아리-기업 매칭 플랫폼 <em>아이러브클럽</em> 개발에 착수했습니다. 또한 서강대 정보통신대학원 데이터사이언스 인공지능학과에 입학하였습니다.</p>
+						</div>
+						<div class="journey-item" style="margin-bottom: 12px; padding-left: 12px;">
+							<p class="journey-year" style="font-weight: 700; margin: 0;">2024 — 아이러브클럽, 보안과 DevOps에 깊이 파기</p>
+							<p class="lede" style="margin: 2px 0 0;">NestJS + GraphQL + Prisma로 예약·승인 시스템을 설계하고, AES-256 양방향 암호화와 역할 기반 다단계 검증으로 보안 아키텍처를 다졌습니다. pnpm 모노레포와 GitHub Actions + Docker + Elastic Beanstalk CI/CD로 배포 파이프라인을 표준화하고, Winston + CloudWatch 구조화 로깅, HeadVer 버저닝, PWA + S3 업로드까지 운영 자동화의 기반을 만들었습니다.</p>
+						</div>
+						<div class="journey-item" style="margin-bottom: 12px; padding-left: 12px;">
+							<p class="journey-year" style="font-weight: 700; margin: 0;">2025 — 스쿨밋, React Native와 AI 자동화</p>
+							<p class="lede" style="margin: 2px 0 0;">동문 네트워킹 플랫폼 <em>스쿨밋</em>을 React Native + Expo + Supabase로 구축하며, 카카오 OAuth, 토스 결제 위젯, 네이버 지도 SDK, 옵티미스틱 실시간 채팅까지 네이티브 앱의 디테일을 파고들었습니다. CLOVA OCR + AWS Bedrock LLM으로 학력 증빙 자동 검증 파이프라인을 만들고, AWS KMS 이중 암호화, Feature-Sliced Design 도메인 분해, 결제 웹훅 이중 검증까지—"안전하게 자동화하는" 쪽으로 무게 중심이 옮겨갔습니다.</p>
+						</div>
+						<div class="journey-item" style="padding-left: 12px;">
+							<p class="journey-year" style="font-weight: 700; margin: 0;">2026 — 퍼프존, 클라우드 인프라 현대화</p>
+							<p class="lede" style="margin: 2px 0 0;">담타의 경험을 살려 흡연/금연 구역 지도 앱 <em>퍼프존</em>을 새로 설계하였습니다. 레거시 시스템을 Elastic Beanstalk에서 ECS Fargate로 백엔드를 마이그레이션하며 컨테이너 오케스트레이션과 비용 최적화에 집중하고 있습니다. 관심사는 계속 흘러가지만, "문제를 정확히 정의하고, 작동하는 것을 빠르게 만든 뒤, 마지막 20%에서 품질을 지킨다"는 원칙은 변하지 않습니다.</p>
+						</div>
+					</div>
+				</details>
+			</div>
+		</section>
 
 			<section class="block">
 				<header class="block__header">

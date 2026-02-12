@@ -7,8 +7,8 @@ tags:
   - NextJS
   - Backend
 title: Firestore 장바구니 동기화에서 배운 방어적 패턴
-created: 2025-10-09 10:30
-modified: 2025-10-09 10:30
+created: 2024-10-09 10:30
+modified: 2024-10-09 10:30
 ---
 
 # Intro

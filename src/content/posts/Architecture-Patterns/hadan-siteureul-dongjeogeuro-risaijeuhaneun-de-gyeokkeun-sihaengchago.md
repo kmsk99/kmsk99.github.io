@@ -7,8 +7,8 @@ tags:
   - Expo
   - Mobile
 title: 하단 시트를 동적으로 리사이즈하는 데 겪은 시행착오
-created: '2024-11-27 11:00'
-modified: '2024-11-27 11:00'
+created: '2025-11-27 11:00'
+modified: '2025-11-27 11:00'
 ---
 
 # Intro

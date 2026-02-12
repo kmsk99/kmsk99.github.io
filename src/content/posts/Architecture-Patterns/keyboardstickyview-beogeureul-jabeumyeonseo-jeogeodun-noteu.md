@@ -6,8 +6,8 @@ tags:
   - Expo
   - Mobile
 title: KeyboardStickyView 버그를 잡으면서 적어둔 노트
-created: '2024-11-27 11:20'
-modified: '2024-11-27 11:20'
+created: '2025-11-27 11:20'
+modified: '2025-11-27 11:20'
 ---
 
 # Intro

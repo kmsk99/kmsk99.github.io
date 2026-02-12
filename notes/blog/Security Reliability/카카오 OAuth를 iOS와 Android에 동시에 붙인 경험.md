@@ -8,8 +8,8 @@ tags:
   - iOS
   - Auth
 title: 카카오 OAuth를 iOS와 Android에 동시에 붙인 경험
-created: 2024-11-27 12:00
-modified: 2024-11-27 12:00
+created: 2025-11-27 12:00
+modified: 2025-11-27 12:00
 ---
 
 # Intro
