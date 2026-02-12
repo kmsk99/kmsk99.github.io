@@ -106,6 +106,8 @@ const structuredData = [
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="google-site-verification" content="N3LgsarXgf8bqg5HCpqkwSfmmdHjSp2crgpuW6Aopr8" />
+		<link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
+		<link rel="sitemap" href="/sitemap-index.xml" />
 		<Seo
 			title={title}
 			description={description ?? SITE.description}
@@ -120,39 +122,12 @@ const structuredData = [
 		/>
 		{isProd && GA_ID && (
 			<>
-				<script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
-				<script>
-					{`
-						window.dataLayer = window.dataLayer || [];
-						function gtag(){dataLayer.push(arguments);}
-						gtag('js', new Date());
-						gtag('config', '${GA_ID}');
-
-						const trackPageView = (url) => {
-							if (!window.gtag) return;
-							gtag('event', 'page_view', {
-								page_path: url,
-							});
-						};
-
-						// 초기 로드
-						trackPageView(location.pathname + location.search);
-
-						// SPA 스타일 내비게이션 대응 (history API 감지)
-						const originalPushState = history.pushState;
-						const originalReplaceState = history.replaceState;
-						const handleRouteChange = () => trackPageView(location.pathname + location.search);
-
-						history.pushState = function (...args) {
-							originalPushState.apply(this, args);
-							handleRouteChange();
-						};
-						history.replaceState = function (...args) {
-							originalReplaceState.apply(this, args);
-							handleRouteChange();
-						};
-						window.addEventListener('popstate', handleRouteChange);
-					`}
+				<script is:inline src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} async></script>
+				<script is:inline define:vars={{ GA_ID }}>
+					window.dataLayer = window.dataLayer || [];
+					function gtag(){dataLayer.push(arguments);}
+					gtag('js', new Date());
+					gtag('config', GA_ID);
 				</script>
 			</>
 		)}

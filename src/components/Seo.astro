@@ -39,7 +39,7 @@ const canonicalUrl =
 	(siteUrl ? new URL(`${Astro.url.pathname}${Astro.url.search}`, siteUrl).toString() : undefined);
 
 const resolvedImage = absoluteUrl(image ?? SITE.defaultImage, siteUrl);
-const robots = noindex ? 'noindex, nofollow' : 'index, follow';
+const robots = noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
 const isArticle = type === 'article';
 
 const structuredArray = Array.isArray(structuredData)
@@ -65,12 +65,16 @@ if (!hasWebSiteLd && siteUrl) {
 <meta name="description" content={description} />
 <meta name="robots" content={robots} />
 {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+{tags.length > 0 && <meta name="keywords" content={tags.join(', ')} />}
+<meta name="author" content={SITE.author?.name ?? ''} />
 <meta property="og:type" content={type} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
 {resolvedImage && <meta property="og:image" content={resolvedImage} />}
 {resolvedImage && <meta property="og:image:alt" content={title} />}
+{resolvedImage && <meta property="og:image:width" content="1200" />}
+{resolvedImage && <meta property="og:image:height" content="630" />}
 <meta property="og:site_name" content={siteName} />
 <meta property="og:locale" content={locale} />
 <meta name="twitter:card" content="summary_large_image" />
@@ -82,10 +86,11 @@ if (!hasWebSiteLd && siteUrl) {
 {isArticle && (modifiedTime ?? publishedTime) && (
 	<meta property="article:modified_time" content={modifiedTime ?? publishedTime} />
 )}
+{isArticle && SITE.author?.name && <meta property="article:author" content={SITE.author.name} />}
 {isArticle &&
 	tags?.map((tag) => <meta property="article:tag" content={tag} />)}
 
 {structuredArray.map((data, idx) => (
-	<script type="application/ld+json">{JSON.stringify(data)}</script>
+	<script type="application/ld+json" set:html={JSON.stringify(data)} />
 ))}
 

@@ -1,4 +1,13 @@
 ---
+tags:
+  - AWS
+  - ECS
+  - Docker
+  - Fargate
+  - ElasticBeanstalk
+  - Migration
+  - DevOps
+  - CI/CD
 created: 2026-02-11 02:34
 modified: 2026-02-12 03:58
 ---
@@ -80,3 +89,13 @@ Lesson Learned:
 - AWS IAM 권한 설정은 언제나 까다롭지만, 보안의 핵심이다.
 - 로그는 거짓말을 하지 않는다. 에러 메시지를 꼼꼼히 읽자.
 - 레거시는 부끄러운 과거가 아니라, 더 나은 구조로 가기 위한 발판이다.
+
+# Reference
+- https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html
+- https://docs.aws.amazon.com/AmazonECS/latest/bestpracticesguide/intro.html
+- https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html
+
+# 연결문서
+- [[GitHub Actions와 Docker, Elastic Beanstalk로 통합 배포 자동화하기]]
+- [[EC2 초기 세팅 스크립트를 만들며 자동화에 집착한 이유]]
+- [[Winston과 CloudWatch로 구조화 로깅 파이프라인 다듬기]]
