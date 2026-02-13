@@ -92,5 +92,5 @@ CI에서는 `pnpm lint`와 `pnpm tsc`만 돌립니다. 포맷은 pre-commit에�
 
 # 연결문서
 - [Husky를 활용한 HeadVer 버전 관리 - GitHub Actions에서 로컬 커밋 자동화로 이전](/post/huskyreul-hwallyonghan-headver-beojeon-gwalli-github-actionseseo-rokeol-keomit-jadonghwaro-ijeon)
-- [나만의 SVG 아이콘 라이브러리 만들기 여정기 (3편) - GitHub Actions로 날개 달기, 자동 배포 시스템 구축!](/post/namanui-svg-aikon-raibeureori-mandeulgi-yeojeonggi-3pyeon-github-actionsro-nalgae-dalgi-jadong-baepo-siseutem-guchuk)
-- [나만의 SVG 아이콘 라이브러리 만들기 여정기 (1편) - React 컴포넌트 변환과 컴파일 자동화](/post/namanui-svg-aikon-raibeureori-mandeulgi-yeojeonggi-1pyeon-react-keomponeonteu-byeonhwangwa-keompail-jadonghwa)
+- [SVG 아이콘을 React 컴포넌트 라이브러리로 만들어 자동 배포하기](/post/svg-aikoneul-react-keomponeonteu-raibeureoriro-mandeureo-jadong-baepohagi)
+- [SVG 아이콘 라이브러리를 React Native에서도 쓸 수 있게 만들기](/post/svg-aikon-raibeureorireul-react-nativeeseodo-sseul-su-itge-mandeulgi)

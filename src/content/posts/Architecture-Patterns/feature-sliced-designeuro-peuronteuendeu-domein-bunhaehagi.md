@@ -70,6 +70,7 @@ export function ChatRoomPage() {
 - https://feature-sliced.design/
 
 # 연결문서
-- [나만의 SVG 아이콘 라이브러리 만들기 여정기 (1편) - React 컴포넌트 변환과 컴파일 자동화](/post/namanui-svg-aikon-raibeureori-mandeulgi-yeojeonggi-1pyeon-react-keomponeonteu-byeonhwangwa-keompail-jadonghwa)
+- [SVG 아이콘을 React 컴포넌트 라이브러리로 만들어 자동 배포하기](/post/svg-aikoneul-react-keomponeonteu-raibeureoriro-mandeureo-jadong-baepohagi)
+- [SVG 아이콘 라이브러리를 React Native에서도 쓸 수 있게 만들기](/post/svg-aikon-raibeureorireul-react-nativeeseodo-sseul-su-itge-mandeulgi)
 - JavaScript 프로덕트에서 HeadVer 버저닝 시스템을 적용하기
 - [ESLint·Prettier·Husky 자동화를 정착시키기까지](/post/eslint-prettier-husky-jadonghwareul-jeongchaksikigikkaji)
