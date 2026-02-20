@@ -85,3 +85,12 @@ title: 창업 최대의 고난 - 공동 창업자 만나기 -
 그리고 창업을 하려는 사람들에게 말해주고 싶은 것이 하나 있다면 ' 사람을 구하고 싶다면 먼저 연락해라 '. 나는 공동창업자를 만난 이 경험 이후로, 시간 날 때마다 이전에 알고 지내던 사람들에게 먼저 연락하려고 노력 중이다.
 
 ~~물론 나도 잘 안된다~~
+
+# Reference
+
+- https://www.posco.co.kr/
+
+# 연결문서
+- [스타트업 시작부터 투자를 받기까지](/post/seutateueop-sijakbuteo-tujareul-batgikkaji)
+- [스타트업의 공동창업자 CTO로서](/post/seutateueobui-gongdongchangeopja-ctoroseo)
+- [외주 프로젝트는 어떻게 실패했는가](/post/oeju-peurojekteuneun-eotteoke-silpaehaenneunga)

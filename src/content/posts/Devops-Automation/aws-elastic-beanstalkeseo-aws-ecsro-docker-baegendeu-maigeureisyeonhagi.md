@@ -362,5 +362,5 @@ Lesson Learned:
 
 # 연결문서
 - [GitHub Actions와 Docker, Elastic Beanstalk로 통합 배포 자동화하기](/post/github-actionswa-docker-elastic-beanstalkro-tonghap-baepo-jadonghwahagi)
-- [EC2 초기 세팅 스크립트를 만들며 자동화에 집착한 이유](/post/ec2-chogi-seting-seukeuripteureul-mandeulmyeo-jadonghwae-jipchakan-iyu)
-- [Winston과 CloudWatch로 구조화 로깅 파이프라인 다듬기](/post/winstongwa-cloudwatchro-gujohwa-roging-paipeurain-dadeumgi)
+- [EC2 초기 세팅 자동화 스크립트](/post/ec2-chogi-seting-jadonghwa-seukeuripteu)
+- [Winston + CloudWatch 구조화 로깅 구현](/post/winston-cloudwatch-gujohwa-roging-guhyeon)

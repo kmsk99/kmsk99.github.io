@@ -15,7 +15,7 @@ title: SVG 아이콘을 React 컴포넌트 라이브러리로 만들어 자동 �
 
 프로젝트에서 사용할 아이콘 세트를 인터넷에서 구매했다. 디자인 퀄리티가 좋고 스타일도 다양해서 만족스러웠는데, 문제는 제공되는 형태가 SVG 파일 묶음뿐이었다는 것이다. 공식 npm 패키지가 없었다. React 프로젝트에서 아이콘을 쓰려면 SVG 파일을 직접 import하고, 매번 width/height/fill 같은 속성을 일일이 지정해야 했다. 아이콘이 수십 개일 때는 참을 만했는데, 수백 개를 넘어가면서 관리가 고통스러워졌다. TypeScript 환경에서 props 타입 체크도 되지 않으니 런타임에서 깨지는 경우도 있었다.
 
-이대로는 안 되겠다 싶어서, 구매한 SVG 파일들을 React 컴포넌트로 자동 변환하고, 스타일별로 패키지를 분리해서, GitHub Actions로 자동 배포하는 시스템을 직접 구축하기로 했다. 공식 패키지가 없으면 만들면 된다. 이 글은 그 과정의 기록이다.
+이대로는 안 되겠다 싶어서, 구매한 SVG 파일들을 React 컴포넌트로 자동 변환하고, 스타일별로 패키지를 분리해서, GitHub Actions로 자동 배포하는 시스템을 직접 구축하기로 했다. 공식 패키지가 없으면 만들면 된다.
 
 ---
 
@@ -798,5 +798,5 @@ Lesson Learned:
 
 # 연결문서
 - [SVG 아이콘 라이브러리를 React Native에서도 쓸 수 있게 만들기](/post/svg-aikon-raibeureorireul-react-nativeeseodo-sseul-su-itge-mandeulgi)
-- [ESLint·Prettier·Husky 자동화를 정착시키기까지](/post/eslint-prettier-husky-jadonghwareul-jeongchaksikigikkaji)
-- [Husky를 활용한 HeadVer 버전 관리 - GitHub Actions에서 로컬 커밋 자동화로 이전](/post/huskyreul-hwallyonghan-headver-beojeon-gwalli-github-actionseseo-rokeol-keomit-jadonghwaro-ijeon)
+- [ESLint + Prettier + Husky 자동화 구성](/post/eslint-prettier-husky-jadonghwa-guseong)
+- Husky를 활용한 HeadVer 버전 관리 - GitHub Actions에서 로컬 커밋 자동화로 이전

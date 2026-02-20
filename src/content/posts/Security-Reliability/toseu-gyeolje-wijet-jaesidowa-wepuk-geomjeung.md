@@ -1,0 +1,97 @@
+---
+tags:
+  - Payment
+  - Webhook
+  - Security
+  - Retry
+  - Frontend
+  - Backend
+title: 토스 결제 위젯 재시도와 웹훅 검증
+created: '2025-10-09 14:06'
+modified: '2025-10-09 14:06'
+---
+
+결제 버튼을 눌렀는데 아무 반응이 없을 때만큼 식은땀이 흐르는 순간이 없다. 테스트 중 모바일 네트워크에서 결제 위젯이 멈추는 현상을 발견했고, 프런트엔드와 백엔드 모두에 자동 재시도와 웹훅 이중 검증을 도입해 사용자가 느끼는 불확실성을 줄였다.
+
+## 재시도와 검증 전략
+- 프런트에서는 위젯을 리셋하고 새 주문 번호를 발급해 최대 3회까지 자동 재시도를 돌린다.
+- 백엔드는 서명 검증과 재조회 두 단계를 거쳐 웹훅 위변조를 차단한다.
+- 결제 완료 시 좌석 수와 중복 신청 여부를 다시 확인해 엣지 케이스를 막았다.
+
+UI에서 타임아웃을 줄이고 싶어서 1초 간격으로 최대 세 번 위젯을 재초기화하는 단순 전략을 택했다. 복잡한 큐보다 확실히 안정적이었다. `isRetrying`, `retryCount`, `hasPaymentError` 같은 플래그를 만들어 버튼 라벨과 비활성화 조건을 명확하게 했다. 결제 대행사에서 보내는 웹훅은 HMAC과 전송 시간을 모두 확인해야 믿을 수 있다고 판단해, 검증 로직을 별도 함수로 분리했다.
+
+## 위젯 재초기화와 자동 재시도
+UI에서 결제 위젯 상태를 추적하며 실패 시 자동으로 재초기화했다. 결제 신청 컴포넌트에서는 `widgetResetKey`로 위젯을 강제 리마운트하고, `retryTimeoutRef`로 1초 후 `resetPaymentWidget`을 호출해 새 `orderId`로 재시도했다.
+
+```tsx
+const autoRetryPaymentWidget = () => {
+  const maxRetries = 3;
+
+  if (retryCount >= maxRetries) {
+    setHasPaymentError(true);
+    setIsRetrying(false);
+    return;
+  }
+
+  // 1초 후 재시도
+  retryTimeoutRef.current = setTimeout(() => {
+    resetPaymentWidget(true);
+  }, 1000);
+};
+
+// resetPaymentWidget 내부에서 setWidgetResetKey(prev => prev + 1), setTossOrderId(`meetup_${meetupId}_${Date.now()}`) 호출
+```
+
+위젯이 실패하면 1초 뒤 새 주문 번호로 렌더링을 강제하고, 재시도 횟수가 세 번을 넘으면 사용자에게 수동 재시도를 안내했다.
+
+## 결제 버튼 상태 관리
+버튼 라벨은 `isRetrying ? "결제 위젯 재시도 중... (1/3)" : "결제하기"` 식으로 상황을 드러낸다. 재시도 중에는 버튼을 비활성화해 중복 클릭을 막고, 실패했을 때만 수동 재시도 버튼을 따로 보여줬다.
+
+## 결제 전 유효성 검사
+결제 전에 서버로 좌석 수와 구매 가능 여부를 확인하는 API를 호출하고, 위젯에서 `onReady` 이벤트가 도착할 때까지 버튼을 비활성화했다.
+
+## 웹훅 서명과 시간 검증
+서버는 전송 시간이 5분 이내인지 확인하고, Base64 서명을 HMAC-SHA256으로 검증했다.
+
+```ts
+import crypto from 'crypto';
+
+export function verifyWebhookSignature(payload: string, signature: string) {
+  const expected = crypto
+    .createHmac('sha256', process.env.WEBHOOK_SECRET!)
+    .update(payload, 'utf8')
+    .digest('base64');
+
+  const actual = signature
+    .split(',')
+    .filter(value => value.startsWith('v1:'))
+    .map(value => value.replace('v1:', ''));
+
+  return actual.some(value =>
+    crypto.timingSafeEqual(
+      Buffer.from(value, 'base64'),
+      Buffer.from(expected, 'base64'),
+    ),
+  );
+}
+```
+
+첫 번째 서명이 통과하면 토스페이먼츠가 보낸 이벤트라는 전제하에 주문 상태를 재조회하고, 이미 처리된 주문인지 다시 확인했다.
+
+## 결제 완료 후 안전장치
+결제 완료 시 좌석 수와 중복 신청 여부를 다시 확인하고, 문제가 있으면 결제를 되돌릴 수 있도록 상세 로그를 남겼다.
+
+## 겪은 이슈와 해결
+- 위젯 스크립트 오류: `loadTossPayments`가 간헐적으로 실패해 위젯이 null이 됐다. `onError` 콜백에서 `autoRetryPaymentWidget()`을 바로 호출해 사용자 개입 없이 회복하도록 만들었다.
+- 서명 헤더 누락: 토스 테스트 웹훅에서 가끔 서명이 빈 문자열로 왔다. 검증 함수에서 필수 헤더가 없으면 바로 401을 반환하도록 해서 로그가 쌓이도록 했다.
+- 좌석 초과: 결제가 먼저 완료되고 좌석 수가 뒤늦게 줄어드는 바람에 "결제는 됐는데 참가가 안 된다"는 사고가 한번 났다. 이후 `validateSeatLimit`에서 실패하면 치명적인 에러 로그를 남기고 사용자에게 고객센터를 안내하도록 바꿨다.
+
+자동 재시도와 서명 검증을 붙인 뒤에는 테스트에서 발견되는 결제 실패가 눈에 띄게 줄었다. "결제 버튼이 안 눌립니다"라는 문구를 "위젯을 다시 로딩 중이에요"로 바꾼 것만으로도 사용자 경험이 개선됐다. 다음에는 토스 웹훅을 Supabase Functions로 라우팅해 장애 반경을 더 줄여볼 계획이다.
+
+# Reference
+- https://docs.tosspayments.com/reference/webhook
+
+# 연결문서
+- [mTLS 프록시로 결제 API 연동](/post/mtls-peuroksiro-gyeolje-api-yeondong)
+- [갤럭시 기기 Supabase 파일 업로드 안정화](/post/gaelleoksi-gigi-supabase-pail-eomnodeu-anjeonghwa)
+- [Nestjs + Prisma 백엔드에서 고객정보 양방향 암호화하기](/post/nestjs-prisma-baegendeueseo-gogaekjeongbo-yangbanghyang-amhohwahagi)

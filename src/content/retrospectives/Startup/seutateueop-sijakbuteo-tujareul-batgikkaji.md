@@ -84,3 +84,13 @@ title: 스타트업 시작부터 투자를 받기까지
 그러나 어떤 사유로든 사업이 끝나기 전까지는 최선을 다해서 사업을 이끌어가며, 사업으로 가능한한 높은 곳 까지 올라가보고 싶다.
 
 회고도 좀 더 자주 써야겠다. 오랜만에 쓰니 영 익숙치 않다.
+
+# Reference
+
+- https://www.posco.co.kr/
+- https://www.kised.or.kr/
+
+# 연결문서
+- [창업 최대의 고난 - 공동 창업자 만나기 -](/post/changeop-choedaeui-gonan-gongdong-changeopja-mannagi)
+- [스타트업의 공동창업자 CTO로서](/post/seutateueobui-gongdongchangeopja-ctoroseo)
+- [외주 프로젝트는 어떻게 실패했는가](/post/oeju-peurojekteuneun-eotteoke-silpaehaenneunga)

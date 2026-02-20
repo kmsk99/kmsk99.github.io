@@ -65,3 +65,12 @@ title: 스타트업의 공동창업자 CTO로서
 별로 한 이야기도 없는데 벌써 마치는 기분이지만, 천리길도 한걸음부터다. 앞으로도 최대한 많이 회고를 쓰면서 나 자신을 되돌아보고, 이를 공유하고자 한다.
 
 그리고 혹시 아는가. 이 회고들이 모여 나의 자서전이 될지.
+
+# Reference
+
+- https://www.posco.co.kr/
+
+# 연결문서
+- [창업 최대의 고난 - 공동 창업자 만나기 -](/post/changeop-choedaeui-gonan-gongdong-changeopja-mannagi)
+- [스타트업 시작부터 투자를 받기까지](/post/seutateueop-sijakbuteo-tujareul-batgikkaji)
+- [외주 프로젝트는 어떻게 실패했는가](/post/oeju-peurojekteuneun-eotteoke-silpaehaenneunga)
