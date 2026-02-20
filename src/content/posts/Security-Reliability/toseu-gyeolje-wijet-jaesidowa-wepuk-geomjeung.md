@@ -92,6 +92,6 @@ export function verifyWebhookSignature(payload: string, signature: string) {
 - https://docs.tosspayments.com/reference/webhook
 
 # 연결문서
-- [mTLS 프록시로 결제 API 연동](/post/mtls-peuroksiro-gyeolje-api-yeondong)
+- [토스 인앱 mTLS 프록시 서버 구축](/post/toseu-inaep-mtls-peuroksi-seobeo-guchuk)
 - [갤럭시 기기 Supabase 파일 업로드 안정화](/post/gaelleoksi-gigi-supabase-pail-eomnodeu-anjeonghwa)
 - [Nestjs + Prisma 백엔드에서 고객정보 양방향 암호화하기](/post/nestjs-prisma-baegendeueseo-gogaekjeongbo-yangbanghyang-amhohwahagi)
