@@ -7,8 +7,8 @@ tags:
   - NextJS
   - Backend
 title: Firestore 장바구니 동기화와 수량 보정
-created: '2024-10-09 10:30'
-modified: '2024-10-09 10:30'
+created: '2023-10-09'
+modified: '2023-10-25'
 ---
 
 # Intro

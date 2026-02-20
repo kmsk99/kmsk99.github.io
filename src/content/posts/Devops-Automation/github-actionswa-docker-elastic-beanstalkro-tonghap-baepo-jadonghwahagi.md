@@ -7,8 +7,8 @@ tags:
   - CI/CD
   - Monorepo
 title: 'GitHub Actions와 Docker, Elastic Beanstalk로 통합 배포 자동화하기'
-created: '2024-02-14 10:20'
-modified: '2024-02-14 10:20'
+created: '2023-05-21'
+modified: '2023-08-22'
 ---
 
 이전까지 백엔드는 EC2에 직접 배포하고, 프론트는 수동으로 S3에 올리는 방식이었다. 릴리스마다 SSH로 접속해 컨테이너를 재시작해야 했고, 실패하면 원복하기도 힘들었다. GitHub Actions와 Docker, Elastic Beanstalk를 묶어 자동 배포 파이프라인을 구축했다.

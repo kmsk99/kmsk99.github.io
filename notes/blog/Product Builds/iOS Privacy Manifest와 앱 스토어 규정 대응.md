@@ -6,8 +6,8 @@ tags:
   - ReactNative
   - AppStore
 title: iOS Privacy Manifest와 앱 스토어 규정 대응
-created: 2025-08-01 10:00
-modified: 2025-08-01 14:00
+created: 2025-09-02
+modified: 2025-09-02
 ---
 
 # 배경

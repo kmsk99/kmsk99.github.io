@@ -6,8 +6,8 @@ tags:
   - Expo
   - Mobile
 title: KeyboardStickyView 포커스 버그 수정
-created: 2025-11-27 11:20
-modified: 2025-11-27 11:20
+created: 2025-07-18
+modified: 2025-07-22
 ---
 
 # Intro

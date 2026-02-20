@@ -6,8 +6,8 @@ tags:
   - Mobile
   - UX
 title: Expo OTA 업데이트 안내 모달 구현
-created: '2025-11-27 11:40'
-modified: '2025-11-27 11:40'
+created: '2025-09-05'
+modified: '2025-09-11'
 ---
 
 # Intro

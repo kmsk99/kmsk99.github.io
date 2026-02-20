@@ -7,8 +7,8 @@ tags:
   - ReactNative
   - Expo
 title: Firebase에서 Supabase로 기술 스택 전환
-created: 2025-03-10 10:00
-modified: 2025-03-10 15:00
+created: 2025-11-05
+modified: 2025-11-17
 ---
 
 # 배경

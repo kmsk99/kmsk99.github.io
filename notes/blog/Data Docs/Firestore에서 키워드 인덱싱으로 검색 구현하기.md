@@ -6,8 +6,8 @@ tags:
   - Indexing
   - Backend
 title: Firestore에서 키워드 인덱싱으로 검색 구현하기
-created: 2023-12-22 03:15
-modified: 2023-12-22 03:50
+created: 2023-03-07
+modified: 2023-03-07
 ---
 
 # Intro

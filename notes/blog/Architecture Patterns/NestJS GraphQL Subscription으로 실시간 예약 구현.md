@@ -7,8 +7,8 @@ tags:
   - Reservations
   - Backend
 title: NestJS GraphQL Subscription으로 실시간 예약 구현
-created: 2024-02-14 10:05
-modified: 2024-02-14 10:05
+created: 2025-02-27
+modified: 2025-02-28
 ---
 
 # Intro

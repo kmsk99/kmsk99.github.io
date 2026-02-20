@@ -7,8 +7,8 @@ tags:
   - Automation
   - Docs
 title: Canvas + jsPDF로 인증 문서 자동 생성
-created: '2024-02-14 10:25'
-modified: '2024-02-14 10:25'
+created: '2023-06-19'
+modified: '2023-10-25'
 ---
 
 대량의 인증서를 PDF로 발급해야 하는 업무를 맡았다. 디자인이 조금만 바뀌어도 Figma에서 다시 편집해 일일이 PDF로 내보내곤 했다. 이 반복 작업을 끝내고 싶어 Canvas와 jsPDF를 엮어 자동 생성 파이프라인을 만들었다.

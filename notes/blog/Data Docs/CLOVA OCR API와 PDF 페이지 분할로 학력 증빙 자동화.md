@@ -7,8 +7,8 @@ tags:
   - Automation
   - Concurrency
 title: CLOVA OCR API와 PDF 페이지 분할로 학력 증빙 자동화
-created: 2025-10-09 14:06
-modified: 2025-10-09 14:06
+created: 2025-09-05
+modified: 2025-09-09
 ---
 
 학교 기록을 검증하려고 직접 PDF를 열어 정보를 옮겨 적다가 손목이 남아나지 않았다. Next.js API Route에서 CLOVA OCR API를 호출해 텍스트를 자동으로 추출하는 파이프라인을 만들었다. PDF를 페이지별로 쪼개고, 안전한 동시성으로 요청을 보내는 부분이 핵심이었다.

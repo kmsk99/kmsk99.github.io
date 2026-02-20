@@ -6,8 +6,8 @@ tags:
   - Mobile
   - UX
 title: React Native에 토스 결제 위젯 연동
-created: 2025-11-27 13:20
-modified: 2025-11-27 13:20
+created: 2025-07-10
+modified: 2025-08-20
 ---
 
 # 문제

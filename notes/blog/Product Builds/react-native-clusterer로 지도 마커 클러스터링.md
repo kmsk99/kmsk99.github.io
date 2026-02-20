@@ -6,8 +6,8 @@ tags:
   - Geo
   - Performance
 title: react-native-clusterer로 지도 마커 클러스터링
-created: 2023-03-09 12:00
-modified: 2023-03-09 15:20
+created: 2023-03-20
+modified: 2023-03-21
 ---
 
 # 문제

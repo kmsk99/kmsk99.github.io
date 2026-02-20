@@ -6,8 +6,8 @@ tags:
   - API
   - Next.js
 title: Naver와 Google 지오코딩 API 통합
-created: 2025-05-22 10:00
-modified: 2025-05-22 16:00
+created: 2025-11-11
+modified: 2025-11-12
 ---
 
 # 배경

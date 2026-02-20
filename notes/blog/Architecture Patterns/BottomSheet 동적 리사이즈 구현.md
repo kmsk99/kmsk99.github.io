@@ -7,8 +7,8 @@ tags:
   - Expo
   - Mobile
 title: BottomSheet 동적 리사이즈 구현
-created: 2025-11-27 11:00
-modified: 2025-11-27 11:00
+created: 2025-12-10
+modified: 2026-01-07
 ---
 
 # Intro

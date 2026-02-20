@@ -7,8 +7,8 @@ tags:
   - GraphQL
   - DevOps
 title: Winston + CloudWatch 구조화 로깅 구현
-created: '2024-02-14 10:10'
-modified: '2024-02-14 10:10'
+created: '2024-01-30'
+modified: '2024-02-26'
 ---
 
 새벽 배포 후에만 터지는 버그 때문에 여러 번 곤혹을 치렀다. 로그가 텍스트 한 줄로만 남고, CloudWatch에서는 인코딩 문제로 제대로 검색도 안 됐다. NestJS 기본 로거 대신 Winston을 중심으로 구조화 로깅과 CloudWatch 수집 파이프라인을 다시 짰다.

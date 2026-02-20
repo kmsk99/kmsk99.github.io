@@ -6,8 +6,8 @@ tags:
   - CSS
   - Swiper
 title: Intersection Observer로 스크롤 기반 애니메이션 구현
-created: '2025-09-01 10:00'
-modified: '2025-09-01 14:00'
+created: '2025-07-04'
+modified: '2025-07-04'
 ---
 
 # 배경

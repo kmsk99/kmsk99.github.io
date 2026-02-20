@@ -7,8 +7,8 @@ tags:
   - NextJS
   - TypeScript
 title: ESLint + Prettier + Husky 자동화 구성
-created: '2025-10-09 14:06'
-modified: '2025-10-09 14:06'
+created: '2025-03-11'
+modified: '2025-06-20'
 ---
 
 코드 리뷰에서 들여쓰기나 세미콜론 이야기가 나오면 기능 토론 시간이 순식간에 갉아먹힌다. `eslint.config.mjs`, `package.json`의 `lint-staged`, `.husky` 훅을 묶어 자동화 파이프라인을 정착시킨 과정을 정리했다.

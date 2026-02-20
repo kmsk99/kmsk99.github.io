@@ -8,8 +8,8 @@ tags:
   - Migration
   - DevOps
   - CI/CD
-created: '2026-02-11 02:34'
-modified: '2026-02-12 03:58'
+created: '2023-08-15'
+modified: '2023-08-22'
 title: AWS Elastic Beanstalk에서 AWS ECS로 docker 백엔드 마이그레이션하기
 ---
 

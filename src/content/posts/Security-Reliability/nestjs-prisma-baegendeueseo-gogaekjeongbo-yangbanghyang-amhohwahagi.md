@@ -7,8 +7,8 @@ tags:
   - Backend
   - Security
 title: Nestjs + Prisma 백엔드에서 고객정보 양방향 암호화하기
-created: '2024-06-03 10:44'
-modified: '2024-06-03 11:17'
+created: '2024-05-31'
+modified: '2024-06-03'
 ---
 
 # Intro

@@ -7,8 +7,8 @@ tags:
   - Recommendation
   - NextJs
 title: BERT 임베딩과 pgvector로 하이브리드 레시피 추천 구현
-created: 2024-11-10 10:00
-modified: 2024-11-10 15:00
+created: 2025-04-12
+modified: 2025-06-02
 ---
 
 # 배경

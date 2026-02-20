@@ -8,8 +8,8 @@ tags:
   - Migration
   - DevOps
   - CI/CD
-created: 2026-02-11 02:34
-modified: 2026-02-12 03:58
+created: 2023-08-15
+modified: 2023-08-22
 ---
 
 기존에 NestJS 와 Docker 를 이용해서 AWS Elastic Beanstalk 에 Docker 플랫폼을 통해 서버를 배포하여 운영해왔었다. 하지만 이 Elastic Beanstalk 는 EC2 인스턴스 위에 Docker 컨테이너를 띄우는 방식이라 컨테이너 환경에 완전히 최적화되어 있지 않았고, 무엇보다 EC2 인스턴스를 계속 점유하다 보니 비용 효율도 좋지 못했다. 또한, `.ebextensions` 같은 독자적인 설정 파일에 의존해야 해서 세부적인 인프라 컨트롤이 까다로웠다.

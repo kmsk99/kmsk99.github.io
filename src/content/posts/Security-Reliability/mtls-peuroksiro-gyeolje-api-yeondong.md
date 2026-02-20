@@ -7,8 +7,8 @@ tags:
   - AWS
   - Payments
 title: mTLS 프록시로 결제 API 연동
-created: '2025-04-20 10:00'
-modified: '2025-04-20 14:00'
+created: '2026-01-28'
+modified: '2026-02-06'
 ---
 
 # 배경

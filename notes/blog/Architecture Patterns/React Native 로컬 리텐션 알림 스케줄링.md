@@ -6,8 +6,8 @@ tags:
   - Engagement
   - Mobile
 title: React Native 로컬 리텐션 알림 스케줄링
-created: 2025-11-27 10:20
-modified: 2025-11-27 10:20
+created: 2026-01-21
+modified: 2026-01-21
 ---
 
 # Intro

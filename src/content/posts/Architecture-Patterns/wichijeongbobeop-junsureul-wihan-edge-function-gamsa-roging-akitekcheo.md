@@ -6,8 +6,8 @@ tags:
   - LocationInfo
   - AWS
 title: 위치정보법 준수를 위한 Edge Function 감사 로깅 아키텍처
-created: '2025-06-20 10:00'
-modified: '2025-06-20 14:00'
+created: '2025-12-23'
+modified: '2025-12-24'
 ---
 
 # 배경

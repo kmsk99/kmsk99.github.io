@@ -6,8 +6,8 @@ tags:
   - RBAC
   - Security
 title: Next.js App Router + Firebase Auth 관리자 인증
-created: '2024-10-09 09:00'
-modified: '2024-10-09 09:00'
+created: '2023-08-28'
+modified: '2024-05-02'
 ---
 
 # Intro

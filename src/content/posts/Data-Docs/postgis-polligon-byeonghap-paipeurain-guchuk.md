@@ -6,8 +6,8 @@ tags:
   - GIS
   - Shell
 title: PostGIS 폴리곤 병합 파이프라인 구축
-created: '2025-06-10 10:00'
-modified: '2025-06-10 16:00'
+created: '2025-12-02'
+modified: '2025-12-02'
 ---
 
 # 배경

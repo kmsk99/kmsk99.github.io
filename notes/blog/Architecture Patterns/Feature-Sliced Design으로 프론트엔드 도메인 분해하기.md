@@ -6,8 +6,8 @@ tags:
   - TypeScript
   - Frontend
 title: Feature-Sliced Design으로 프론트엔드 도메인 분해하기
-created: 2025-10-09 14:06
-modified: 2025-10-09 14:06
+created: 2025-03-12
+modified: 2025-03-27
 ---
 
 # Intro

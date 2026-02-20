@@ -7,8 +7,8 @@ tags:
   - Subscriptions
   - Frontend
 title: Supabase Realtime 채팅의 옵티미스틱 업데이트
-created: '2025-10-09 14:06'
-modified: '2025-10-09 14:06'
+created: '2025-04-01'
+modified: '2025-06-05'
 ---
 
 # Intro

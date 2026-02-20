@@ -6,8 +6,8 @@ tags:
   - React
   - ReactNative
 title: TipTap과 Tentap으로 웹-모바일 리치 텍스트 에디터 구현
-created: 2025-08-15 10:00
-modified: 2025-08-15 14:00
+created: 2025-03-19
+modified: 2025-07-03
 ---
 
 # 배경

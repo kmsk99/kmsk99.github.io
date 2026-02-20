@@ -7,8 +7,8 @@ tags:
   - Offline
   - Mobile
 title: Next.js PWA와 S3 업로드 구현
-created: '2024-02-14 10:15'
-modified: '2024-02-14 10:15'
+created: '2023-09-11'
+modified: '2023-11-20'
 ---
 
 # 문제

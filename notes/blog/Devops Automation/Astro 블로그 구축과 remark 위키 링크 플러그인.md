@@ -6,8 +6,8 @@ tags:
   - Blog
   - GitHub Pages
 title: Astro SSG 포트폴리오 블로그 구축
-created: 2026-01-10 10:00
-modified: 2026-01-10 14:00
+created: 2025-12-04
+modified: 2026-02-13
 ---
 
 # 배경

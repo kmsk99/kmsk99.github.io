@@ -7,8 +7,8 @@ tags:
   - Mobile
   - Backend
 title: React Native 파일 업로드 유틸 구현
-created: '2025-11-27 13:00'
-modified: '2025-11-27 13:00'
+created: '2025-12-18'
+modified: '2025-12-18'
 ---
 
 # Intro

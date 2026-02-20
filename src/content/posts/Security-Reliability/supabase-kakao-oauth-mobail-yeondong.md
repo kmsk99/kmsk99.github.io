@@ -8,8 +8,8 @@ tags:
   - iOS
   - Auth
 title: Supabase + 카카오 OAuth 모바일 연동
-created: '2025-11-27 12:00'
-modified: '2025-11-27 12:00'
+created: '2025-03-31'
+modified: '2025-10-01'
 ---
 
 카카오 로그인을 붙이는데 iOS와 Android가 서로 다른 인증 플로우를 요구해 한 번에 정리하기가 쉽지 않았다. Expo AuthSession과 Linking을 조합해 두 플랫폼을 하나의 함수에서 처리했다.

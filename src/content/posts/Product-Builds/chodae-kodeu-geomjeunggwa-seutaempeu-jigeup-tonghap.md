@@ -6,8 +6,8 @@ tags:
   - Backend
   - Automation
 title: 초대 코드 검증과 스탬프 지급 통합
-created: '2025-10-09 14:06'
-modified: '2025-10-09 14:06'
+created: '2025-03-27'
+modified: '2025-04-29'
 ---
 
 # 문제

@@ -6,8 +6,8 @@ tags:
   - Analytics
   - PostGIS
 title: S2 기반 히트맵 통계 집계와 조회
-created: '2025-06-12 10:00'
-modified: '2025-06-12 16:00'
+created: '2026-01-14'
+modified: '2026-01-14'
 ---
 
 # 배경

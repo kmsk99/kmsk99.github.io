@@ -7,8 +7,8 @@ tags:
   - Performance
   - Backend
 title: 비동기 체인 플래그로 긴 API 호출 처리하기
-created: 2025-10-10 10:55
-modified: 2025-10-10 10:55
+created: 2025-09-11
+modified: 2025-10-16
 ---
 
 # Intro

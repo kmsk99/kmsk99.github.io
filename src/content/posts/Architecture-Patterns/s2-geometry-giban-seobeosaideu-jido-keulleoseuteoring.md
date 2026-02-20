@@ -7,8 +7,8 @@ tags:
   - Performance
   - EdgeFunctions
 title: S2 Geometry 기반 서버사이드 지도 클러스터링
-created: '2025-06-15 10:00'
-modified: '2025-06-15 14:30'
+created: '2025-11-25'
+modified: '2025-11-25'
 ---
 
 # 배경

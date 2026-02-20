@@ -6,8 +6,8 @@ tags:
   - UX
   - Mobile
 title: 네이버 지도 SDK로 매장 지도 구현
-created: '2025-11-27 10:40'
-modified: '2025-11-27 10:40'
+created: '2025-08-06'
+modified: '2025-08-07'
 ---
 
 # 문제

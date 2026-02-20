@@ -7,8 +7,8 @@ tags:
   - DataEngineering
   - Automation
 title: Playwright와 AsyncIO로 대규모 크롤러 구축
-created: '2025-01-15 10:00'
-modified: '2025-01-15 16:00'
+created: '2024-12-26'
+modified: '2025-01-03'
 ---
 
 # 배경

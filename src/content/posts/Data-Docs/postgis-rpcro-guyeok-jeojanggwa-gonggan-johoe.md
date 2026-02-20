@@ -6,8 +6,8 @@ tags:
   - Geo
   - SQL
 title: PostGIS RPC로 구역 저장과 공간 조회
-created: '2025-05-20 10:00'
-modified: '2025-05-20 16:00'
+created: '2025-11-05'
+modified: '2025-11-12'
 ---
 
 # 배경

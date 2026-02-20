@@ -6,8 +6,8 @@ tags:
   - NodeJS
   - Performance
 title: Next.js Fluid Computing과 maxDuration 적용
-created: 2025-10-10 10:50
-modified: 2025-10-10 10:50
+created: 2025-11-07
+modified: 2025-11-28
 ---
 
 # Intro

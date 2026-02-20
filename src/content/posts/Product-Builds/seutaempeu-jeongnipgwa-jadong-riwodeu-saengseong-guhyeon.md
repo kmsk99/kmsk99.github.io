@@ -6,8 +6,8 @@ tags:
   - Automation
   - Backend
 title: 스탬프 적립과 자동 리워드 생성 구현
-created: '2025-10-09 14:06'
-modified: '2025-10-09 14:06'
+created: '2025-05-29'
+modified: '2025-05-30'
 ---
 
 # 문제

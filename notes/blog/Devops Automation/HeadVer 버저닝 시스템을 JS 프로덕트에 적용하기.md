@@ -8,8 +8,8 @@ tags:
   - GitHooks
   - Automation
 title: HeadVer 버저닝 시스템을 JS 프로덕트에 적용하기
-created: 2024-06-03 10:15
-modified: 2025-06-21 03:28
+created: 2024-06-03
+modified: 2024-11-15
 ---
 
 # Intro

@@ -6,8 +6,8 @@ tags:
   - Mobile
   - Reliability
 title: Expo 푸시 토큰 등록 흐름 정리
-created: '2025-11-27 10:00'
-modified: '2025-11-27 10:00'
+created: '2026-01-21'
+modified: '2026-01-21'
 ---
 
 # Intro

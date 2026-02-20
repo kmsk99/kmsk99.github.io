@@ -6,8 +6,8 @@ tags:
   - Retry
   - Reliability
 title: useProfileWithRetry - 네트워크 불안정 대응 훅
-created: '2025-10-09 14:06'
-modified: '2025-10-09 14:06'
+created: '2025-03-31'
+modified: '2025-04-10'
 ---
 
 지하철에서 네트워크가 끊겨 프로필 API가 실패하면, 사용자가 강제로 로그아웃되는 걸 보며 좌절했다. 인증이 풀리면 다시 로그인해야 하는데, 사실 인터넷이 잠깐 끊긴 것뿐이다. `useProfileWithRetry`라는 훅을 만들어 세션을 안전하게 지키는 방법을 적용했다.

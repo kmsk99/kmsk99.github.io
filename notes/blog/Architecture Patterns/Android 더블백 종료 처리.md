@@ -7,8 +7,8 @@ tags:
   - UX
   - Mobile
 title: Android 더블백 종료 처리
-created: 2025-11-27 12:40
-modified: 2025-11-27 12:40
+created: 2025-07-07
+modified: 2025-07-10
 ---
 
 # Intro

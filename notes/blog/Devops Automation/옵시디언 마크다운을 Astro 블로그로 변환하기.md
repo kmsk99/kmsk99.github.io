@@ -6,8 +6,8 @@ tags:
   - Migration
   - Automation
 title: 옵시디언 마크다운을 Astro 블로그로 변환하기
-created: 2026-01-10 10:00
-modified: 2026-01-10 14:00
+created: 2025-12-04
+modified: 2026-02-13
 ---
 
 # 배경

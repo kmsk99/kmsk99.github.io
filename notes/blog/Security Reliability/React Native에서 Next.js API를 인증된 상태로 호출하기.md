@@ -7,8 +7,8 @@ tags:
   - Bearer
   - SSR
 title: React Native에서 Next.js API를 인증된 상태로 호출하기
-created: 2024-11-28 09:30
-modified: 2025-02-20
+created: 2025-06-17
+modified: 2025-07-08
 ---
 
 React Native(Expo) 앱이 Next.js API 라우트와 Server Actions를 호출할 때 인증이 통과되지 않는 문제가 있다. 웹에서는 Supabase SSR 클라이언트가 쿠키에서 auth를 읽어오지만, 모바일 앱은 쿠키를 보내지 않는다. 대신 `Authorization: Bearer <token>` 헤더로 토큰을 넘긴다. `@supabase/ssr`의 `createServerClient`는 기본적으로 쿠키만 읽기 때문에, 헤더에 토큰이 있어도 요청이 비인증으로 처리된다.

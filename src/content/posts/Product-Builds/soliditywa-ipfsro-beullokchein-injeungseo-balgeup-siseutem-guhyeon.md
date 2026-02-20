@@ -7,8 +7,8 @@ tags:
   - Ethereum
   - wagmi
 title: Solidity와 IPFS로 블록체인 인증서 발급 시스템 구현
-created: '2024-08-20 10:00'
-modified: '2024-08-20 14:30'
+created: '2024-11-10'
+modified: '2024-11-18'
 ---
 
 # 배경

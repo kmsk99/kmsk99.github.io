@@ -6,8 +6,8 @@ tags:
   - Localization
   - Expo
 title: React Native 앱의 다국어 지원 구현
-created: '2025-07-15 10:00'
-modified: '2025-07-15 14:00'
+created: '2025-11-17'
+modified: '2025-12-08'
 ---
 
 # 배경

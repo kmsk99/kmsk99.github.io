@@ -7,8 +7,8 @@ tags:
   - Security
   - RateLimit
 title: Vercel Cron으로 AI 자동화 트리거 구현
-created: '2025-10-09 14:06'
-modified: '2025-10-09 14:06'
+created: '2025-10-15'
+modified: '2025-10-31'
 ---
 
 AI로 문서를 검증하는 작업을 수동으로 돌리다가, 한 번에 너무 많은 요청을 보내 Supabase가 버거워하는 모습을 봤다. cron 엔드포인트를 만들어 제한된 수의 레코드만 안전하게 처리하도록 만들었다.
