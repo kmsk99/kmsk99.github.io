@@ -173,8 +173,14 @@ async function migrateFile(file) {
 
 	const title = parsed.data.title || path.basename(file, '.md');
 	const slug = parsed.data.slug ? parsed.data.slug : slugify(title);
-	const created = parsed.data.created || stat.birthtime.toISOString();
-	const modified = parsed.data.modified || stat.mtime.toISOString();
+
+	const toDateStr = (v, fallback) => {
+		if (v instanceof Date) return v.toISOString().slice(0, 10);
+		if (typeof v === 'string' && v) return v;
+		return fallback.toISOString().slice(0, 10);
+	};
+	const created = toDateStr(parsed.data.created, stat.birthtime);
+	const modified = toDateStr(parsed.data.modified, stat.mtime);
 
 	const isProject = categoryRaw === 'project';
 	const isRetro = categoryRaw === 'retrospectives';

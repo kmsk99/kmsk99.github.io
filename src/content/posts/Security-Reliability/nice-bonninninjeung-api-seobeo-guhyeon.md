@@ -7,8 +7,8 @@ tags:
   - Security
   - EC2
 title: NICE 본인인증 API 서버 구현
-created: 2025-02-20T00:00:00.000Z
-modified: 2025-02-20T00:00:00.000Z
+created: '2025-02-20'
+modified: '2025-02-20'
 ---
 
 NICE 본인인증을 클라이언트 앱과 NICE API 사이에 두는 전용 Express 서버를 구현했다. 해당 프로젝트는 EC2에 PM2로 띄워 두고, 웹·모바일 앱 모두에서 동일한 REST API로 본인인증을 처리한다.
