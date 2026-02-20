@@ -128,3 +128,4 @@ Blob 업로드(`uploadBlob`)도 같은 형태로 통일해, 캔버스에서 생�
 - [Next.js Fluid Computing과 maxDuration 적용](/post/next-js-fluid-computinggwa-maxduration-jeongnyong)
 - [Next.js App Router + Firebase Auth 관리자 인증](/post/next-js-app-router-firebase-auth-gwallija-injeung)
 - [Firestore 장바구니 동기화와 수량 보정](/post/firestore-jangbaguni-donggihwawa-suryang-bojeong)
+- [Intersection Observer로 스크롤 기반 애니메이션 구현](/post/intersection-observerro-seukeurol-giban-aenimeisyeon-guhyeon)

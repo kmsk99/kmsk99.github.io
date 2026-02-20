@@ -211,6 +211,33 @@ serve(async req => {
 });
 ```
 
+이 RPC는 `zone_s2_clusters` 테이블에서 `ST_MakeEnvelope`로 bbox를 만들고, `approx_point`와의 `ST_Intersects`로 해당 영역의 클러스터만 필터링한다. 반환값에는 `s2_cell_id`, `s2_level`, `zone_count`, `zone_count_normal`, `zone_count_store`, `approx_point`가 포함되어 카테고리별 카운트를 프론트엔드에서 바로 표시할 수 있다.
+
+클라이언트의 서비스 레이어에서는 반환된 `approx_point`의 좌표를 추출하고, 좌표가 없으면 S2 셀 중심점으로 폴백한다.
+
+```ts
+return data.map((cluster: any) => {
+  let lat = 0, lng = 0;
+  const point = cluster.approx_point as { coordinates?: number[] } | null;
+  if (point?.coordinates && point.coordinates.length >= 2) {
+    [lng, lat] = point.coordinates;
+  } else {
+    const center = getS2CellCenter(String(cluster.s2_cell_id));
+    lat = center.lat;
+    lng = center.lng;
+  }
+  return {
+    id: `cluster-${cluster.s2_level}-${cluster.s2_cell_id}`,
+    lat, lng,
+    zoneCount: cluster.zone_count || 0,
+    zoneCountNormal: cluster.zone_count_normal || 0,
+    zoneCountStore: cluster.zone_count_store || 0,
+    s2Level: cluster.s2_level,
+    s2CellId: String(cluster.s2_cell_id),
+  };
+});
+```
+
 # 클라이언트 클러스터링과의 비교
 
 | 항목 | 이전 (클라이언트) | 현재 (S2 서버사이드) |
@@ -241,3 +268,7 @@ S2 클러스터링 도입 후 지도 초기 로딩 시간이 체감상 절반 �
 - [Firebase 서버리스 위치 기반 앱 구현](/post/firebase-seobeoriseu-wichi-giban-aep-guhyeon)
 - [네이버 지도 SDK로 매장 지도 구현](/post/neibeo-jido-sdkro-maejang-jido-guhyeon)
 - [Vercel Cron으로 AI 자동화 트리거 구현](/post/vercel-croneuro-ai-jadonghwa-teurigeo-guhyeon)
+- [PostGIS RPC로 구역 저장과 공간 조회](/post/postgis-rpcro-guyeok-jeojanggwa-gonggan-johoe)
+- 위치정보법 준수를 위한 감사 로깅 아키텍처
+- [S2 기반 히트맵 통계 집계와 조회](/post/s2-giban-hiteumaep-tonggye-jipgyewa-johoe)
+- [PostGIS 폴리곤 병합 파이프라인 구축](/post/postgis-polligon-byeonghap-paipeurain-guchuk)

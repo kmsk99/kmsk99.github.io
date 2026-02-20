@@ -124,3 +124,5 @@ const visibleStores = useMemo(() => {
 - [[react-native-clusterer로 지도 마커 클러스터링]]
 - [[KeyboardStickyView 포커스 버그 수정]]
 - [[React Native 파일 업로드 유틸 구현]]
+- [[Intersection Observer로 스크롤 기반 애니메이션 구현]]
+- [[Naver와 Google 지오코딩 API 통합]]

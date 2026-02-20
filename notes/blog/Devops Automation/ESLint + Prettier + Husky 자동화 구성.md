@@ -109,3 +109,4 @@ CI에서는 `pnpm lint`와 `pnpm tsc`만 돌린다. 포맷은 pre-commit에서 �
 - [[HeadVer 버저닝 시스템을 JS 프로덕트에 적용하기]]
 - [[SVG 아이콘을 React 컴포넌트 라이브러리로 만들어 자동 배포하기]]
 - [[SVG 아이콘 라이브러리를 React Native에서도 쓸 수 있게 만들기]]
+- [[Astro SSG 포트폴리오 블로그 구축]]

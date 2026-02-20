@@ -256,6 +256,8 @@ export HUSKY_POST_COMMIT_RUNNING=0
 
 # 연결문서
 - [ESLint + Prettier + Husky 자동화 구성](/post/eslint-prettier-husky-jadonghwa-guseong)
+- [Astro SSG 포트폴리오 블로그 구축](/post/astro-ssg-poteupollio-beullogeu-guchuk)
+- [옵시디언 마크다운을 Astro 블로그로 변환하기](/post/opsidieon-makeudauneul-astro-beullogeuro-byeonhwanhagi)
 - [Feature-Sliced Design으로 프론트엔드 도메인 분해하기](/post/feature-sliced-designeuro-peuronteuendeu-domein-bunhaehagi)
 - [SVG 아이콘을 React 컴포넌트 라이브러리로 만들어 자동 배포하기](/post/svg-aikoneul-react-keomponeonteu-raibeureoriro-mandeureo-jadong-baepohagi)
 - [SVG 아이콘 라이브러리를 React Native에서도 쓸 수 있게 만들기](/post/svg-aikon-raibeureorireul-react-nativeeseodo-sseul-su-itge-mandeulgi)

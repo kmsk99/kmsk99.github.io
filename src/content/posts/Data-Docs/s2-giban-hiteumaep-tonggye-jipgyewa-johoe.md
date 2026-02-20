@@ -1,0 +1,325 @@
+---
+tags:
+  - S2
+  - Heatmap
+  - Supabase
+  - Analytics
+  - PostGIS
+title: S2 기반 히트맵 통계 집계와 조회
+created: '2025-06-12 10:00'
+modified: '2025-06-12 16:00'
+---
+
+# 배경
+
+위치 기반 앱의 관리자 대시보드에서 사용자 활동 히트맵을 보여줘야 했다. 원시 행동 로그에는 수십만 건의 위치 데이터가 쌓여 있는데, 이를 그대로 히트맵에 뿌리면 쿼리 시간도 길고 클라이언트 렌더링도 무겁다. S2 Geometry의 Level 15 셀을 기준으로 사전 집계하고, 날짜/이벤트 타입별 UPSERT로 통계 테이블을 관리하는 방식을 선택했다.
+
+# 히트맵 통계 테이블
+
+`heatmap_statistics` 테이블은 날짜, S2 셀, 이벤트 타입 조합으로 유니크하다.
+
+```sql
+CREATE TABLE heatmap_statistics (
+    id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+    stat_date date NOT NULL,
+    s2_level15 bigint NOT NULL,
+    type text NOT NULL,
+    count integer NOT NULL DEFAULT 0,
+    approx_point geometry(Point, 4326),
+    created_at timestamptz DEFAULT now(),
+    updated_at timestamptz DEFAULT now(),
+    UNIQUE(stat_date, s2_level15, type)
+);
+```
+
+`approx_point`에는 S2 셀 중심의 대략적인 좌표를 저장한다. 히트맵 렌더링 시 정확한 S2 셀 중심을 매번 계산하는 비용을 피하기 위해서다.
+
+# 단건 UPSERT RPC
+
+개별 통계를 저장하는 `add_heatmap_statistic` RPC는 `ON CONFLICT ... DO UPDATE` 패턴을 사용한다.
+
+```sql
+CREATE FUNCTION add_heatmap_statistic(
+  p_s2_level15 bigint, p_type text, p_count integer,
+  p_lng double precision, p_lat double precision,
+  p_stat_date date DEFAULT (now() AT TIME ZONE 'Asia/Seoul')::date
+) RETURNS uuid
+LANGUAGE sql AS $$
+  INSERT INTO heatmap_statistics(stat_date, s2_level15, type, count, approx_point)
+  VALUES (
+    p_stat_date, p_s2_level15, p_type,
+    GREATEST(COALESCE(p_count, 0), 0),
+    ST_SetSRID(ST_MakePoint(p_lng, p_lat), 4326)::geometry(Point, 4326)
+  )
+  ON CONFLICT (stat_date, s2_level15, type) DO UPDATE SET
+    count = excluded.count,
+    approx_point = excluded.approx_point
+  RETURNING id;
+$$;
+```
+
+`GREATEST(COALESCE(p_count, 0), 0)`으로 음수나 null 입력을 방어한다. `stat_date`의 기본값이 KST 기준 오늘이므로 클라이언트에서 날짜를 생략하면 서울 시간대로 자동 결정된다.
+
+벌크 버전은 `jsonb_to_recordset`으로 JSON 배열을 관계형 레코드로 변환해 한 번에 UPSERT한다.
+
+```ts
+const { data, error } = await supabase.rpc('add_heatmap_statistics_bulk', {
+  p_default_stat_date: date,
+  p_items: payload,
+});
+```
+
+# 행동 로그에서 히트맵 동기화
+
+관리자 대시보드에서 특정 날짜의 히트맵을 요청하면, 해당 날짜의 통계가 최신인지 확인하고 필요하면 동기화한다.
+
+## 업데이트 필요 여부 판단
+
+```ts
+async function needHeatmapStatisticsUpdate(statDate: string): Promise<boolean> {
+  const supabase = getSupabase();
+
+  const { data } = await supabase
+    .from('heatmap_statistics')
+    .select('updated_at')
+    .eq('stat_date', statDate)
+    .order('updated_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (!data?.updated_at) return true;
+
+  const startKst = new Date(`${statDate}T00:00:00+09:00`);
+  const endKst = new Date(startKst.getTime() + 24 * 60 * 60 * 1000);
+  const updatedAt = new Date(data.updated_at);
+  const now = new Date();
+
+  if (updatedAt.getTime() >= endKst.getTime()) return false;
+
+  const sinceUpdateMs = now.getTime() - updatedAt.getTime();
+  if (sinceUpdateMs < 60 * 60 * 1000) return false;
+
+  return true;
+}
+```
+
+해당 날짜의 마지막 업데이트가 그 날짜 다음 날 이후라면 이미 완결된 데이터이므로 재동기화하지 않는다. 그 날짜 범위 내라면 마지막 업데이트로부터 1시간이 지났을 때만 갱신한다.
+
+## 동기화 프로세스
+
+`syncHeatmapStatisticsForKstDate`는 `user_behavior_logs`에서 해당 KST 날짜 범위의 로그를 읽어 S2 셀별로 집계한다.
+
+```ts
+export async function syncHeatmapStatisticsForKstDate(
+  date: string,
+): Promise<SyncHeatmapResult> {
+  const startKst = new Date(`${date}T00:00:00+09:00`);
+  const endKst = new Date(startKst.getTime() + 24 * 60 * 60 * 1000);
+
+  const heatmapTypes: HeatmapType[] = [
+    'all', 'view', 'navigate', 'contribution',
+    'verify', 'exception', 'map_interaction',
+    'current_location', 'search', 'auth', 'profile',
+  ];
+
+  const heatmapCounts = new Map<HeatmapType, Map<number, { count: number; lat: number; lng: number }>>();
+```
+
+이벤트 타입과 히트맵 타입의 매핑을 사전에 구성한 뒤, 로그를 순회하면서 각 S2 셀에 카운트를 누적한다.
+
+```ts
+  let lastId: string | null = null;
+
+  while (true) {
+    let query = supabase
+      .from('user_behavior_logs')
+      .select('id, s2_cell_l15, metadata, event_type, created_at')
+      .gte('created_at', fromIso)
+      .lt('created_at', toIso)
+      .not('s2_cell_l15', 'is', null)
+      .order('id', { ascending: true })
+      .limit(pageSize);
+
+    if (lastId) {
+      query = query.gt('id', lastId);
+    }
+
+    const { data } = await query;
+    if (data.length === 0) break;
+
+    data.forEach(row => {
+      const heatmapTypeList = eventTypeToHeatmapTypes.get(row.event_type);
+      if (!heatmapTypeList) return;
+
+      heatmapTypeList.forEach(heatmapType => {
+        updateHeatmapCounts(heatmapType, row.s2_cell_l15!);
+      });
+    });
+
+    lastId = data[data.length - 1]?.id ?? lastId;
+    if (data.length < pageSize) break;
+  }
+```
+
+커서 기반 페이지네이션(`lastId` 패턴)으로 대량 로그를 메모리에 한 번에 올리지 않고 순차 처리한다. `offset` 대신 `id`를 기준으로 다음 페이지를 가져오므로 데이터 변경에 안전하다.
+
+S2 셀 중심 좌표는 `getS2CellCenter`로 한 번만 계산한다.
+
+```ts
+const updateHeatmapCounts = (heatmapType: HeatmapType, s2Cell: number) => {
+  const s2Counts = heatmapCounts.get(heatmapType);
+  if (!s2Counts) return;
+
+  const existing = s2Counts.get(s2Cell);
+  if (existing) {
+    existing.count += 1;
+    return;
+  }
+
+  const center = getS2CellCenter(s2Cell);
+  s2Counts.set(s2Cell, { count: 1, lat: center.lat, lng: center.lng });
+};
+```
+
+집계가 끝나면 히트맵 타입별로 벌크 UPSERT한다.
+
+```ts
+  for (const heatmapType of heatmapTypes) {
+    const s2Counts = heatmapCounts.get(heatmapType);
+    if (!s2Counts || s2Counts.size === 0) continue;
+
+    const inputs = Array.from(s2Counts.entries()).map(([s2Level15, value]) => ({
+      s2Level15,
+      type: heatmapType,
+      count: value.count,
+      lng: value.lng,
+      lat: value.lat,
+    }));
+
+    for (let i = 0; i < inputs.length; i += pageSize) {
+      const chunk = inputs.slice(i, i + pageSize);
+      await addHeatmapStatisticsBulk(chunk, { defaultStatDate: date });
+    }
+  }
+```
+
+# 히트맵 조회
+
+조회 시에는 사전 집계된 `heatmap_statistics`에서 읽기만 하므로 빠르다.
+
+```ts
+export async function getHeatmapStatistics(
+  heatmapType: HeatmapType,
+  params?: { statDate?: string; fromDate?: string; toDate?: string },
+): Promise<GeoHeatmapData> {
+  const rows = [];
+  let lastId: string | null = null;
+
+  while (true) {
+    let query = supabase
+      .from('heatmap_statistics')
+      .select('id, s2_level15, count')
+      .eq('type', heatmapType)
+      .order('id', { ascending: true })
+      .limit(pageSize);
+
+    if (lastId) query = query.gt('id', lastId);
+    if (params?.statDate) query = query.eq('stat_date', params.statDate);
+    if (params?.fromDate) query = query.gte('stat_date', params.fromDate);
+    if (params?.toDate) query = query.lte('stat_date', params.toDate);
+
+    const { data } = await query;
+    if (data.length === 0) break;
+    rows.push(...data);
+    if (data.length < pageSize) break;
+    lastId = data[data.length - 1]?.id ?? lastId;
+  }
+
+  const maxCount = Math.max(...rows.map(row => Number(row.count ?? 0)), 1);
+
+  const cells: S2GridCell[] = rows.map(row => {
+    const center = getS2CellCenter(String(row.s2_level15));
+    return {
+      s2CellId: String(row.s2_level15),
+      s2Level: 15,
+      lat: center.lat,
+      lng: center.lng,
+      eventCount: Number(row.count ?? 0),
+      intensity: Number(row.count ?? 0) / maxCount,
+    };
+  });
+
+  return { cells, totalEvents, maxIntensity: maxCount, s2Level: 15 };
+}
+```
+
+`intensity`는 0~1 범위로 정규화된 값이다. 클라이언트에서는 이 값을 히트맵 라이브러리의 가중치로 그대로 사용한다.
+
+# 히트맵 시각화
+
+관리자 대시보드에서는 Naver Maps와 Google Maps 두 가지 렌더러를 지원한다.
+
+```ts
+// Naver Maps HeatMap
+const heatmap = new naver.maps.visualization.HeatMap({
+  map,
+  data: cells.map(cell => ({
+    lat: cell.lat,
+    lng: cell.lng,
+    weight: cell.intensity,
+  })),
+  radius: getRadiusByZoom(map.getZoom()),
+});
+```
+
+줌 레벨에 따라 히트맵 반경을 동적으로 조절한다. 줌이 낮으면 (넓은 영역) 반경을 크게 해서 전체 분포를 보여주고, 줌이 높으면 (좁은 영역) 반경을 줄여 개별 셀 수준의 밀도를 보여준다.
+
+히트맵 타입 필터(`all`, `view`, `navigate`, `contribution`, `verify`, `map_interaction`)를 통해 사용자 행동 유형별로 공간 분포를 비교 분석할 수 있다.
+
+# S2 셀 드릴다운
+
+특정 S2 셀을 클릭하면 그 셀에 속한 원시 행동 로그를 조회해 상세 분석을 제공한다. 상위 구역, 이벤트 트렌드, 활성 사용자 등의 통계를 함께 계산한다.
+
+```ts
+export async function getS2CellBehaviorLogs(
+  s2CellL15s: number[],
+): Promise<GridCellDetails> {
+  let lastId: string | null = null;
+
+  while (logs.length < maxRows) {
+    let query = supabase
+      .from('user_behavior_logs')
+      .select('id, zone_id, s2_cell_l15, created_at, metadata, user_id, event_type')
+      .in('s2_cell_l15', s2CellL15s)
+      .order('id', { ascending: true })
+      .limit(pageSize);
+
+    if (lastId) query = query.gt('id', lastId);
+    // ...
+  }
+
+  // topZones, eventTrends, topUsers 집계
+}
+```
+
+# 결과
+
+S2 Level 15 기반 사전 집계로 히트맵 조회 성능이 크게 개선됐다:
+
+- 수십만 건의 원시 로그를 매번 스캔하는 대신, 수천 건의 집계 행만 읽으면 된다
+- UPSERT 패턴으로 같은 날짜/셀/타입의 중복 삽입이 자동 처리된다
+- 커서 기반 페이지네이션으로 메모리 사용량을 제어하면서 대량 데이터를 처리한다
+- 히트맵 타입별 독립 집계로 유연한 분석이 가능하다
+- 업데이트 필요 여부를 시간 기반으로 판단해 불필요한 재동기화를 방지한다
+
+# Reference
+
+- https://s2geometry.io/devguide/s2cell_hierarchy
+- https://supabase.com/docs/guides/database/functions
+- https://www.postgresql.org/docs/current/sql-insert.html#SQL-ON-CONFLICT
+
+# 연결문서
+
+- [S2 Geometry 기반 서버사이드 지도 클러스터링](/post/s2-geometry-giban-seobeosaideu-jido-keulleoseuteoring)
+- [PostGIS RPC로 구역 저장과 공간 조회](/post/postgis-rpcro-guyeok-jeojanggwa-gonggan-johoe)
+- 위치정보법 준수를 위한 감사 로깅 아키텍처

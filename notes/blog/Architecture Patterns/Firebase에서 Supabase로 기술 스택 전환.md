@@ -36,19 +36,43 @@ const filtered = snapshot.docs
 
 위도로만 범위 쿼리가 가능하고, 경도 필터링은 클라이언트에서 해야 했다. 데이터가 수만 건이 되자 불필요한 문서 전송이 비용과 성능 모두에 영향을 줬다.
 
-Supabase(PostgreSQL)에서는 PostGIS나 RPC로 서버에서 모든 필터링을 처리할 수 있다.
+Supabase(PostgreSQL)에서는 PostGIS RPC로 서버에서 모든 필터링을 처리할 수 있다.
 
 ```ts
-// Supabase: 서버에서 bbox + 필터 + 페이지네이션 한 번에 처리
 const { data } = await supabase.rpc('get_zones_in_bbox', {
   west: bounds.west,
   south: bounds.south,
   east: bounds.east,
   north: bounds.north,
-  p_kinds: ['SMOKING'],
+  kinds: ['SMOKING'],
   page_size: 100,
 });
 ```
+
+이 RPC의 SQL 내부에서는 `ST_MakeEnvelope`로 bbox를 geometry로 변환하고, `ST_Intersects`로 교차 판정한다.
+
+```sql
+CREATE FUNCTION get_zones_in_bbox(
+  west double precision, south double precision,
+  east double precision, north double precision,
+  page_size integer DEFAULT 1000, offset_n integer DEFAULT 0,
+  kinds text[] DEFAULT NULL
+) RETURNS TABLE(id uuid, kind text, name text, display_point geometry, geom_area geometry, ...)
+LANGUAGE sql STABLE AS $$
+  WITH env AS (
+    SELECT ST_MakeEnvelope(west, south, east, north, 4326) AS box
+  )
+  SELECT z.id, z.kind, z.name, z.display_point, z.geom_area, ...
+  FROM zones z, env
+  WHERE (kinds IS NULL OR z.kind = ANY(kinds))
+    AND z.is_active = true
+    AND ST_Intersects(z.geom_area, env.box)
+  ORDER BY COALESCE(z.data_date::timestamp, z.created_at) DESC
+  LIMIT LEAST(page_size, 1000) OFFSET offset_n;
+$$;
+```
+
+Firestore에서는 위도 범위 쿼리 후 경도를 클라이언트에서 필터링해야 했지만, PostGIS는 `ST_Intersects`로 2D 공간 교차를 인덱스 기반으로 계산한다. GiST 인덱스가 있으면 수십만 건에서도 수 ms 내에 응답한다.
 
 ## 검색 기능의 한계
 
@@ -222,3 +246,7 @@ Firestore에서는 위치 데이터를 가져온 뒤 댓글, 이미지, 사용�
 - [[Firebase 서버리스 위치 기반 앱 구현]]
 - [[Supabase + 카카오 OAuth 모바일 연동]]
 - [[Firestore에서 키워드 인덱싱으로 검색 구현하기]]
+- [[PostGIS RPC로 구역 저장과 공간 조회]]
+- [[위치정보법 준수를 위한 감사 로깅 아키텍처]]
+- [[Naver와 Google 지오코딩 API 통합]]
+- [[PostGIS 폴리곤 병합 파이프라인 구축]]

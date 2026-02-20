@@ -99,3 +99,4 @@ const { currency, setCurrency } = useLocalization();
 # 연결문서
 - [[NICE 본인인증 API 서버 구현]]
 - [[useProfileWithRetry - 네트워크 불안정 대응 훅]]
+- [[React Native 앱의 다국어 지원 구현]]

@@ -111,3 +111,4 @@ export function usePushNotificationsSetup() {
 - [KeyboardStickyView 포커스 버그 수정](/post/keyboardstickyview-pokeoseu-beogeu-sujeong)
 - [React Native 로컬 리텐션 알림 스케줄링](/post/react-native-rokeol-ritensyeon-allim-seukejulling)
 - [Supabase + 카카오 OAuth 모바일 연동](/post/supabase-kakao-oauth-mobail-yeondong)
+- [iOS Privacy Manifest와 앱 스토어 규정 대응](/post/ios-privacy-manifestwa-aep-seutoeo-gyujeong-daeeung)

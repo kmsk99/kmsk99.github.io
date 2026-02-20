@@ -153,3 +153,6 @@ Firebase의 `serverTimestamp()`는 비동기로 채워지기 때문에, 문서�
 - [공공데이터 위치 정보 전처리](/post/gonggongdeiteo-wichi-jeongbo-jeoncheori)
 - [Next.js App Router + Firebase Auth 관리자 인증](/post/next-js-app-router-firebase-auth-gwallija-injeung)
 - [Firestore에서 키워드 인덱싱으로 검색 구현하기](/post/firestoreeseo-kiwodeu-indeksingeuro-geomsaek-guhyeonhagi)
+- [PostGIS RPC로 구역 저장과 공간 조회](/post/postgis-rpcro-guyeok-jeojanggwa-gonggan-johoe)
+- 위치정보법 준수를 위한 감사 로깅 아키텍처
+- [Naver와 Google 지오코딩 API 통합](/post/naverwa-google-jiokoding-api-tonghap)

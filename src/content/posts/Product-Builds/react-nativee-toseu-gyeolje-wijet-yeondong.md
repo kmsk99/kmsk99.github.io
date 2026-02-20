@@ -179,3 +179,4 @@ export default function TossPaymentWidget(props: TossPaymentWidgetProps) {
 # 연결문서
 - [ActionSheet 래퍼 훅 구현](/post/actionsheet-raepeo-huk-guhyeon)
 - [Android 더블백 종료 처리](/post/android-deobeulbaek-jongnyo-cheori)
+- [mTLS 프록시로 결제 API 연동](/post/mtls-peuroksiro-gyeolje-api-yeondong)

@@ -189,3 +189,6 @@ const transformRecord = (values) => {
 - [Playwright와 AsyncIO로 대규모 크롤러 구축](/post/playwrightwa-asyncioro-daegyumo-keurolleo-guchuk)
 - [Firebase 서버리스 위치 기반 앱 구현](/post/firebase-seobeoriseu-wichi-giban-aep-guhyeon)
 - [React Native 파일 업로드 유틸 구현](/post/react-native-pail-eomnodeu-yutil-guhyeon)
+- [PostGIS RPC로 구역 저장과 공간 조회](/post/postgis-rpcro-guyeok-jeojanggwa-gonggan-johoe)
+- [PostGIS 폴리곤 병합 파이프라인 구축](/post/postgis-polligon-byeonghap-paipeurain-guchuk)
+- [Naver와 Google 지오코딩 API 통합](/post/naverwa-google-jiokoding-api-tonghap)
