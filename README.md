@@ -3,8 +3,13 @@
 Obsidian에서 작성한 Markdown을 그대로 받아 Astro로 빌드해 GitHub Pages로 배포하는 개인 기술 블로그/포트폴리오입니다. 글과 이미지를 한 폴더 단위로 관리하고, 필요 시 React 컴포넌트를 부분적으로 사용하는 구성을 지향합니다.
 
 - 배포: https://kmsk99.github.io (Astro 5 + GitHub Pages)
-- 콘텐츠 원본: `notes/`(Obsidian) → `scripts/migrate-tech-blog.mjs` → `src/content/`
+- 콘텐츠 원본: 볼트(mason-atlas)의 `wiki/projects/personal/tech-blog/notes/` → `scripts/migrate-tech-blog.mjs` → `src/content/`
 - 주요 카테고리: Tech Deep Dive, Project Showcase, Tech Pulse, Dev Hacks, Troubleshooter's Corner, Retrospectives
+
+> **글 원본은 이 저장소에 없습니다.** 2026-08-20 에 원본을 볼트(mason-atlas)로 일원화하고
+> 이 저장소에서는 `notes/` 를 제거했습니다. `src/content/` 는 마이그레이션 산출물이며,
+> GitHub Pages 배포는 커밋된 `src/content/` 만으로 돌아가므로 볼트 없이도 빌드됩니다.
+> 글을 고치려면 볼트의 노트를 고치고 `npm run migrate:blog` 를 다시 실행하세요.
 
 ## 주요 특징
 - Markdown 중심: `src/content/posts|projects|retrospectives`가 Astro content collection으로 관리됩니다.
@@ -30,7 +35,6 @@ npm run migrate:blog  # Obsidian 노트를 content collection으로 변환
 ```text
 /
 ├─ docs/                # 구조/카테고리/문체 메모
-├─ notes/               # Obsidian 원본 (blog, project, retrospectives)
 ├─ public/              # 정적 자산 (favicon, robots.txt 등)
 ├─ scripts/
 │  └─ migrate-tech-blog.mjs  # 노트 → content 자동화 스크립트
@@ -59,12 +63,13 @@ npm run migrate:blog  # Obsidian 노트를 content collection으로 변환
    - `src/content/assets/`에 파일을 두고 본문에서는 `../../assets/파일명`으로 참조.
 
 ### Obsidian에서 마이그레이션하는 경우
-1) 노트 위치 예시  
-   - 블로그: `notes/blog/<카테고리>/<글>.md`  
-   - 프로젝트: `notes/project/Project Showcase/<글>.md`  
-   - 회고: `notes/retrospectives/<분류>/<글>.md`
+1) 노트 위치 (볼트 `mason-atlas` 안, `$VAULT_ROOT` 기본값은 `~/mason-atlas`)  
+   - 블로그: `wiki/projects/personal/tech-blog/notes/blog/<카테고리>/<글>.md`  
+   - 프로젝트: `wiki/projects/personal/tech-blog/notes/project/Project Showcase/<글>.md`  
+   - 회고: `wiki/projects/personal/tech-blog/notes/retrospectives/<분류>/<글>.md`
 2) 첨부 이미지  
-   - 기본 경로: `../../9.Settings/Attachments` (스크립트가 여기서 복사)  
+   - 볼트의 `_attachments/` (스크립트가 여기서 복사)  
+   - 볼트가 다른 곳에 있으면: `VAULT_ROOT=/path/to/mason-atlas npm run migrate:blog`  
 3) 변환 실행  
    ```bash
    npm run migrate:blog

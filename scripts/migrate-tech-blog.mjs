@@ -1,13 +1,29 @@
 import fs from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { createHash } from 'node:crypto';
 import { romanize } from 'es-hangul';
 
 const ROOT = process.cwd();
-const SOURCE_BASE = path.join(ROOT, 'notes');
-// 첨부폴더는 상위 두 단계인 .../Minseok/9.Settings/Attachments (Obsidian에서 사용 중)
-const ATTACH_BASE = path.resolve(ROOT, '..', '..', '9.Settings', 'Attachments');
+
+// 글 원본과 첨부는 볼트(mason-atlas)에 산다. 2026-08-20 에 이 저장소가 볼트에서
+// 분리되면서 원본을 한 곳으로 모았다 — 저장소의 notes/ 는 더 이상 정본이 아니다.
+// 근거: mason-atlas/wiki/_meta/decisions/2026-08-20-blog-app-out-of-vault.md
+//
+// 이전 값은 ROOT/notes 와 ROOT/../../9.Settings/Attachments 였는데, 후자는 옛
+// 옵시디언 볼트 레이아웃이라 현재 볼트에는 존재하지 않는다(이미 깨져 있었다).
+const VAULT_ROOT = process.env.VAULT_ROOT
+	|| path.join(process.env.HOME ?? '', 'mason-atlas');
+const SOURCE_BASE = path.join(VAULT_ROOT, 'wiki', 'projects', 'personal', 'tech-blog', 'notes');
+const ATTACH_BASE = path.join(VAULT_ROOT, '_attachments');
+
+if (!existsSync(SOURCE_BASE)) {
+	throw new Error(
+		`글 원본을 찾지 못했다: ${SOURCE_BASE}\n`
+		+ `볼트가 다른 곳에 있으면 VAULT_ROOT 를 지정하라 — `
+		+ `VAULT_ROOT=/path/to/mason-atlas node scripts/migrate-tech-blog.mjs`);
+}
 const TARGET_POSTS = path.join(ROOT, 'src', 'content', 'posts');
 const TARGET_PROJECTS = path.join(ROOT, 'src', 'content', 'projects');
 const TARGET_RETROS = path.join(ROOT, 'src', 'content', 'retrospectives');
