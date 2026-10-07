@@ -1,0 +1,345 @@
+---
+import { getAllItems, CATEGORIES } from '../lib/content';
+
+const items = await getAllItems();
+
+// 글끼리는 공유 태그가 2개 이상일 때만 잇고, 글마다 가장 가까운 3개까지만 남긴다.
+const tagSets = items.map((i) => new Set(i.tags.map((t) => t.toLowerCase())));
+const pairKeys = new Set<string>();
+const links: { s: string; t: string; w: number }[] = [];
+items.forEach((a, ai) => {
+	const near = items
+		.map((b, bi) => ({ b, bi, w: bi === ai ? 0 : [...tagSets[ai]].filter((t) => tagSets[bi].has(t)).length }))
+		.filter((x) => x.w >= 2)
+		.sort((x, y) => y.w - x.w)
+		.slice(0, 3);
+	near.forEach(({ b, w }) => {
+		const key = [a.slug, b.slug].sort().join('|');
+		if (pairKeys.has(key)) return;
+		pairKeys.add(key);
+		links.push({ s: a.slug, t: b.slug, w });
+	});
+});
+
+const usedCats = Object.values(CATEGORIES).filter((c) => items.some((i) => i.category.key === c.key));
+const data = {
+	nodes: [
+		...usedCats.map((c) => ({ id: `cat:${c.key}`, hub: true, label: c.label, tone: c.tone, cat: c.key })),
+		...items.map((i) => ({
+			id: i.slug,
+			hub: false,
+			label: i.title,
+			tone: i.category.tone,
+			cat: i.category.key,
+			url: i.url,
+			date: i.created,
+			catLabel: i.category.label,
+			r: Math.min(5.5, 3 + i.minutes * 0.2),
+		})),
+	],
+	links: [...items.map((i) => ({ s: i.slug, t: `cat:${i.category.key}`, w: 0 })), ...links],
+};
+const counts = Object.fromEntries(usedCats.map((c) => [c.key, items.filter((i) => i.category.key === c.key).length]));
+---
+
+<figure class="graph" data-graph>
+	<p class="graph__hint" aria-hidden="true">점을 끌어보거나 눌러서 글을 여세요</p>
+	<svg
+		class="graph__canvas"
+		viewBox="0 0 560 500"
+		role="img"
+		aria-label={`글 ${items.length}편을 카테고리와 공유 태그로 이은 지식 그래프`}
+		data-graph-svg
+	>
+		<g data-links></g>
+		<g data-nodes></g>
+	</svg>
+	<div class="graph__tip" data-graph-tip role="status"></div>
+	<figcaption class="graph__legend">
+		<span class="sr-only">카테고리별로 강조하기</span>
+		{usedCats.map((c) => (
+			<button class="legend-btn" type="button" data-tone={c.tone} data-cat={c.key} aria-pressed="false">
+				<span class="dot"></span>
+				{c.label}
+				<small>{counts[c.key]}</small>
+			</button>
+		))}
+	</figcaption>
+</figure>
+
+<script type="application/json" data-graph-data set:html={JSON.stringify(data).replace(/</g, '\\u003c')} />
+
+<script>
+	import { forceSimulation, forceLink, forceManyBody, forceCollide, forceX, forceY } from 'd3-force';
+	import type { SimulationNodeDatum } from 'd3-force';
+
+	type N = SimulationNodeDatum & {
+		id: string;
+		hub: boolean;
+		label: string;
+		tone: string;
+		cat: string;
+		url?: string;
+		date?: string;
+		catLabel?: string;
+		r?: number;
+	};
+	type L = { source: N; target: N; w: number };
+
+	const SVG_NS = 'http://www.w3.org/2000/svg';
+	const W = 560;
+	const H = 500;
+
+	const fig = document.querySelector<HTMLElement>('[data-graph]');
+	if (fig) init(fig);
+
+	function init(fig: HTMLElement) {
+		const svg = fig.querySelector<SVGSVGElement>('[data-graph-svg]')!;
+		const gLinks = svg.querySelector<SVGGElement>('[data-links]')!;
+		const gNodes = svg.querySelector<SVGGElement>('[data-nodes]')!;
+		const tip = fig.querySelector<HTMLElement>('[data-graph-tip]')!;
+		const raw = JSON.parse(document.querySelector('[data-graph-data]')!.textContent!);
+		const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		const nodes: N[] = raw.nodes;
+		const byId = new Map(nodes.map((n) => [n.id, n]));
+		const links: L[] = raw.links.map((l: { s: string; t: string; w: number }) => ({
+			source: byId.get(l.s)!,
+			target: byId.get(l.t)!,
+			w: l.w,
+		}));
+
+		// 카테고리 허브를 원 위에 배치해 클러스터가 고르게 퍼지게 한다.
+		const hubs = nodes.filter((n) => n.hub);
+		const anchor = new Map<string, { x: number; y: number }>();
+		hubs.forEach((h, i) => {
+			const a = (i / hubs.length) * Math.PI * 2 - Math.PI / 2;
+			anchor.set(h.cat, { x: W / 2 + Math.cos(a) * 170, y: H / 2 + Math.sin(a) * 160 });
+		});
+		nodes.forEach((n) => {
+			const a = anchor.get(n.cat)!;
+			n.x = W / 2 + (a.x - W / 2) * 0.2 + (Math.random() - 0.5) * 20;
+			n.y = H / 2 + (a.y - H / 2) * 0.2 + (Math.random() - 0.5) * 20;
+		});
+
+		const neighbors = new Map<string, Set<string>>();
+		links.forEach((l) => {
+			if (!neighbors.has(l.source.id)) neighbors.set(l.source.id, new Set());
+			if (!neighbors.has(l.target.id)) neighbors.set(l.target.id, new Set());
+			neighbors.get(l.source.id)!.add(l.target.id);
+			neighbors.get(l.target.id)!.add(l.source.id);
+		});
+
+		const linkEls = links.map((l) => {
+			const el = document.createElementNS(SVG_NS, 'line');
+			el.setAttribute('class', 'link');
+			el.setAttribute('stroke-width', l.w ? String(0.6 + l.w * 0.35) : '0.8');
+			if (l.w) el.setAttribute('stroke-dasharray', '2 3');
+			gLinks.appendChild(el);
+			return el;
+		});
+
+		const nodeEls = nodes.map((n) => {
+			const g = document.createElementNS(SVG_NS, 'g');
+			g.setAttribute('class', n.hub ? 'node is-hub' : 'node');
+			g.dataset.tone = n.tone;
+			g.dataset.id = n.id;
+			const r = n.hub ? 7 : n.r ?? 5;
+			const c = document.createElementNS(SVG_NS, 'circle');
+			c.setAttribute('r', String(r));
+			g.appendChild(c);
+			const hit = document.createElementNS(SVG_NS, 'circle');
+			hit.setAttribute('class', 'graph__node-hit');
+			hit.setAttribute('r', String(Math.max(r + 6, 12)));
+			g.appendChild(hit);
+			if (n.hub) {
+				const t = document.createElementNS(SVG_NS, 'text');
+				t.textContent = n.label;
+				t.setAttribute('y', '-13');
+				t.setAttribute('text-anchor', 'middle');
+				g.appendChild(t);
+			}
+			gNodes.appendChild(g);
+			return g;
+		});
+
+		const sim = forceSimulation<N>(nodes)
+			.force(
+				'link',
+				forceLink<N, L>(links)
+					.distance((l) => (l.w ? 60 : 30))
+					.strength((l) => (l.w ? 0.08 : 0.5)),
+			)
+			.force('charge', forceManyBody<N>().strength((n) => (n.hub ? -220 : -22)))
+			.force('collide', forceCollide<N>().radius((n) => (n.hub ? 26 : (n.r ?? 5) + 2.2)))
+			.force('x', forceX<N>((n) => anchor.get(n.cat)!.x).strength((n) => (n.hub ? 0.6 : 0.06)))
+			.force('y', forceY<N>((n) => anchor.get(n.cat)!.y).strength((n) => (n.hub ? 0.6 : 0.06)))
+			.alphaDecay(0.035)
+			.on('tick', draw);
+
+		if (reduce) {
+			sim.stop();
+			for (let i = 0; i < 300; i++) sim.tick();
+			draw();
+		}
+
+		function draw() {
+			nodes.forEach((n) => {
+				n.x = Math.max(20, Math.min(W - 20, n.x!));
+				n.y = Math.max(24, Math.min(H - 12, n.y!));
+			});
+			links.forEach((l, i) => {
+				const el = linkEls[i];
+				el.setAttribute('x1', l.source.x!.toFixed(1));
+				el.setAttribute('y1', l.source.y!.toFixed(1));
+				el.setAttribute('x2', l.target.x!.toFixed(1));
+				el.setAttribute('y2', l.target.y!.toFixed(1));
+			});
+			nodes.forEach((n, i) => nodeEls[i].setAttribute('transform', `translate(${n.x!.toFixed(1)},${n.y!.toFixed(1)})`));
+		}
+
+		// --- focus ---------------------------------------------------
+		let selectedCat: string | null = null;
+
+		function focusNode(n: N | null) {
+			if (!n) return applyCat();
+			const near = neighbors.get(n.id) ?? new Set();
+			svg.classList.add('is-focus');
+			nodeEls.forEach((el, i) => el.classList.toggle('is-near', nodes[i].id === n.id || near.has(nodes[i].id)));
+			linkEls.forEach((el, i) =>
+				el.classList.toggle('is-near', links[i].source.id === n.id || links[i].target.id === n.id),
+			);
+		}
+
+		function applyCat() {
+			svg.classList.toggle('is-focus', !!selectedCat);
+			nodeEls.forEach((el, i) => el.classList.toggle('is-near', nodes[i].cat === selectedCat));
+			linkEls.forEach((el, i) =>
+				el.classList.toggle('is-near', links[i].source.cat === selectedCat && links[i].target.cat === selectedCat),
+			);
+			fig.querySelectorAll<HTMLButtonElement>('.legend-btn').forEach((b) =>
+				b.setAttribute('aria-pressed', String(b.dataset.cat === selectedCat)),
+			);
+		}
+
+		function showTip(n: N) {
+			const box = fig.getBoundingClientRect();
+			const pt = svg.getBoundingClientRect();
+			const sx = pt.width / W;
+			tip.innerHTML = '';
+			tip.append(n.label);
+			if (!n.hub) {
+				const s = document.createElement('small');
+				s.textContent = `${n.catLabel} · ${n.date}`;
+				tip.append(s);
+			}
+			tip.setAttribute('data-show', '');
+			const x = pt.left - box.left + n.x! * sx;
+			const y = pt.top - box.top + n.y! * sx;
+			const tw = tip.offsetWidth;
+			tip.style.left = `${Math.max(8, Math.min(box.width - tw - 8, x - tw / 2))}px`;
+			tip.style.top = `${y > 90 ? y - tip.offsetHeight - 14 : y + 16}px`;
+		}
+
+		const hideTip = () => tip.removeAttribute('data-show');
+
+		// --- pointer: hover, drag, click ------------------------------
+		const toSvg = (e: PointerEvent) => {
+			const p = svg.createSVGPoint();
+			p.x = e.clientX;
+			p.y = e.clientY;
+			return p.matrixTransform(svg.getScreenCTM()!.inverse());
+		};
+		const nodeFromEvent = (e: Event) => {
+			const g = (e.target as Element).closest<SVGGElement>('.node');
+			return g ? byId.get(g.dataset.id!) ?? null : null;
+		};
+
+		let drag: { n: N; moved: boolean; x0: number; y0: number } | null = null;
+
+		svg.addEventListener('pointerover', (e) => {
+			if (drag) return;
+			const n = nodeFromEvent(e);
+			if (n) {
+				focusNode(n);
+				showTip(n);
+			}
+		});
+		svg.addEventListener('pointerout', (e) => {
+			if (drag) return;
+			const n = nodeFromEvent(e);
+			const to = (e as PointerEvent).relatedTarget as Element | null;
+			if (n && !to?.closest?.('.node')) {
+				focusNode(null);
+				hideTip();
+			}
+		});
+		svg.addEventListener('pointerdown', (e) => {
+			const n = nodeFromEvent(e);
+			if (!n) return;
+			svg.setPointerCapture(e.pointerId);
+			drag = { n, moved: false, x0: e.clientX, y0: e.clientY };
+			n.fx = n.x;
+			n.fy = n.y;
+			svg.classList.add('is-dragging');
+			focusNode(n);
+			showTip(n);
+		});
+		svg.addEventListener('pointermove', (e) => {
+			if (!drag) return;
+			if (Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 4) {
+				if (!drag.moved) sim.alphaTarget(0.25).restart();
+				drag.moved = true;
+			}
+			if (!drag.moved) return;
+			const p = toSvg(e);
+			drag.n.fx = p.x;
+			drag.n.fy = p.y;
+			if (reduce) {
+				sim.tick();
+				draw();
+			}
+			showTip(drag.n);
+		});
+		const end = (e: PointerEvent) => {
+			if (!drag) return;
+			const { n, moved } = drag;
+			drag = null;
+			svg.classList.remove('is-dragging');
+			n.fx = null;
+			n.fy = null;
+			sim.alphaTarget(0);
+			if (reduce) sim.stop();
+			if (!moved && e.type === 'pointerup') {
+				if (n.url) window.location.href = n.url;
+				else selectCat(selectedCat === n.cat ? null : n.cat, true);
+			}
+			if (e.pointerType !== 'mouse') {
+				focusNode(null);
+				hideTip();
+			}
+		};
+		svg.addEventListener('pointerup', end);
+		svg.addEventListener('pointercancel', end);
+
+		// --- legend & feed sync --------------------------------------
+		function selectCat(cat: string | null, emit: boolean) {
+			selectedCat = cat;
+			applyCat();
+			if (emit) window.dispatchEvent(new CustomEvent('category-select', { detail: { cat, from: 'graph' } }));
+		}
+
+		fig.querySelectorAll<HTMLButtonElement>('.legend-btn').forEach((b) =>
+			b.addEventListener('click', () => selectCat(selectedCat === b.dataset.cat ? null : b.dataset.cat!, true)),
+		);
+		window.addEventListener('category-select', (e) => {
+			const d = (e as CustomEvent).detail;
+			if (d.from !== 'graph') selectCat(d.cat, false);
+		});
+
+		// 화면 밖에서는 시뮬레이션을 멈춘다.
+		new IntersectionObserver(([entry]) => {
+			if (!entry.isIntersecting) sim.stop();
+		}).observe(svg);
+	}
+</script>

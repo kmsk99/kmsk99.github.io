@@ -1,0 +1,214 @@
+---
+import { getAllItems, KIND_LABEL } from '../lib/content';
+
+const items = await getAllItems();
+const index = items.map((i) => ({
+	t: i.title,
+	s: i.summary ?? '',
+	g: i.tags,
+	u: i.url,
+	c: i.category.label,
+	o: i.category.tone,
+	k: KIND_LABEL[i.kind],
+	d: i.created,
+}));
+const pages = [
+	{ t: '홈', u: '/' },
+	{ t: '소개와 경력', u: '/about/' },
+	{ t: '기술 글 전체', u: '/posts/' },
+	{ t: '프로젝트', u: '/projects/' },
+	{ t: '창업 회고', u: '/retrospectives/' },
+	{ t: '이력서 PDF', u: '/documents/mason-kim-resume.pdf' },
+	{ t: '포트폴리오 PDF', u: '/documents/mason-kim-portfolio.pdf' },
+];
+---
+
+<div class="palette" data-palette role="dialog" aria-modal="true" aria-label="글 검색">
+	<div class="palette__box">
+		<label class="palette__input">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+			<span class="sr-only">검색어</span>
+			<input
+				type="search"
+				placeholder="제목, 태그, 초성으로 찾기 (예: ㅇㅌㄹㅈ)"
+				autocomplete="off"
+				spellcheck="false"
+				role="combobox"
+				aria-expanded="true"
+				aria-controls="palette-list"
+				data-palette-input
+			/>
+			<kbd>esc</kbd>
+		</label>
+		<ul class="palette__list" id="palette-list" role="listbox" data-palette-list></ul>
+		<div class="palette__foot" aria-hidden="true">
+			<span><kbd>↑</kbd> <kbd>↓</kbd> 이동</span>
+			<span><kbd>enter</kbd> 열기</span>
+			<span data-palette-count></span>
+		</div>
+	</div>
+</div>
+
+<script type="application/json" data-palette-index set:html={JSON.stringify({ items: index, pages }).replace(/</g, '\\u003c')} />
+
+<script>
+	import { getChoseong } from 'es-hangul';
+
+	type Doc = { t: string; s: string; g: string[]; u: string; c: string; o: string; k: string; d: string };
+	type Page = { t: string; u: string };
+
+	const root = document.querySelector<HTMLElement>('[data-palette]')!;
+	const input = root.querySelector<HTMLInputElement>('[data-palette-input]')!;
+	const list = root.querySelector<HTMLUListElement>('[data-palette-list]')!;
+	const count = root.querySelector<HTMLElement>('[data-palette-count]')!;
+	const raw = document.querySelector('[data-palette-index]')?.textContent ?? '{}';
+	const { items, pages } = JSON.parse(raw) as { items: Doc[]; pages: Page[] };
+
+	const norm = (s: string) => s.toLowerCase().replace(/\s+/g, '');
+	const prepared = items.map((d) => ({
+		d,
+		title: norm(d.t),
+		cho: getChoseong(d.t).replace(/\s+/g, ''),
+		body: norm(`${d.s} ${d.g.join(' ')} ${d.c}`),
+	}));
+	const isChoseong = (q: string) => /^[ㄱ-ㅎ]+$/.test(q);
+
+	let results: { u: string; html: string }[] = [];
+	let active = 0;
+	let lastFocus: HTMLElement | null = null;
+
+	const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+
+	const highlight = (text: string, q: string) => {
+		if (!q || isChoseong(q)) return esc(text);
+		const i = text.toLowerCase().indexOf(q.toLowerCase());
+		if (i < 0) return esc(text);
+		return `${esc(text.slice(0, i))}<mark>${esc(text.slice(i, i + q.length))}</mark>${esc(text.slice(i + q.length))}`;
+	};
+
+	const docHtml = (d: Doc, q: string) =>
+		`<span class="dot" data-tone="${d.o}"></span><div><strong>${highlight(d.t, q)}</strong><span>${esc(
+			d.s || d.g.join(', '),
+		)}</span></div><em>${esc(d.c)}</em>`;
+
+	function render() {
+		const qRaw = input.value.trim();
+		const q = norm(qRaw);
+		let html = '';
+		results = [];
+
+		if (!q) {
+			html += '<li class="palette__group" role="presentation">페이지</li>';
+			pages.forEach((p) => {
+				results.push({ u: p.u, html: `<span class="dot"></span><div><strong>${esc(p.t)}</strong></div>` });
+			});
+			html += results.map((r, i) => opt(r, i)).join('');
+			html += '<li class="palette__group" role="presentation">최근 글</li>';
+			const recent = items.slice(0, 6).map((d) => ({ u: d.u, html: docHtml(d, '') }));
+			html += recent.map((r, i) => opt(r, results.length + i)).join('');
+			results.push(...recent);
+			count.textContent = `글 ${items.length}편`;
+		} else {
+			const scored = prepared
+				.map((p) => {
+					let score = 0;
+					if (isChoseong(q)) {
+						if (p.cho.startsWith(q)) score = 3;
+						else if (p.cho.includes(q)) score = 2;
+					} else {
+						if (p.title.startsWith(q)) score = 4;
+						else if (p.title.includes(q)) score = 3;
+						else if (p.body.includes(q)) score = 1;
+					}
+					return { p, score };
+				})
+				.filter((x) => x.score > 0)
+				.sort((a, b) => b.score - a.score);
+			results = scored.slice(0, 40).map(({ p }) => ({ u: p.d.u, html: docHtml(p.d, qRaw) }));
+			html = results.length
+				? results.map((r, i) => opt(r, i)).join('')
+				: `<li class="palette__empty">“${esc(qRaw)}”와 맞는 글이 없습니다. 다른 단어나 태그로 찾아보세요.</li>`;
+			count.textContent = `${scored.length}개 찾음`;
+		}
+		list.innerHTML = html;
+		setActive(0);
+	}
+
+	const opt = (r: { html: string }, i: number) =>
+		`<li class="palette__opt" role="option" id="palette-opt-${i}" data-index="${i}">${r.html}</li>`;
+
+	function setActive(i: number) {
+		if (!results.length) return;
+		active = (i + results.length) % results.length;
+		list.querySelectorAll('[role="option"]').forEach((el) => {
+			const on = Number((el as HTMLElement).dataset.index) === active;
+			el.setAttribute('aria-selected', String(on));
+			if (on) el.scrollIntoView({ block: 'nearest' });
+		});
+		input.setAttribute('aria-activedescendant', `palette-opt-${active}`);
+	}
+
+	function open() {
+		lastFocus = document.activeElement as HTMLElement;
+		root.setAttribute('data-open', '');
+		document.body.style.overflow = 'hidden';
+		input.value = '';
+		render();
+		input.focus();
+	}
+
+	function close() {
+		root.removeAttribute('data-open');
+		document.body.style.overflow = '';
+		lastFocus?.focus();
+	}
+
+	const go = (i: number) => {
+		const r = results[i];
+		if (r) window.location.href = r.u;
+	};
+
+	document.querySelectorAll('[data-palette-open]').forEach((b) => b.addEventListener('click', open));
+	window.addEventListener('keydown', (e) => {
+		const isOpen = root.hasAttribute('data-open');
+		if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+			e.preventDefault();
+			isOpen ? close() : open();
+			return;
+		}
+		const target = e.target as HTMLElement;
+		const typing = /INPUT|TEXTAREA|SELECT/.test(target.tagName) || target.isContentEditable;
+		if (!isOpen && e.key === '/' && !typing) {
+			e.preventDefault();
+			open();
+			return;
+		}
+		if (!isOpen) return;
+		if (e.key === 'Escape') close();
+		else if (e.key === 'ArrowDown') {
+			e.preventDefault();
+			setActive(active + 1);
+		} else if (e.key === 'ArrowUp') {
+			e.preventDefault();
+			setActive(active - 1);
+		} else if (e.key === 'Enter' && !e.isComposing) {
+			e.preventDefault();
+			go(active);
+		} else if (e.key === 'Tab') {
+			e.preventDefault();
+			input.focus();
+		}
+	});
+	input.addEventListener('input', render);
+	list.addEventListener('mousemove', (e) => {
+		const el = (e.target as HTMLElement).closest<HTMLElement>('[role="option"]');
+		if (el && Number(el.dataset.index) !== active) setActive(Number(el.dataset.index));
+	});
+	list.addEventListener('click', (e) => {
+		const el = (e.target as HTMLElement).closest<HTMLElement>('[role="option"]');
+		if (el) go(Number(el.dataset.index));
+	});
+	root.addEventListener('click', (e) => {
+		if (e.target === root) close();
+	});
+</script>

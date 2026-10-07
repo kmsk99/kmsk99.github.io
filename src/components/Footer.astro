@@ -1,20 +1,21 @@
+---
+const year = new Date().getFullYear();
+---
+
 <footer class="site-footer">
-	<div class="container site-footer__inner">
-		<p>© {new Date().getFullYear()} 김민석. Built with Astro, written in Markdown.</p>
+	<div class="wrap site-footer__inner">
+		<p>© {year} 김민석. Astro로 만들고 Markdown으로 씁니다.</p>
 		<div class="site-footer__links">
-			<a href="mailto:kmsk96@naver.com">Email</a>
+			<a href="mailto:kmsk96@naver.com">이메일</a>
 			<a href="https://www.linkedin.com/in/kmsk99/" target="_blank" rel="noreferrer">LinkedIn</a>
 			<a href="https://github.com/kmsk99" target="_blank" rel="noreferrer">GitHub</a>
-			<a href="https://kmsk99.github.io" target="_blank" rel="noreferrer">Blog</a>
-			<div class="site-footer__badge" aria-label="방문자 수 배지">
-				<img
-					src="https://visitor-badge.laobi.icu/badge?page_id=kmsk99.github.io.footer&left_text=Blog%20Visitors"
-					alt="사이트 방문자 수"
-					loading="lazy"
-					decoding="async"
-				/>
-			</div>
+			<a href="/rss.xml">RSS</a>
+			<img
+				src="https://visitor-badge.laobi.icu/badge?page_id=kmsk99.github.io.footer&left_text=Blog%20Visitors"
+				alt="블로그 방문자 수"
+				loading="lazy"
+				decoding="async"
+			/>
 		</div>
 	</div>
 </footer>
-

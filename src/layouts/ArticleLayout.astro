@@ -1,0 +1,234 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { getAllItems, relatedItems, formatDate, type Item } from '../lib/content';
+
+interface Props {
+	item: Item;
+}
+
+const { item } = Astro.props as Props;
+const { Content, headings } = await item.entry.render();
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+
+const all = await getAllItems();
+const idx = all.findIndex((i) => i.slug === item.slug);
+const newer = idx > 0 ? all[idx - 1] : undefined;
+const older = idx < all.length - 1 ? all[idx + 1] : undefined;
+const related = relatedItems(all, item, 3);
+
+const section = {
+	post: { label: '기술 글', url: '/posts/' },
+	project: { label: '프로젝트', url: '/projects/' },
+	retro: { label: '회고', url: '/retrospectives/' },
+}[item.kind];
+const breadcrumbs = [
+	{ label: '홈', url: '/' },
+	{ label: section.label, url: section.url },
+	{ label: item.title, url: item.url },
+];
+const pageId = `kmsk99.github.io.${item.kind === 'retro' ? 'retrospective' : item.kind}.${item.slug}`;
+const badgeSrc = `https://visitor-badge.laobi.icu/badge?page_id=${encodeURIComponent(pageId)}`;
+const firstImage = item.entry.body?.match(/!\[[^\]]*\]\((\/images\/[^)\s]+)\)/)?.[1];
+---
+
+<BaseLayout
+	title={item.title}
+	description={item.summary}
+	seoType="article"
+	image={firstImage}
+	publishedTime={item.created}
+	modifiedTime={item.entry.data.modified}
+	tags={item.tags}
+	breadcrumbs={breadcrumbs}
+	progress
+>
+	<div class="wrap article-shell">
+		<article data-article>
+			<header class="article-head">
+				<nav class="crumbs" aria-label="위치">
+					<a href={section.url}>{section.label}</a>
+					<span aria-hidden="true">/</span>
+					<a href={`${section.url}?category=${item.category.key}`} data-tone={item.category.tone} style="display:inline-flex;align-items:center;gap:7px">
+						<span class="dot"></span>{item.category.label}
+					</a>
+				</nav>
+				<h1>{item.title}</h1>
+				{item.summary && <p class="article-head__summary">{item.summary}</p>}
+				<div class="article-head__meta">
+					<time datetime={item.created}>{formatDate(item.date)}</time>
+					<span>{item.minutes}분 분량</span>
+					{item.tags.length > 0 && (
+						<span class="tags">
+							{item.tags.map((t) => (
+								<a class="tag" href={`${section.url}?tag=${encodeURIComponent(t.toLowerCase())}`}>
+									#{t}
+								</a>
+							))}
+						</span>
+					)}
+					<span class="visitor">
+						<img src={badgeSrc} alt="이 글의 방문자 수" loading="lazy" decoding="async" />
+					</span>
+				</div>
+			</header>
+
+			<div class="prose" data-prose>
+				<Content />
+			</div>
+
+			<footer class="article-foot">
+				<div class="author-card">
+					<img src="/images/mason-avatar.png" alt="" width="56" height="56" />
+					<div>
+						<strong>김민석</strong>
+						<p>제이에이치핏 CTO. 업무 규칙을 제품과 검증 가능한 코드로 옮깁니다.</p>
+					</div>
+					<a class="btn" href="/about/">소개 보기</a>
+				</div>
+
+				{related.length > 0 && (
+					<section class="related" aria-labelledby="related-title">
+						<h2 id="related-title">같은 태그로 이어진 글</h2>
+						<ul class="feed__list">
+							{related.map((r) => (
+								<li class="feed__item">
+									<time class="feed__date" datetime={r.created}>
+										{formatDate(r.date)}
+									</time>
+									<h3>
+										<a href={r.url}>{r.title}</a>
+									</h3>
+									<span class="feed__cat" data-tone={r.category.tone}>
+										<span class="dot"></span>
+										{r.category.label}
+									</span>
+									{r.summary && <p>{r.summary}</p>}
+								</li>
+							))}
+						</ul>
+					</section>
+				)}
+
+				<nav class="pager" aria-label="이전 글과 다음 글">
+					{older && (
+						<a href={older.url}>
+							<small>이전 글</small>
+							<strong>{older.title}</strong>
+						</a>
+					)}
+					{newer && (
+						<a href={newer.url} class="next">
+							<small>다음 글</small>
+							<strong>{newer.title}</strong>
+						</a>
+					)}
+				</nav>
+			</footer>
+		</article>
+
+		{toc.length > 1 && (
+			<aside class="toc" aria-label="목차">
+				<p>목차</p>
+				<ol>
+					{toc.map((h) => (
+						<li>
+							<a href={`#${h.slug}`} data-depth={h.depth}>
+								{h.text}
+							</a>
+						</li>
+					))}
+				</ol>
+				<button class="toc__top" type="button" data-to-top>맨 위로</button>
+			</aside>
+		)}
+	</div>
+</BaseLayout>
+
+<script>
+	const prose = document.querySelector<HTMLElement>('[data-prose]');
+
+	if (prose) {
+		// 제목 앵커
+		prose.querySelectorAll<HTMLElement>('h2[id], h3[id]').forEach((h) => {
+			const a = document.createElement('a');
+			a.className = 'anchor';
+			a.href = `#${h.id}`;
+			a.textContent = '#';
+			a.setAttribute('aria-label', `${h.textContent} 링크`);
+			h.prepend(a);
+		});
+
+		// 코드 복사
+		prose.querySelectorAll('pre').forEach((pre) => {
+			const wrap = document.createElement('div');
+			wrap.className = 'code-wrap';
+			pre.replaceWith(wrap);
+			wrap.appendChild(pre);
+			const btn = document.createElement('button');
+			btn.type = 'button';
+			btn.className = 'copy-btn';
+			btn.textContent = '복사';
+			btn.addEventListener('click', async () => {
+				try {
+					await navigator.clipboard.writeText(pre.innerText);
+					btn.textContent = '복사됨';
+					btn.setAttribute('data-done', '');
+				} catch {
+					btn.textContent = '복사 실패';
+				}
+				setTimeout(() => {
+					btn.textContent = '복사';
+					btn.removeAttribute('data-done');
+				}, 1600);
+			});
+			wrap.appendChild(btn);
+		});
+
+		// 이미지 확대
+		prose.querySelectorAll('img').forEach((img) => {
+			img.loading = 'lazy';
+			img.addEventListener('click', () => {
+				const box = document.createElement('div');
+				box.className = 'lightbox';
+				box.setAttribute('role', 'dialog');
+				box.setAttribute('aria-label', img.alt || '확대한 이미지');
+				const big = img.cloneNode() as HTMLImageElement;
+				big.removeAttribute('loading');
+				box.appendChild(big);
+				const close = () => {
+					box.remove();
+					window.removeEventListener('keydown', onKey);
+				};
+				const onKey = (e: KeyboardEvent) => e.key === 'Escape' && close();
+				box.addEventListener('click', close);
+				window.addEventListener('keydown', onKey);
+				document.body.appendChild(box);
+			});
+		});
+	}
+
+	// 목차 스크롤 추적
+	const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc a')];
+	if (links.length) {
+		const targets = links
+			.map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1))))
+			.filter((el): el is HTMLElement => !!el);
+		const update = () => {
+			let current = targets[0];
+			for (const t of targets) {
+				if (t.getBoundingClientRect().top < 120) current = t;
+			}
+			links.forEach((a) => {
+				const on = decodeURIComponent(a.hash.slice(1)) === current?.id;
+				a.toggleAttribute('aria-current', on);
+				if (on) a.setAttribute('aria-current', 'true');
+			});
+		};
+		window.addEventListener('scroll', update, { passive: true });
+		update();
+	}
+
+	document.querySelector('[data-to-top]')?.addEventListener('click', () => {
+		window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+	});
+</script>

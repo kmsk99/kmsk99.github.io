@@ -1,0 +1,215 @@
+---
+import type { Item } from '../lib/content';
+import { formatDate, KIND_LABEL } from '../lib/content';
+
+interface Props {
+	items: Item[];
+	showKinds?: boolean;
+	showCategories?: boolean;
+	pageSize?: number;
+	placeholder?: string;
+}
+
+const { items, showKinds = false, showCategories = false, pageSize = 15, placeholder = '이 목록에서 찾기' } =
+	Astro.props as Props;
+
+const tagCount = new Map<string, number>();
+items.forEach((i) => i.tags.forEach((t) => tagCount.set(t, (tagCount.get(t) ?? 0) + 1)));
+const topTags = [...tagCount.entries()].sort((a, b) => b[1] - a[1]).slice(0, 18);
+
+const cats = [...new Map(items.map((i) => [i.category.key, i.category])).values()];
+const catCount = (key: string) => items.filter((i) => i.category.key === key).length;
+const kinds = (['post', 'project', 'retro'] as const).filter((k) => items.some((i) => i.kind === k));
+---
+
+<div class="feed" data-feed data-page-size={pageSize}>
+	<div class="feed__controls">
+		<div class="feed__row">
+			<label class="feed__search">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+				<span class="sr-only">{placeholder}</span>
+				<input type="search" placeholder={placeholder} data-feed-q autocomplete="off" />
+			</label>
+			{showKinds && kinds.length > 1 && (
+				<div class="seg" role="group" aria-label="글 종류">
+					<button type="button" data-kind="" aria-pressed="true">전체</button>
+					{kinds.map((k) => (
+						<button type="button" data-kind={k} aria-pressed="false">
+							{KIND_LABEL[k]}
+						</button>
+					))}
+				</div>
+			)}
+		</div>
+		{showCategories && (
+			<div class="chip-row" role="group" aria-label="카테고리">
+				{cats.map((c) => (
+					<button class="chip" type="button" data-tone={c.tone} data-cat={c.key} aria-pressed="false">
+						<span class="dot"></span>
+						{c.label} <small>{catCount(c.key)}</small>
+					</button>
+				))}
+			</div>
+		)}
+		<div class="chip-row" role="group" aria-label="태그">
+			{topTags.map(([t, n]) => (
+				<button class="chip" type="button" data-tag={t} aria-pressed="false">
+					#{t} <small>{n}</small>
+				</button>
+			))}
+		</div>
+		<p class="feed__count" aria-live="polite" data-feed-count></p>
+	</div>
+
+	<ul class="feed__list">
+		{items.map((i) => (
+			<li
+				class="feed__item"
+				data-kind={i.kind}
+				data-cat={i.category.key}
+				data-tags={i.tags.join('|').toLowerCase()}
+				data-text={`${i.title} ${i.summary ?? ''} ${i.tags.join(' ')}`.toLowerCase()}
+			>
+				<time class="feed__date" datetime={i.created}>
+					{formatDate(i.date)}
+				</time>
+				<h3>
+					<a href={i.url}>{i.title}</a>
+				</h3>
+				<span class="feed__cat" data-tone={i.category.tone}>
+					<span class="dot"></span>
+					{i.category.label}
+				</span>
+				{i.summary && <p>{i.summary}</p>}
+				{i.tags.length > 0 && (
+					<div class="feed__tags">
+						{i.tags.slice(0, 4).map((t) => (
+							<button class="tag" type="button" data-tag-link={t}>
+								#{t}
+							</button>
+						))}
+					</div>
+				)}
+			</li>
+		))}
+	</ul>
+	<p class="feed__empty" data-feed-empty hidden>
+		조건에 맞는 글이 없습니다. <button class="text-link" type="button" data-feed-reset style="background:none;border:0;cursor:pointer;padding:0">필터 초기화</button>
+	</p>
+	<div class="feed__more">
+		<button class="btn" type="button" data-feed-more hidden>더 보기</button>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('[data-feed]').forEach((root) => {
+		const pageSize = Number(root.dataset.pageSize) || 15;
+		const rows = [...root.querySelectorAll<HTMLElement>('.feed__item')];
+		const q = root.querySelector<HTMLInputElement>('[data-feed-q]')!;
+		const count = root.querySelector<HTMLElement>('[data-feed-count]')!;
+		const more = root.querySelector<HTMLButtonElement>('[data-feed-more]')!;
+		const empty = root.querySelector<HTMLElement>('[data-feed-empty]')!;
+		const kindBtns = [...root.querySelectorAll<HTMLButtonElement>('[data-kind]')];
+		const catBtns = [...root.querySelectorAll<HTMLButtonElement>('.chip[data-cat]')];
+		const tagBtns = [...root.querySelectorAll<HTMLButtonElement>('.chip[data-tag]')];
+
+		const params = new URLSearchParams(location.search);
+		const state = {
+			q: params.get('q') ?? '',
+			kind: params.get('type') ?? '',
+			cat: params.get('category') ?? '',
+			tag: (params.get('tag') ?? '').toLowerCase(),
+			limit: pageSize,
+		};
+		if (state.kind === 'all') state.kind = '';
+		if (state.cat === '__all') state.cat = '';
+		q.value = state.q;
+
+		function syncUrl() {
+			const p = new URLSearchParams();
+			if (state.q) p.set('q', state.q);
+			if (state.kind) p.set('type', state.kind);
+			if (state.cat) p.set('category', state.cat);
+			if (state.tag) p.set('tag', state.tag);
+			const qs = p.toString();
+			history.replaceState(null, '', qs ? `?${qs}` : location.pathname);
+		}
+
+		function apply() {
+			const query = state.q.trim().toLowerCase();
+			let shown = 0;
+			let matched = 0;
+			rows.forEach((row) => {
+				const ok =
+					(!state.kind || row.dataset.kind === state.kind) &&
+					(!state.cat || row.dataset.cat === state.cat) &&
+					(!state.tag || row.dataset.tags!.split('|').includes(state.tag)) &&
+					(!query || row.dataset.text!.includes(query));
+				if (ok) matched++;
+				const visible = ok && shown < state.limit;
+				if (visible) shown++;
+				row.hidden = !visible;
+			});
+			kindBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.kind === state.kind)));
+			catBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.cat === state.cat)));
+			tagBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tag!.toLowerCase() === state.tag)));
+			const filtered = state.q || state.kind || state.cat || state.tag;
+			const label = [state.tag && `#${state.tag}`, state.q && `“${state.q}”`].filter(Boolean).join(' ');
+			count.textContent = filtered ? `${label ? `${label} · ` : ''}${matched}편이 조건에 맞습니다` : `전체 ${matched}편`;
+			more.hidden = matched <= shown;
+			more.textContent = `더 보기 (${matched - shown}편 남음)`;
+			empty.hidden = matched > 0;
+			syncUrl();
+		}
+
+		const set = (patch: Partial<typeof state>) => {
+			Object.assign(state, patch, { limit: pageSize });
+			apply();
+		};
+
+		const announceCat = () =>
+			window.dispatchEvent(new CustomEvent('category-select', { detail: { cat: state.cat || null, from: 'feed' } }));
+
+		let timer = 0;
+		q.addEventListener('input', () => {
+			clearTimeout(timer);
+			timer = window.setTimeout(() => set({ q: q.value }), 120);
+		});
+		kindBtns.forEach((b) => b.addEventListener('click', () => set({ kind: b.dataset.kind ?? '' })));
+		catBtns.forEach((b) =>
+			b.addEventListener('click', () => {
+				set({ cat: state.cat === b.dataset.cat ? '' : b.dataset.cat! });
+				announceCat();
+			}),
+		);
+		tagBtns.forEach((b) =>
+			b.addEventListener('click', () => {
+				const t = b.dataset.tag!.toLowerCase();
+				set({ tag: state.tag === t ? '' : t });
+			}),
+		);
+		root.addEventListener('click', (e) => {
+			const t = (e.target as HTMLElement).closest<HTMLElement>('[data-tag-link]');
+			if (!t) return;
+			set({ tag: t.dataset.tagLink!.toLowerCase() });
+			root.querySelector('.feed__controls')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		});
+		more.addEventListener('click', () => {
+			state.limit += pageSize;
+			apply();
+		});
+		root.querySelector('[data-feed-reset]')?.addEventListener('click', () => {
+			q.value = '';
+			set({ q: '', kind: '', cat: '', tag: '' });
+			announceCat();
+		});
+		window.addEventListener('category-select', (e) => {
+			const d = (e as CustomEvent).detail;
+			if (d.from === 'feed') return;
+			set({ cat: d.cat ?? '' });
+		});
+
+		apply();
+		if (state.cat) announceCat();
+	});
+</script>

@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Feed from './Feed.astro';
+import type { Item } from '../lib/content';
+
+interface Props {
+	title: string;
+	heading: string;
+	lede: string;
+	items: Item[];
+}
+
+const { title, heading, lede, items } = Astro.props as Props;
+const cats = [...new Map(items.map((i) => [i.category.key, i.category])).values()];
+const countOf = (key: string) => items.filter((i) => i.category.key === key).length;
+---
+
+<BaseLayout title={title} description={lede}>
+	<div class="wrap">
+		<header class="page-head">
+			<h1>{heading}</h1>
+			<p>{lede}</p>
+			<slot />
+		</header>
+		{cats.length > 1 && (
+			<div class="cat-grid" role="group" aria-label="카테고리로 거르기" data-cat-cards>
+				{cats.map((c) => (
+					<button class="cat-card" type="button" data-tone={c.tone} data-cat={c.key} aria-pressed="false">
+						<strong>
+							<span class="dot"></span>
+							{c.label}
+							<small>{countOf(c.key)}</small>
+						</strong>
+						<span>{c.blurb}</span>
+					</button>
+				))}
+			</div>
+		)}
+		<Feed items={items} />
+	</div>
+</BaseLayout>
+
+<script>
+	const cards = [...document.querySelectorAll<HTMLButtonElement>('[data-cat-cards] .cat-card')];
+	let current: string | null = null;
+	const sync = () => cards.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.cat === current)));
+	cards.forEach((c) =>
+		c.addEventListener('click', () => {
+			current = current === c.dataset.cat ? null : c.dataset.cat!;
+			sync();
+			window.dispatchEvent(new CustomEvent('category-select', { detail: { cat: current, from: 'cards' } }));
+		}),
+	);
+	window.addEventListener('category-select', (e) => {
+		const d = (e as CustomEvent).detail;
+		if (d.from === 'cards') return;
+		current = d.cat;
+		sync();
+	});
+</script>

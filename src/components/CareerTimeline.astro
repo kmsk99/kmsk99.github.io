@@ -1,0 +1,232 @@
+---
+// 2026년에 일이 몰려 있어 축을 구간별로 늘린다. [연도, 위치%]
+const STOPS: [number, number][] = [
+	[2019, 0],
+	[2023, 20],
+	[2026, 60],
+	[2027, 100],
+];
+const pos = (y: number) => {
+	for (let i = 1; i < STOPS.length; i++) {
+		const [y0, p0] = STOPS[i - 1];
+		const [y1, p1] = STOPS[i];
+		if (y <= y1) return p0 + ((y - y0) / (y1 - y0)) * (p1 - p0);
+	}
+	return 100;
+};
+const NOW = 2026 + 9.5 / 12;
+const ym = (y: number, m: number) => y + (m - 1) / 12;
+
+interface Role {
+	id: string;
+	lane: number;
+	label: string;
+	from: number;
+	to: number;
+	tone: string;
+	title: string;
+	when: string;
+	lede: string;
+	metrics?: { value: string; label: string }[];
+	points: string[];
+}
+
+const roles: Role[] = [
+	{
+		id: 'army',
+		lane: 0,
+		label: '육군 중위',
+		from: ym(2019, 3),
+		to: ym(2021, 7),
+		tone: 'retro',
+		title: '대한민국 육군',
+		when: '2019–2021 · 중위, 화생방 소대장',
+		lede: '30명 규모 소대를 지휘하고 훈련을 운영했습니다.',
+		points: ['소대 단위 훈련 계획과 운영', '정보처리기사(2021), ADsP(2022) 취득'],
+	},
+	{
+		id: 'portzone',
+		lane: 0,
+		label: '포트존 CTO',
+		from: ym(2023, 1),
+		to: ym(2026, 3),
+		tone: 'arch',
+		title: '포트존 · CTO',
+		when: '2023.05–2026.03 · 사업은 2023.01부터',
+		lede: '4명으로 이뤄진 제품 개발팀을 이끌며 웹·모바일 서비스 3개를 만들고 운영했습니다.',
+		metrics: [
+			{ value: '22,000+', label: '서비스 전체 누적 가입자' },
+			{ value: '3개', label: '직접 운영한 서비스' },
+			{ value: '90%↓', label: '스쿨밋 수동 검수' },
+		],
+		points: [
+			'퍼프존: 2개월 만에 글로벌 MVP 출시, 5개 언어와 실시간 번역, 지도 클러스터링',
+			'스쿨밋: 웹 3개월·앱 2개월에 출시, 누적 13,000명. KMS 문서 암호화와 OCR+LLM 인증',
+			'아이러브클럽: 예약·승인·알림 통합, GitHub Actions·Docker 배포, Elastic Beanstalk에서 ECS/Fargate로 이전',
+		],
+	},
+	{
+		id: 'concheese',
+		lane: 0,
+		label: '콘치즈',
+		from: ym(2026, 3),
+		to: ym(2026, 7),
+		tone: 'data',
+		title: '콘치즈 · 개발팀장',
+		when: '2026.03–2026.06',
+		lede: '매장 운영자가 판매와 손익을 한 화면에서 보는 사장링크를 만들고, 손으로 하던 전산 업무를 자동화했습니다.',
+		metrics: [{ value: '매일 09:00', label: '정부지원 공고 자동 수집' }],
+		points: [
+			'POS·배달·홈택스·전표 데이터를 이어 회계 손익과 배달 손익을 나눠 보여 주는 화면 개발',
+			'실제 매장 자료와 대조해 수집 실패가 0원으로 보이던 문제, 미확정 전표, 동기화 차이를 정리',
+			'공고를 법인별 검토 카드로 만드는 장부와 매장 데이터 수집 워커, 운영 인수인계 문서',
+		],
+	},
+	{
+		id: 'jhfit',
+		lane: 1,
+		label: '제이에이치핏 CTO',
+		from: ym(2026, 4),
+		to: NOW,
+		tone: 'product',
+		title: '제이에이치핏 · CTO',
+		when: '2026.07–현재 · 2026.04부터 외주로 참여',
+		lede: '피트니스·필라테스·PT 센터 운영 SaaS 핏브릿지를 만듭니다. 관리자 웹, 회원·코치 앱이 하나의 API와 데이터 모델을 씁니다.',
+		metrics: [
+			{ value: '71/73', label: '금액 규칙 변이 탐지 (이전 59/73)' },
+		],
+		points: [
+			'회원·수강권·예약·결제·정산 규칙을 정리하고 기존 운영 데이터를 이관',
+			'업무 규칙을 Turtle/OWL·SHACL·SPARQL 온톨로지로 표현해 코드·DB·테스트 근거와 연결',
+			'환불·리워드·인증의 동시성 문제를 실제 PostgreSQL 경합과 장애 주입으로 재현하고 수정',
+			'API 계약에서 TypeScript·Dart 클라이언트를 생성하고 AWS 배포와 오류 추적을 자동화',
+		],
+	},
+	{
+		id: 'grad',
+		lane: 2,
+		label: '서강대 AI·SW대학원',
+		from: ym(2023, 3),
+		to: ym(2026, 9),
+		tone: 'oss',
+		title: '서강대학교 AI·SW대학원 · 공학석사',
+		when: '2023.03–2026.08 · 데이터사이언스·인공지능',
+		lede: '회사 일을 하면서 금융 수치 추론 RAG를 연구해 학위를 받았습니다.',
+		metrics: [
+			{ value: '82.48%', label: 'FinQA 테스트 실행 정확도' },
+			{ value: '1,147', label: '평가 문항' },
+		],
+		points: [
+			'금융 표·텍스트 검색, 재순위화, Program-of-Thought, 반복 검색을 비교 평가',
+			'검색 품질이 높을 때 반복 검색의 효과가 줄어드는 조건과 남는 오류를 분해',
+		],
+	},
+];
+
+const ticks = [2019, 2021, 2023, 2024, 2025, 2026];
+const initial = 'jhfit';
+---
+
+<div class="timeline" data-timeline>
+	<div class="timeline__track">
+		<div class="timeline__grid" style="--lanes-h: 160px">
+			<div class="timeline__years" aria-hidden="true">
+				{ticks.map((y) => <span style={`left:${pos(y)}%`}>{y}</span>)}
+				<span style={`left:${pos(NOW)}%; color: var(--accent); font-weight: 700`}>지금</span>
+			</div>
+			<div role="tablist" aria-label="경력 구간" data-tablist>
+				{[0, 1, 2].map((lane) => (
+					<div class="timeline__lane" role="presentation">
+						{roles
+							.filter((r) => r.lane === lane)
+							.map((r) => (
+								<button
+									class="timeline__bar"
+									type="button"
+									role="tab"
+									id={`tab-${r.id}`}
+									aria-controls={`panel-${r.id}`}
+									aria-selected={String(r.id === initial)}
+									tabindex={r.id === initial ? 0 : -1}
+									data-tone={r.tone}
+									style={`left:${pos(r.from)}%; width:${pos(r.to) - pos(r.from)}%`}
+								>
+									<span class="dot"></span>
+									{r.label}
+								</button>
+							))}
+					</div>
+				))}
+			</div>
+		</div>
+	</div>
+	<div class="timeline__detail">
+		{roles.map((r) => (
+			<div
+				class="timeline__panel"
+				role="tabpanel"
+				id={`panel-${r.id}`}
+				aria-labelledby={`tab-${r.id}`}
+				data-tone={r.tone}
+				hidden={r.id !== initial}
+			>
+				<header>
+					<h3>{r.title}</h3>
+					<p>{r.when}</p>
+				</header>
+				<div class="timeline__body">
+					<p>{r.lede}</p>
+					{r.metrics && (
+						<ul class="metrics">
+							{r.metrics.map((m) => (
+								<li>
+									<strong>{m.value}</strong>
+									{m.label}
+								</li>
+							))}
+						</ul>
+					)}
+					<ul>
+						{r.points.map((p) => (
+							<li>{p}</li>
+						))}
+					</ul>
+				</div>
+			</div>
+		))}
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('[data-timeline]').forEach((root) => {
+		const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')].sort(
+			(a, b) => parseFloat(a.style.left) - parseFloat(b.style.left),
+		);
+		const select = (tab: HTMLButtonElement, focus = false) => {
+			tabs.forEach((t) => {
+				const on = t === tab;
+				t.setAttribute('aria-selected', String(on));
+				t.tabIndex = on ? 0 : -1;
+				const panel = root.querySelector<HTMLElement>(`#${t.getAttribute('aria-controls')}`)!;
+				panel.hidden = !on;
+			});
+			if (focus) tab.focus();
+			tab.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+		};
+		// 좁은 화면에서는 선택된 최근 경력이 보이도록 트랙을 오른쪽 끝으로 옮긴다.
+		const track = root.querySelector<HTMLElement>('.timeline__track');
+		if (track) track.scrollLeft = track.scrollWidth;
+		tabs.forEach((t, i) => {
+			t.addEventListener('click', () => select(t));
+			t.addEventListener('keydown', (e) => {
+				if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+					e.preventDefault();
+					select(tabs[(i + 1) % tabs.length], true);
+				} else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+					e.preventDefault();
+					select(tabs[(i - 1 + tabs.length) % tabs.length], true);
+				}
+			});
+		});
+	});
+</script>
