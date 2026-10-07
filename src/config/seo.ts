@@ -1,10 +1,10 @@
 export const SITE = {
-	title: '김민석 · Astro 포트폴리오',
-	description: '김민석의 포트폴리오와 기술 블로그.',
+	title: '김민석 · CTO & Product Engineering',
+	description: '제이에이치핏 CTO 김민석의 경력과 기술 기록. 웹·모바일 제품 개발, AI 하네스와 온톨로지 엔지니어링.',
 	url: 'https://kmsk99.github.io',
 	siteName: '김민석 블로그',
 	locale: 'ko_KR',
-	defaultImage: '/favicon.svg',
+	defaultImage: '/images/mason-avatar.png',
 	author: {
 		name: '김민석',
 		url: 'https://kmsk99.github.io',

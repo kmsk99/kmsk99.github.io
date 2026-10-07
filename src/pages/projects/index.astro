@@ -24,10 +24,15 @@ const getProjectCategory = (entry: (typeof projects)[number]) => {
 					<div>
 						<p class="eyebrow">Projects</p>
 						<h1>프로젝트</h1>
-						<p class="lede">기획부터 배포·운영까지 흐름을 그대로 담은 프로젝트 모음</p>
+						<p class="lede">제품 개발 경력과 공개 프로젝트 기록</p>
 					</div>
 				</header>
-				<div class="list filter-target">
+				<div class="article__body">
+                    <p>현재 제이에이치핏에서 핏브릿지 개발을 이끌고 있습니다. 이전에는 콘치즈에서 사장링크와 전산 업무 자동화를, 포트존에서 퍼프존·스쿨밋·아이러브클럽을 개발했습니다.</p>
+                    <p><a href="/about">경력과 담당 범위</a> · <a href="/documents/mason-kim-portfolio.pdf">최신 포트폴리오 PDF</a></p>
+                    <h2>공개 프로젝트 기록</h2>
+                </div>
+                <div class="list filter-target">
 					{projects.map((project) => {
 						const tags = project.data.tags?.join(',') ?? '';
 						const category = getProjectCategory(project);
