@@ -34,6 +34,8 @@ const data = {
 			url: i.url,
 			date: i.created,
 			catLabel: i.category.label,
+			summary: i.summary ?? '',
+			minutes: i.minutes,
 			r: Math.min(5.5, 3 + i.minutes * 0.2),
 		})),
 	],
@@ -43,7 +45,7 @@ const counts = Object.fromEntries(usedCats.map((c) => [c.key, items.filter((i) =
 ---
 
 <figure class="graph" data-graph>
-	<p class="graph__hint" aria-hidden="true">점을 끌어보거나 눌러서 글을 여세요</p>
+	<p class="graph__hint" aria-hidden="true" data-graph-hint>점을 끌거나 눌러 보세요</p>
 	<svg
 		class="graph__canvas"
 		viewBox="0 0 560 500"
@@ -54,7 +56,16 @@ const counts = Object.fromEntries(usedCats.map((c) => [c.key, items.filter((i) =
 		<g data-links></g>
 		<g data-nodes></g>
 	</svg>
-	<div class="graph__tip" data-graph-tip role="status"></div>
+	<div class="graph__tip" data-graph-tip aria-hidden="true"></div>
+	<div class="graph__card" data-graph-card hidden role="dialog" aria-label="글 미리보기">
+		<div class="graph__card-meta" data-card-meta></div>
+		<strong data-card-title></strong>
+		<p data-card-summary></p>
+		<div class="graph__card-actions">
+			<a class="btn btn--primary btn--sm" data-card-open href="/">글 열기</a>
+			<button class="btn btn--sm" type="button" data-card-close>닫기</button>
+		</div>
+	</div>
 	<figcaption class="graph__legend">
 		<span class="sr-only">카테고리별로 강조하기</span>
 		{usedCats.map((c) => (
@@ -72,6 +83,8 @@ const counts = Object.fromEntries(usedCats.map((c) => [c.key, items.filter((i) =
 <script>
 	import { forceSimulation, forceLink, forceManyBody, forceCollide, forceX, forceY } from 'd3-force';
 	import type { SimulationNodeDatum } from 'd3-force';
+	import { navigate } from 'astro:transitions/client';
+	import { onPage, prefersReducedMotion } from '../lib/page';
 
 	type N = SimulationNodeDatum & {
 		id: string;
@@ -82,6 +95,8 @@ const counts = Object.fromEntries(usedCats.map((c) => [c.key, items.filter((i) =
 		url?: string;
 		date?: string;
 		catLabel?: string;
+		summary?: string;
+		minutes?: number;
 		r?: number;
 	};
 	type L = { source: N; target: N; w: number };
@@ -90,26 +105,26 @@ const counts = Object.fromEntries(usedCats.map((c) => [c.key, items.filter((i) =
 	const W = 560;
 	const H = 500;
 
-	const fig = document.querySelector<HTMLElement>('[data-graph]');
-	if (fig) init(fig);
+	onPage((signal) => {
+		const fig = document.querySelector<HTMLElement>('[data-graph]');
+		const raw = document.querySelector('[data-graph-data]')?.textContent;
+		if (!fig || !raw) return;
+		return init(fig, JSON.parse(raw), signal);
+	});
 
-	function init(fig: HTMLElement) {
+	function init(fig: HTMLElement, raw: { nodes: N[]; links: { s: string; t: string; w: number }[] }, signal: AbortSignal) {
 		const svg = fig.querySelector<SVGSVGElement>('[data-graph-svg]')!;
 		const gLinks = svg.querySelector<SVGGElement>('[data-links]')!;
 		const gNodes = svg.querySelector<SVGGElement>('[data-nodes]')!;
 		const tip = fig.querySelector<HTMLElement>('[data-graph-tip]')!;
-		const raw = JSON.parse(document.querySelector('[data-graph-data]')!.textContent!);
-		const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+		const card = fig.querySelector<HTMLElement>('[data-graph-card]')!;
+		const hint = fig.querySelector<HTMLElement>('[data-graph-hint]');
+		const reduce = prefersReducedMotion();
 
 		const nodes: N[] = raw.nodes;
 		const byId = new Map(nodes.map((n) => [n.id, n]));
-		const links: L[] = raw.links.map((l: { s: string; t: string; w: number }) => ({
-			source: byId.get(l.s)!,
-			target: byId.get(l.t)!,
-			w: l.w,
-		}));
+		const links: L[] = raw.links.map((l) => ({ source: byId.get(l.s)!, target: byId.get(l.t)!, w: l.w }));
 
-		// 카테고리 허브를 원 위에 배치해 클러스터가 고르게 퍼지게 한다.
 		const hubs = nodes.filter((n) => n.hub);
 		const anchor = new Map<string, { x: number; y: number }>();
 		hubs.forEach((h, i) => {
@@ -118,8 +133,8 @@ const counts = Object.fromEntries(usedCats.map((c) => [c.key, items.filter((i) =
 		});
 		nodes.forEach((n) => {
 			const a = anchor.get(n.cat)!;
-			n.x = W / 2 + (a.x - W / 2) * 0.2 + (Math.random() - 0.5) * 20;
-			n.y = H / 2 + (a.y - H / 2) * 0.2 + (Math.random() - 0.5) * 20;
+			n.x = W / 2 + (a.x - W / 2) * 0.15 + (Math.random() - 0.5) * 16;
+			n.y = H / 2 + (a.y - H / 2) * 0.15 + (Math.random() - 0.5) * 16;
 		});
 
 		const neighbors = new Map<string, Set<string>>();
@@ -130,11 +145,12 @@ const counts = Object.fromEntries(usedCats.map((c) => [c.key, items.filter((i) =
 			neighbors.get(l.target.id)!.add(l.source.id);
 		});
 
+		gLinks.replaceChildren();
+		gNodes.replaceChildren();
 		const linkEls = links.map((l) => {
 			const el = document.createElementNS(SVG_NS, 'line');
-			el.setAttribute('class', 'link');
+			el.setAttribute('class', l.w ? 'link is-tag' : 'link');
 			el.setAttribute('stroke-width', l.w ? String(0.6 + l.w * 0.35) : '0.8');
-			if (l.w) el.setAttribute('stroke-dasharray', '2 3');
 			gLinks.appendChild(el);
 			return el;
 		});
@@ -147,6 +163,7 @@ const counts = Object.fromEntries(usedCats.map((c) => [c.key, items.filter((i) =
 			const r = n.hub ? 7 : n.r ?? 5;
 			const c = document.createElementNS(SVG_NS, 'circle');
 			c.setAttribute('r', String(r));
+			c.setAttribute('class', 'dot-shape');
 			g.appendChild(c);
 			const hit = document.createElementNS(SVG_NS, 'circle');
 			hit.setAttribute('class', 'graph__node-hit');
@@ -155,7 +172,7 @@ const counts = Object.fromEntries(usedCats.map((c) => [c.key, items.filter((i) =
 			if (n.hub) {
 				const t = document.createElementNS(SVG_NS, 'text');
 				t.textContent = n.label;
-				t.setAttribute('y', '-13');
+				t.setAttribute('y', '-14');
 				t.setAttribute('text-anchor', 'middle');
 				g.appendChild(t);
 			}
@@ -164,17 +181,12 @@ const counts = Object.fromEntries(usedCats.map((c) => [c.key, items.filter((i) =
 		});
 
 		const sim = forceSimulation<N>(nodes)
-			.force(
-				'link',
-				forceLink<N, L>(links)
-					.distance((l) => (l.w ? 60 : 30))
-					.strength((l) => (l.w ? 0.08 : 0.5)),
-			)
+			.force('link', forceLink<N, L>(links).distance((l) => (l.w ? 60 : 30)).strength((l) => (l.w ? 0.08 : 0.5)))
 			.force('charge', forceManyBody<N>().strength((n) => (n.hub ? -220 : -22)))
 			.force('collide', forceCollide<N>().radius((n) => (n.hub ? 26 : (n.r ?? 5) + 2.2)))
 			.force('x', forceX<N>((n) => anchor.get(n.cat)!.x).strength((n) => (n.hub ? 0.6 : 0.06)))
 			.force('y', forceY<N>((n) => anchor.get(n.cat)!.y).strength((n) => (n.hub ? 0.6 : 0.06)))
-			.alphaDecay(0.035)
+			.alphaDecay(0.03)
 			.on('tick', draw);
 
 		if (reduce) {
@@ -196,54 +208,106 @@ const counts = Object.fromEntries(usedCats.map((c) => [c.key, items.filter((i) =
 				el.setAttribute('y2', l.target.y!.toFixed(1));
 			});
 			nodes.forEach((n, i) => nodeEls[i].setAttribute('transform', `translate(${n.x!.toFixed(1)},${n.y!.toFixed(1)})`));
+			if (selected) placeCard(selected);
 		}
 
-		// --- focus ---------------------------------------------------
-		let selectedCat: string | null = null;
+		// --- 강조 상태: 피드 필터(matches) 위에 호버/선택(focus)이 겹친다 ---
+		let matches: Set<string> | null = null;
+		let focused: N | null = null;
+		let selected: N | null = null;
 
-		function focusNode(n: N | null) {
-			if (!n) return applyCat();
-			const near = neighbors.get(n.id) ?? new Set();
-			svg.classList.add('is-focus');
-			nodeEls.forEach((el, i) => el.classList.toggle('is-near', nodes[i].id === n.id || near.has(nodes[i].id)));
-			linkEls.forEach((el, i) =>
-				el.classList.toggle('is-near', links[i].source.id === n.id || links[i].target.id === n.id),
-			);
-		}
-
-		function applyCat() {
-			svg.classList.toggle('is-focus', !!selectedCat);
-			nodeEls.forEach((el, i) => el.classList.toggle('is-near', nodes[i].cat === selectedCat));
-			linkEls.forEach((el, i) =>
-				el.classList.toggle('is-near', links[i].source.cat === selectedCat && links[i].target.cat === selectedCat),
-			);
-			fig.querySelectorAll<HTMLButtonElement>('.legend-btn').forEach((b) =>
-				b.setAttribute('aria-pressed', String(b.dataset.cat === selectedCat)),
-			);
+		function paint() {
+			const n = focused ?? selected;
+			if (n) {
+				const near = neighbors.get(n.id) ?? new Set();
+				svg.classList.add('is-focus');
+				nodeEls.forEach((el, i) => {
+					el.classList.toggle('is-near', nodes[i].id === n.id || near.has(nodes[i].id));
+					el.classList.toggle('is-current', nodes[i].id === n.id);
+				});
+				linkEls.forEach((el, i) =>
+					el.classList.toggle('is-near', links[i].source.id === n.id || links[i].target.id === n.id),
+				);
+				return;
+			}
+			svg.classList.toggle('is-focus', !!matches);
+			nodeEls.forEach((el, i) => {
+				const node = nodes[i];
+				const on = !!matches && (node.hub ? [...matches].some((id) => byId.get(id)?.cat === node.cat) : matches.has(node.id));
+				el.classList.toggle('is-near', on);
+				el.classList.remove('is-current');
+			});
+			linkEls.forEach((el, i) => {
+				const { source: a, target: b } = links[i];
+				const on = !!matches && (matches.has(a.id) || a.hub) && (matches.has(b.id) || b.hub) && !(a.hub && b.hub);
+				el.classList.toggle('is-near', on && (matches.has(a.id) || matches.has(b.id)));
+			});
 		}
 
 		function showTip(n: N) {
+			if (selected) return;
 			const box = fig.getBoundingClientRect();
 			const pt = svg.getBoundingClientRect();
-			const sx = pt.width / W;
-			tip.innerHTML = '';
-			tip.append(n.label);
+			const s = pt.width / W;
+			tip.replaceChildren(n.label);
 			if (!n.hub) {
-				const s = document.createElement('small');
-				s.textContent = `${n.catLabel} · ${n.date}`;
-				tip.append(s);
+				const sm = document.createElement('small');
+				sm.textContent = `${n.catLabel} · ${n.date}`;
+				tip.append(sm);
 			}
 			tip.setAttribute('data-show', '');
-			const x = pt.left - box.left + n.x! * sx;
-			const y = pt.top - box.top + n.y! * sx;
+			const x = pt.left - box.left + n.x! * s;
+			const y = pt.top - box.top + n.y! * s;
 			const tw = tip.offsetWidth;
 			tip.style.left = `${Math.max(8, Math.min(box.width - tw - 8, x - tw / 2))}px`;
 			tip.style.top = `${y > 90 ? y - tip.offsetHeight - 14 : y + 16}px`;
 		}
-
 		const hideTip = () => tip.removeAttribute('data-show');
 
-		// --- pointer: hover, drag, click ------------------------------
+		function placeCard(n: N) {
+			const box = fig.getBoundingClientRect();
+			const pt = svg.getBoundingClientRect();
+			const s = pt.width / W;
+			const x = pt.left - box.left + n.x! * s;
+			const y = pt.top - box.top + n.y! * s;
+			const cw = card.offsetWidth;
+			const ch = card.offsetHeight;
+			const left = Math.max(10, Math.min(box.width - cw - 10, x - cw / 2));
+			const below = y + 18 + ch < pt.bottom - box.top;
+			card.style.left = `${left}px`;
+			card.style.top = `${below ? y + 18 : Math.max(10, y - ch - 18)}px`;
+		}
+
+		function openCard(n: N) {
+			selected = n;
+			hideTip();
+			card.querySelector('[data-card-meta]')!.innerHTML = '';
+			const meta = card.querySelector<HTMLElement>('[data-card-meta]')!;
+			meta.dataset.tone = n.tone;
+			const dot = document.createElement('span');
+			dot.className = 'dot';
+			meta.append(dot, `${n.catLabel} · ${n.date} · ${n.minutes}분`);
+			card.querySelector('[data-card-title]')!.textContent = n.label;
+			card.querySelector('[data-card-summary]')!.textContent = n.summary ?? '';
+			card.querySelector<HTMLAnchorElement>('[data-card-open]')!.href = n.url!;
+			card.hidden = false;
+			card.classList.remove('is-in');
+			void card.offsetWidth;
+			card.classList.add('is-in');
+			placeCard(n);
+			paint();
+		}
+
+		function closeCard() {
+			selected = null;
+			card.hidden = true;
+			paint();
+		}
+
+		card.querySelector('[data-card-close]')!.addEventListener('click', closeCard);
+		window.addEventListener('keydown', (e) => e.key === 'Escape' && selected && closeCard(), { signal });
+
+		// --- 포인터 ---
 		const toSvg = (e: PointerEvent) => {
 			const p = svg.createSVGPoint();
 			p.x = e.clientX;
@@ -256,21 +320,23 @@ const counts = Object.fromEntries(usedCats.map((c) => [c.key, items.filter((i) =
 		};
 
 		let drag: { n: N; moved: boolean; x0: number; y0: number } | null = null;
+		let suppressClick = false;
 
 		svg.addEventListener('pointerover', (e) => {
-			if (drag) return;
+			if (drag || (e as PointerEvent).pointerType !== 'mouse') return;
 			const n = nodeFromEvent(e);
 			if (n) {
-				focusNode(n);
+				focused = n;
+				paint();
 				showTip(n);
 			}
 		});
 		svg.addEventListener('pointerout', (e) => {
 			if (drag) return;
-			const n = nodeFromEvent(e);
 			const to = (e as PointerEvent).relatedTarget as Element | null;
-			if (n && !to?.closest?.('.node')) {
-				focusNode(null);
+			if (nodeFromEvent(e) && !to?.closest?.('.node')) {
+				focused = null;
+				paint();
 				hideTip();
 			}
 		});
@@ -281,22 +347,22 @@ const counts = Object.fromEntries(usedCats.map((c) => [c.key, items.filter((i) =
 			drag = { n, moved: false, x0: e.clientX, y0: e.clientY };
 			n.fx = n.x;
 			n.fy = n.y;
-			svg.classList.add('is-dragging');
-			focusNode(n);
-			showTip(n);
+			hint?.setAttribute('data-hide', '');
 		});
 		svg.addEventListener('pointermove', (e) => {
 			if (!drag) return;
-			if (Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 4) {
-				if (!drag.moved) sim.alphaTarget(0.25).restart();
+			if (!drag.moved && Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 4) {
 				drag.moved = true;
+				svg.classList.add('is-dragging');
+				if (!reduce) sim.alphaTarget(0.25).restart();
 			}
 			if (!drag.moved) return;
 			const p = toSvg(e);
 			drag.n.fx = p.x;
 			drag.n.fy = p.y;
 			if (reduce) {
-				sim.tick();
+				drag.n.x = p.x;
+				drag.n.y = p.y;
 				draw();
 			}
 			showTip(drag.n);
@@ -309,37 +375,80 @@ const counts = Object.fromEntries(usedCats.map((c) => [c.key, items.filter((i) =
 			n.fx = null;
 			n.fy = null;
 			sim.alphaTarget(0);
-			if (reduce) sim.stop();
+			suppressClick = true;
 			if (!moved && e.type === 'pointerup') {
-				if (n.url) window.location.href = n.url;
-				else selectCat(selectedCat === n.cat ? null : n.cat, true);
+				if (n.hub) {
+					closeCard();
+					selectCat(currentCat === n.cat ? null : n.cat);
+				} else if (selected?.id === n.id) navigate(n.url!);
+				else openCard(n);
 			}
 			if (e.pointerType !== 'mouse') {
-				focusNode(null);
+				focused = null;
 				hideTip();
+				paint();
 			}
 		};
 		svg.addEventListener('pointerup', end);
 		svg.addEventListener('pointercancel', end);
-
-		// --- legend & feed sync --------------------------------------
-		function selectCat(cat: string | null, emit: boolean) {
-			selectedCat = cat;
-			applyCat();
-			if (emit) window.dispatchEvent(new CustomEvent('category-select', { detail: { cat, from: 'graph' } }));
-		}
-
-		fig.querySelectorAll<HTMLButtonElement>('.legend-btn').forEach((b) =>
-			b.addEventListener('click', () => selectCat(selectedCat === b.dataset.cat ? null : b.dataset.cat!, true)),
-		);
-		window.addEventListener('category-select', (e) => {
-			const d = (e as CustomEvent).detail;
-			if (d.from !== 'graph') selectCat(d.cat, false);
+		svg.addEventListener('click', (e) => {
+			if (suppressClick) {
+				suppressClick = false;
+				return;
+			}
+			if (!nodeFromEvent(e) && selected) closeCard();
 		});
 
-		// 화면 밖에서는 시뮬레이션을 멈춘다.
-		new IntersectionObserver(([entry]) => {
+		// --- 범례와 피드 연동 ---
+		let currentCat: string | null = new URLSearchParams(location.search).get('category');
+		const legend = [...fig.querySelectorAll<HTMLButtonElement>('.legend-btn')];
+		const syncLegend = () => legend.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.cat === currentCat)));
+
+		function selectCat(cat: string | null) {
+			currentCat = cat;
+			syncLegend();
+			window.dispatchEvent(new CustomEvent('category-select', { detail: { cat, from: 'graph' } }));
+		}
+		legend.forEach((b) => b.addEventListener('click', () => selectCat(currentCat === b.dataset.cat ? null : b.dataset.cat!)));
+
+		window.addEventListener(
+			'category-select',
+			(e) => {
+				const d = (e as CustomEvent).detail;
+				if (d.from === 'graph' || !('cat' in d)) return;
+				currentCat = d.cat;
+				syncLegend();
+			},
+			{ signal },
+		);
+		window.addEventListener(
+			'feed-matches',
+			(e) => {
+				const slugs = (e as CustomEvent).detail.slugs as string[] | null;
+				matches = slugs ? new Set(slugs) : null;
+				paint();
+				if (matches && !reduce) {
+					// 걸러진 점들이 살짝 튀어 오르며 바뀐 것을 알린다.
+					nodeEls.forEach((el, i) => {
+						if (!matches!.has(nodes[i].id)) return;
+						el.classList.remove('is-pulse');
+						void (el as unknown as HTMLElement).getBoundingClientRect();
+						el.classList.add('is-pulse');
+					});
+				}
+			},
+			{ signal },
+		);
+		syncLegend();
+
+		const io = new IntersectionObserver(([entry]) => {
 			if (!entry.isIntersecting) sim.stop();
-		}).observe(svg);
+		});
+		io.observe(svg);
+
+		return () => {
+			sim.stop();
+			io.disconnect();
+		};
 	}
 </script>

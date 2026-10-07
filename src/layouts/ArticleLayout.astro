@@ -52,7 +52,7 @@ const firstImage = item.entry.body?.match(/!\[[^\]]*\]\((\/images\/[^)\s]+)\)/)?
 						<span class="dot"></span>{item.category.label}
 					</a>
 				</nav>
-				<h1>{item.title}</h1>
+				<h1 class="vt-title">{item.title}</h1>
 				{item.summary && <p class="article-head__summary">{item.summary}</p>}
 				<div class="article-head__meta">
 					<time datetime={item.created}>{formatDate(item.date)}</time>
@@ -111,14 +111,14 @@ const firstImage = item.entry.body?.match(/!\[[^\]]*\]\((\/images\/[^)\s]+)\)/)?
 
 				<nav class="pager" aria-label="이전 글과 다음 글">
 					{older && (
-						<a href={older.url}>
-							<small>이전 글</small>
+						<a href={older.url} data-key-prev>
+							<small>이전 글 <kbd>[</kbd></small>
 							<strong>{older.title}</strong>
 						</a>
 					)}
 					{newer && (
-						<a href={newer.url} class="next">
-							<small>다음 글</small>
+						<a href={newer.url} class="next" data-key-next>
+							<small>다음 글 <kbd>]</kbd></small>
 							<strong>{newer.title}</strong>
 						</a>
 					)}
@@ -145,9 +145,43 @@ const firstImage = item.entry.body?.match(/!\[[^\]]*\]\((\/images\/[^)\s]+)\)/)?
 </BaseLayout>
 
 <script>
-	const prose = document.querySelector<HTMLElement>('[data-prose]');
+	import { onPage, prefersReducedMotion } from '../lib/page';
 
-	if (prose) {
+	const LANG: Record<string, string> = {
+		ts: 'TypeScript',
+		typescript: 'TypeScript',
+		tsx: 'TSX',
+		js: 'JavaScript',
+		javascript: 'JavaScript',
+		jsx: 'JSX',
+		json: 'JSON',
+		bash: 'Shell',
+		sh: 'Shell',
+		shell: 'Shell',
+		zsh: 'Shell',
+		sql: 'SQL',
+		yaml: 'YAML',
+		yml: 'YAML',
+		dart: 'Dart',
+		python: 'Python',
+		py: 'Python',
+		html: 'HTML',
+		css: 'CSS',
+		dockerfile: 'Dockerfile',
+		plaintext: 'Text',
+		text: 'Text',
+		turtle: 'Turtle',
+		swift: 'Swift',
+		kotlin: 'Kotlin',
+		prisma: 'Prisma',
+		graphql: 'GraphQL',
+		diff: 'Diff',
+	};
+
+	onPage((signal) => {
+		const prose = document.querySelector<HTMLElement>('[data-prose]');
+		if (!prose) return;
+
 		// 제목 앵커
 		prose.querySelectorAll<HTMLElement>('h2[id], h3[id]').forEach((h) => {
 			const a = document.createElement('a');
@@ -158,30 +192,42 @@ const firstImage = item.entry.body?.match(/!\[[^\]]*\]\((\/images\/[^)\s]+)\)/)?
 			h.prepend(a);
 		});
 
-		// 코드 복사
+		// 코드 블록: 언어 표시 + 줄 수 + 복사
 		prose.querySelectorAll('pre').forEach((pre) => {
-			const wrap = document.createElement('div');
+			const lang = (pre.dataset.language ?? '').toLowerCase();
+			const lines = pre.querySelectorAll('.line').length || pre.innerText.split('\n').length;
+			const wrap = document.createElement('figure');
 			wrap.className = 'code-wrap';
-			pre.replaceWith(wrap);
-			wrap.appendChild(pre);
+			const bar = document.createElement('figcaption');
+			bar.className = 'code-bar';
+			const label = document.createElement('span');
+			label.className = 'code-lang';
+			label.textContent = LANG[lang] ?? (lang || 'Code');
+			const meta = document.createElement('span');
+			meta.className = 'code-meta';
+			meta.textContent = `${lines}줄`;
 			const btn = document.createElement('button');
 			btn.type = 'button';
 			btn.className = 'copy-btn';
-			btn.textContent = '복사';
+			btn.innerHTML =
+				'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><span>복사</span>';
 			btn.addEventListener('click', async () => {
+				const text = btn.querySelector('span')!;
 				try {
 					await navigator.clipboard.writeText(pre.innerText);
-					btn.textContent = '복사됨';
+					text.textContent = '복사됨';
 					btn.setAttribute('data-done', '');
 				} catch {
-					btn.textContent = '복사 실패';
+					text.textContent = '복사 실패';
 				}
 				setTimeout(() => {
-					btn.textContent = '복사';
+					text.textContent = '복사';
 					btn.removeAttribute('data-done');
 				}, 1600);
 			});
-			wrap.appendChild(btn);
+			bar.append(label, meta, btn);
+			pre.replaceWith(wrap);
+			wrap.append(bar, pre);
 		});
 
 		// 이미지 확대
@@ -201,34 +247,31 @@ const firstImage = item.entry.body?.match(/!\[[^\]]*\]\((\/images\/[^)\s]+)\)/)?
 				};
 				const onKey = (e: KeyboardEvent) => e.key === 'Escape' && close();
 				box.addEventListener('click', close);
-				window.addEventListener('keydown', onKey);
+				window.addEventListener('keydown', onKey, { signal });
 				document.body.appendChild(box);
 			});
 		});
-	}
 
-	// 목차 스크롤 추적
-	const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc a')];
-	if (links.length) {
-		const targets = links
-			.map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1))))
-			.filter((el): el is HTMLElement => !!el);
-		const update = () => {
-			let current = targets[0];
-			for (const t of targets) {
-				if (t.getBoundingClientRect().top < 120) current = t;
-			}
-			links.forEach((a) => {
-				const on = decodeURIComponent(a.hash.slice(1)) === current?.id;
-				a.toggleAttribute('aria-current', on);
-				if (on) a.setAttribute('aria-current', 'true');
-			});
-		};
-		window.addEventListener('scroll', update, { passive: true });
-		update();
-	}
+		// 목차 스크롤 추적
+		const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc a')];
+		if (links.length) {
+			const targets = links
+				.map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1))))
+				.filter((el): el is HTMLElement => !!el);
+			const update = () => {
+				let current = targets[0];
+				for (const t of targets) if (t.getBoundingClientRect().top < 120) current = t;
+				links.forEach((a) => {
+					if (decodeURIComponent(a.hash.slice(1)) === current?.id) a.setAttribute('aria-current', 'true');
+					else a.removeAttribute('aria-current');
+				});
+			};
+			window.addEventListener('scroll', update, { passive: true, signal });
+			update();
+		}
 
-	document.querySelector('[data-to-top]')?.addEventListener('click', () => {
-		window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+		document.querySelector('[data-to-top]')?.addEventListener('click', () => {
+			window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+		});
 	});
 </script>

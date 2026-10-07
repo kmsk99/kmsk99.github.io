@@ -41,20 +41,30 @@ const countOf = (key: string) => items.filter((i) => i.category.key === key).len
 </BaseLayout>
 
 <script>
-	const cards = [...document.querySelectorAll<HTMLButtonElement>('[data-cat-cards] .cat-card')];
-	let current: string | null = null;
-	const sync = () => cards.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.cat === current)));
-	cards.forEach((c) =>
-		c.addEventListener('click', () => {
-			current = current === c.dataset.cat ? null : c.dataset.cat!;
-			sync();
-			window.dispatchEvent(new CustomEvent('category-select', { detail: { cat: current, from: 'cards' } }));
-		}),
-	);
-	window.addEventListener('category-select', (e) => {
-		const d = (e as CustomEvent).detail;
-		if (d.from === 'cards') return;
-		current = d.cat;
+	import { onPage } from '../lib/page';
+
+	onPage((signal) => {
+		const cards = [...document.querySelectorAll<HTMLButtonElement>('[data-cat-cards] .cat-card')];
+		if (!cards.length) return;
+		let current: string | null = new URLSearchParams(location.search).get('category');
+		const sync = () => cards.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.cat === current)));
+		cards.forEach((c) =>
+			c.addEventListener('click', () => {
+				current = current === c.dataset.cat ? null : c.dataset.cat!;
+				sync();
+				window.dispatchEvent(new CustomEvent('category-select', { detail: { cat: current, from: 'cards' } }));
+			}),
+		);
+		window.addEventListener(
+			'category-select',
+			(e) => {
+				const d = (e as CustomEvent).detail;
+				if (d.from === 'cards' || !('cat' in d)) return;
+				current = d.cat;
+				sync();
+			},
+			{ signal },
+		);
 		sync();
 	});
 </script>

@@ -1,10 +1,30 @@
 ---
+import { execSync } from 'node:child_process';
+
 const year = new Date().getFullYear();
+let commit = '';
+try {
+	commit = execSync('git rev-parse --short HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+} catch {}
+const built = new Date().toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul', year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
 <footer class="site-footer">
 	<div class="wrap site-footer__inner">
-		<p>© {year} 김민석. Astro로 만들고 Markdown으로 씁니다.</p>
+		<div class="site-footer__meta">
+			<p>© {year} 김민석. Astro로 만들고 Markdown으로 씁니다.</p>
+			<p class="build">
+				{built} 빌드
+				{commit && (
+					<>
+						{' · '}
+						<a href={`https://github.com/kmsk99/kmsk99.github.io/commit/${commit}`} target="_blank" rel="noreferrer"><code>{commit}</code></a>
+					</>
+				)}
+				{' · '}
+				<button type="button" class="linklike" data-keys-open>단축키 <kbd>?</kbd></button>
+			</p>
+		</div>
 		<div class="site-footer__links">
 			<a href="mailto:kmsk96@naver.com">이메일</a>
 			<a href="https://www.linkedin.com/in/kmsk99/" target="_blank" rel="noreferrer">LinkedIn</a>

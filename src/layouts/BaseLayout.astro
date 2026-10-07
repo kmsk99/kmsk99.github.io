@@ -4,6 +4,8 @@ import Footer from '../components/Footer.astro';
 import Seo from '../components/Seo.astro';
 import { SITE, absoluteUrl } from '../config/seo';
 import CommandPalette from '../components/CommandPalette.astro';
+import Shortcuts from '../components/Shortcuts.astro';
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 
 interface Breadcrumb {
@@ -113,6 +115,7 @@ const structuredData = [
 				if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
 			} catch {}
 		</script>
+		<ClientRouter />
 		<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 		<link
 			rel="stylesheet"
@@ -155,6 +158,7 @@ const structuredData = [
 		</main>
 		<Footer />
 		<CommandPalette />
+		<Shortcuts />
 	</body>
 </html>
 

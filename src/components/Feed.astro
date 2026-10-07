@@ -58,7 +58,10 @@ const kinds = (['post', 'project', 'retro'] as const).filter((k) => items.some((
 				</button>
 			))}
 		</div>
-		<p class="feed__count" aria-live="polite" data-feed-count></p>
+		<div class="feed__status">
+			<p class="feed__count" aria-live="polite" data-feed-count></p>
+			<button class="feed__clear" type="button" data-feed-reset hidden>필터 지우기</button>
+		</div>
 	</div>
 
 	<ul class="feed__list">
@@ -66,6 +69,8 @@ const kinds = (['post', 'project', 'retro'] as const).filter((k) => items.some((
 			<li
 				class="feed__item"
 				data-kind={i.kind}
+				data-slug={i.slug}
+				data-month={i.created.slice(0, 7)}
 				data-cat={i.category.key}
 				data-tags={i.tags.join('|').toLowerCase()}
 				data-text={`${i.title} ${i.summary ?? ''} ${i.tags.join(' ')}`.toLowerCase()}
@@ -94,7 +99,7 @@ const kinds = (['post', 'project', 'retro'] as const).filter((k) => items.some((
 		))}
 	</ul>
 	<p class="feed__empty" data-feed-empty hidden>
-		조건에 맞는 글이 없습니다. <button class="text-link" type="button" data-feed-reset style="background:none;border:0;cursor:pointer;padding:0">필터 초기화</button>
+		조건에 맞는 글이 없습니다. <button class="text-link" type="button" data-feed-reset style="background:none;border:0;cursor:pointer;padding:0">필터 지우기</button>
 	</p>
 	<div class="feed__more">
 		<button class="btn" type="button" data-feed-more hidden>더 보기</button>
@@ -102,114 +107,162 @@ const kinds = (['post', 'project', 'retro'] as const).filter((k) => items.some((
 </div>
 
 <script>
-	document.querySelectorAll<HTMLElement>('[data-feed]').forEach((root) => {
-		const pageSize = Number(root.dataset.pageSize) || 15;
-		const rows = [...root.querySelectorAll<HTMLElement>('.feed__item')];
-		const q = root.querySelector<HTMLInputElement>('[data-feed-q]')!;
-		const count = root.querySelector<HTMLElement>('[data-feed-count]')!;
-		const more = root.querySelector<HTMLButtonElement>('[data-feed-more]')!;
-		const empty = root.querySelector<HTMLElement>('[data-feed-empty]')!;
-		const kindBtns = [...root.querySelectorAll<HTMLButtonElement>('[data-kind]')];
-		const catBtns = [...root.querySelectorAll<HTMLButtonElement>('.chip[data-cat]')];
-		const tagBtns = [...root.querySelectorAll<HTMLButtonElement>('.chip[data-tag]')];
+	import { onPage } from '../lib/page';
 
-		const params = new URLSearchParams(location.search);
-		const state = {
-			q: params.get('q') ?? '',
-			kind: params.get('type') ?? '',
-			cat: params.get('category') ?? '',
-			tag: (params.get('tag') ?? '').toLowerCase(),
-			limit: pageSize,
-		};
-		if (state.kind === 'all') state.kind = '';
-		if (state.cat === '__all') state.cat = '';
-		q.value = state.q;
+	type Detail = { cat?: string | null; month?: string | null; from: string };
 
-		function syncUrl() {
-			const p = new URLSearchParams();
-			if (state.q) p.set('q', state.q);
-			if (state.kind) p.set('type', state.kind);
-			if (state.cat) p.set('category', state.cat);
-			if (state.tag) p.set('tag', state.tag);
-			const qs = p.toString();
-			history.replaceState(null, '', qs ? `?${qs}` : location.pathname);
-		}
+	onPage((signal) => {
+		document.querySelectorAll<HTMLElement>('[data-feed]').forEach((root) => {
+			const pageSize = Number(root.dataset.pageSize) || 15;
+			const rows = [...root.querySelectorAll<HTMLElement>('.feed__item')];
+			const q = root.querySelector<HTMLInputElement>('[data-feed-q]')!;
+			const count = root.querySelector<HTMLElement>('[data-feed-count]')!;
+			const more = root.querySelector<HTMLButtonElement>('[data-feed-more]')!;
+			const empty = root.querySelector<HTMLElement>('[data-feed-empty]')!;
+			const clear = root.querySelector<HTMLButtonElement>('.feed__clear')!;
+			const kindBtns = [...root.querySelectorAll<HTMLButtonElement>('[data-kind]')];
+			const catBtns = [...root.querySelectorAll<HTMLButtonElement>('.chip[data-cat]')];
+			const tagBtns = [...root.querySelectorAll<HTMLButtonElement>('.chip[data-tag]')];
 
-		function apply() {
-			const query = state.q.trim().toLowerCase();
-			let shown = 0;
-			let matched = 0;
-			rows.forEach((row) => {
-				const ok =
-					(!state.kind || row.dataset.kind === state.kind) &&
-					(!state.cat || row.dataset.cat === state.cat) &&
-					(!state.tag || row.dataset.tags!.split('|').includes(state.tag)) &&
-					(!query || row.dataset.text!.includes(query));
-				if (ok) matched++;
-				const visible = ok && shown < state.limit;
-				if (visible) shown++;
-				row.hidden = !visible;
+			const params = new URLSearchParams(location.search);
+			const state = {
+				q: params.get('q') ?? '',
+				kind: params.get('type') ?? '',
+				cat: params.get('category') ?? '',
+				tag: (params.get('tag') ?? '').toLowerCase(),
+				month: params.get('month') ?? '',
+				limit: pageSize,
+			};
+			if (state.kind === 'all') state.kind = '';
+			if (state.cat === '__all') state.cat = '';
+			q.value = state.q;
+
+			function syncUrl() {
+				const p = new URLSearchParams();
+				if (state.q) p.set('q', state.q);
+				if (state.kind) p.set('type', state.kind);
+				if (state.cat) p.set('category', state.cat);
+				if (state.tag) p.set('tag', state.tag);
+				if (state.month) p.set('month', state.month);
+				const qs = p.toString();
+				history.replaceState(history.state, '', qs ? `?${qs}` : location.pathname);
+			}
+
+			function apply(animate = false) {
+				const query = state.q.trim().toLowerCase();
+				let shown = 0;
+				const matched: string[] = [];
+				rows.forEach((row) => {
+					const ok =
+						(!state.kind || row.dataset.kind === state.kind) &&
+						(!state.cat || row.dataset.cat === state.cat) &&
+						(!state.month || row.dataset.month === state.month) &&
+						(!state.tag || row.dataset.tags!.split('|').includes(state.tag)) &&
+						(!query || row.dataset.text!.includes(query));
+					if (ok) matched.push(row.dataset.slug!);
+					const visible = ok && shown < state.limit;
+					if (visible) {
+						if (animate && row.hidden) {
+							row.style.setProperty('--i', String(Math.min(shown, 8)));
+							row.classList.remove('is-entering');
+							void row.offsetWidth;
+							row.classList.add('is-entering');
+						}
+						shown++;
+					}
+					row.hidden = !visible;
+				});
+				kindBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.kind === state.kind)));
+				catBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.cat === state.cat)));
+				tagBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tag!.toLowerCase() === state.tag)));
+				const filtered = Boolean(state.q || state.kind || state.cat || state.tag || state.month);
+				const label = [
+					state.month && `${state.month.slice(0, 4)}년 ${Number(state.month.slice(5))}월`,
+					state.tag && `#${state.tag}`,
+					state.q && `“${state.q}”`,
+				]
+					.filter(Boolean)
+					.join(' · ');
+				count.textContent = filtered
+					? `${label ? `${label} — ` : ''}${matched.length}편`
+					: `전체 ${matched.length}편`;
+				clear.hidden = !filtered;
+				more.hidden = matched.length <= shown;
+				more.textContent = `더 보기 (${matched.length - shown}편 남음)`;
+				empty.hidden = matched.length > 0;
+				syncUrl();
+				window.dispatchEvent(
+					new CustomEvent('feed-matches', { detail: { slugs: filtered ? matched : null } }),
+				);
+			}
+
+			const set = (patch: Partial<typeof state>) => {
+				Object.assign(state, patch, { limit: pageSize });
+				apply(true);
+			};
+
+			const announce = () =>
+				window.dispatchEvent(
+					new CustomEvent<Detail>('category-select', {
+						detail: { cat: state.cat || null, month: state.month || null, from: 'feed' },
+					}),
+				);
+
+			let timer = 0;
+			q.addEventListener('input', () => {
+				clearTimeout(timer);
+				timer = window.setTimeout(() => set({ q: q.value }), 120);
 			});
-			kindBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.kind === state.kind)));
-			catBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.cat === state.cat)));
-			tagBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tag!.toLowerCase() === state.tag)));
-			const filtered = state.q || state.kind || state.cat || state.tag;
-			const label = [state.tag && `#${state.tag}`, state.q && `“${state.q}”`].filter(Boolean).join(' ');
-			count.textContent = filtered ? `${label ? `${label} · ` : ''}${matched}편이 조건에 맞습니다` : `전체 ${matched}편`;
-			more.hidden = matched <= shown;
-			more.textContent = `더 보기 (${matched - shown}편 남음)`;
-			empty.hidden = matched > 0;
-			syncUrl();
-		}
+			kindBtns.forEach((b) => b.addEventListener('click', () => set({ kind: b.dataset.kind ?? '' })));
+			catBtns.forEach((b) =>
+				b.addEventListener('click', () => {
+					set({ cat: state.cat === b.dataset.cat ? '' : b.dataset.cat! });
+					announce();
+				}),
+			);
+			tagBtns.forEach((b) =>
+				b.addEventListener('click', () => {
+					const t = b.dataset.tag!.toLowerCase();
+					set({ tag: state.tag === t ? '' : t });
+				}),
+			);
+			root.addEventListener('click', (e) => {
+				const target = e.target as HTMLElement;
+				if (target.closest('[data-feed-reset]')) {
+					q.value = '';
+					set({ q: '', kind: '', cat: '', tag: '', month: '' });
+					announce();
+					return;
+				}
+				const t = target.closest<HTMLElement>('[data-tag-link]');
+				if (!t) return;
+				set({ tag: t.dataset.tagLink!.toLowerCase() });
+				root.querySelector('.feed__controls')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			});
+			more.addEventListener('click', () => {
+				const before = state.limit;
+				state.limit += pageSize;
+				apply();
+				rows.filter((r) => !r.hidden).slice(before).forEach((r, i) => {
+					r.style.setProperty('--i', String(Math.min(i, 8)));
+					r.classList.add('is-entering');
+				});
+			});
+			window.addEventListener(
+				'category-select',
+				(e) => {
+					const d = (e as CustomEvent<Detail>).detail;
+					if (d.from === 'feed') return;
+					const patch: Partial<typeof state> = {};
+					if ('cat' in d) patch.cat = d.cat ?? '';
+					if ('month' in d) patch.month = d.month ?? '';
+					set(patch);
+				},
+				{ signal },
+			);
 
-		const set = (patch: Partial<typeof state>) => {
-			Object.assign(state, patch, { limit: pageSize });
 			apply();
-		};
-
-		const announceCat = () =>
-			window.dispatchEvent(new CustomEvent('category-select', { detail: { cat: state.cat || null, from: 'feed' } }));
-
-		let timer = 0;
-		q.addEventListener('input', () => {
-			clearTimeout(timer);
-			timer = window.setTimeout(() => set({ q: q.value }), 120);
+			if (state.cat || state.month) announce();
 		});
-		kindBtns.forEach((b) => b.addEventListener('click', () => set({ kind: b.dataset.kind ?? '' })));
-		catBtns.forEach((b) =>
-			b.addEventListener('click', () => {
-				set({ cat: state.cat === b.dataset.cat ? '' : b.dataset.cat! });
-				announceCat();
-			}),
-		);
-		tagBtns.forEach((b) =>
-			b.addEventListener('click', () => {
-				const t = b.dataset.tag!.toLowerCase();
-				set({ tag: state.tag === t ? '' : t });
-			}),
-		);
-		root.addEventListener('click', (e) => {
-			const t = (e.target as HTMLElement).closest<HTMLElement>('[data-tag-link]');
-			if (!t) return;
-			set({ tag: t.dataset.tagLink!.toLowerCase() });
-			root.querySelector('.feed__controls')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-		});
-		more.addEventListener('click', () => {
-			state.limit += pageSize;
-			apply();
-		});
-		root.querySelector('[data-feed-reset]')?.addEventListener('click', () => {
-			q.value = '';
-			set({ q: '', kind: '', cat: '', tag: '' });
-			announceCat();
-		});
-		window.addEventListener('category-select', (e) => {
-			const d = (e as CustomEvent).detail;
-			if (d.from === 'feed') return;
-			set({ cat: d.cat ?? '' });
-		});
-
-		apply();
-		if (state.cat) announceCat();
 	});
 </script>

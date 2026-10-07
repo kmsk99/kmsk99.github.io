@@ -23,7 +23,7 @@ const pages = [
 ];
 ---
 
-<div class="palette" data-palette role="dialog" aria-modal="true" aria-label="글 검색">
+<div class="palette" data-palette role="dialog" aria-modal="true" aria-label="글 검색" transition:persist>
 	<div class="palette__box">
 		<label class="palette__input">
 			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
@@ -53,6 +53,7 @@ const pages = [
 
 <script>
 	import { getChoseong } from 'es-hangul';
+	import { navigate } from 'astro:transitions/client';
 
 	type Doc = { t: string; s: string; g: string[]; u: string; c: string; o: string; k: string; d: string };
 	type Page = { t: string; u: string };
@@ -165,10 +166,18 @@ const pages = [
 
 	const go = (i: number) => {
 		const r = results[i];
-		if (r) window.location.href = r.u;
+		if (!r) return;
+		close();
+		if (r.u.endsWith('.pdf')) window.location.href = r.u;
+		else navigate(r.u);
 	};
 
-	document.querySelectorAll('[data-palette-open]').forEach((b) => b.addEventListener('click', open));
+	document.addEventListener('click', (e) => {
+		if ((e.target as Element).closest('[data-palette-open]')) open();
+	});
+	document.addEventListener('astro:before-preparation', () => {
+		if (root.hasAttribute('data-open')) close();
+	});
 	window.addEventListener('keydown', (e) => {
 		const isOpen = root.hasAttribute('data-open');
 		if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {

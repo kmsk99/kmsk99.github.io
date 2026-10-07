@@ -1,0 +1,102 @@
+---
+import { getAllItems } from '../lib/content';
+
+const items = await getAllItems();
+const byMonth = new Map<string, number>();
+items.forEach((i) => {
+	const key = i.created.slice(0, 7);
+	if (/^\d{4}-\d{2}$/.test(key)) byMonth.set(key, (byMonth.get(key) ?? 0) + 1);
+});
+const keys = [...byMonth.keys()].sort();
+const firstYear = Number(keys[0]?.slice(0, 4) ?? 2022);
+const lastYear = Number(keys.at(-1)?.slice(0, 4) ?? 2026);
+const years = Array.from({ length: lastYear - firstYear + 1 }, (_, i) => lastYear - i);
+const max = Math.max(...byMonth.values());
+const level = (n: number) => (n === 0 ? 0 : Math.min(4, Math.ceil((n / max) * 4)));
+const [peakKey, peakCount] = [...byMonth.entries()].sort((a, b) => b[1] - a[1])[0] ?? ['', 0];
+const months = Array.from({ length: 12 }, (_, i) => i + 1);
+---
+
+<div class="heat" data-heat>
+	<div class="heat__head">
+		<p>
+			{firstYear}년부터 <strong>{items.length}편</strong>을 썼습니다. 가장 많이 쓴 달은
+			<strong>{peakKey.slice(0, 4)}년 {Number(peakKey.slice(5))}월</strong>({peakCount}편)입니다.
+		</p>
+		<span class="heat__legend" aria-hidden="true">
+			적음
+			{[0, 1, 2, 3, 4].map((l) => <i data-level={l}></i>)}
+			많음
+		</span>
+	</div>
+	<div class="heat__scroll">
+		<table class="heat__grid">
+			<caption class="sr-only">월별 글 수. 칸을 누르면 그 달의 글만 보입니다.</caption>
+			<thead>
+				<tr>
+					<th scope="col"><span class="sr-only">연도</span></th>
+					{months.map((m) => <th scope="col">{m}월</th>)}
+				</tr>
+			</thead>
+			<tbody>
+				{years.map((y) => (
+					<tr>
+						<th scope="row">{y}</th>
+						{months.map((m) => {
+							const key = `${y}-${String(m).padStart(2, '0')}`;
+							const n = byMonth.get(key) ?? 0;
+							return (
+								<td>
+									{n > 0 ? (
+										<button
+											type="button"
+											class="heat__cell"
+											data-level={level(n)}
+											data-month={key}
+											aria-pressed="false"
+											aria-label={`${y}년 ${m}월 ${n}편`}
+											title={`${y}년 ${m}월 · ${n}편`}
+										></button>
+									) : (
+										<span class="heat__cell" data-level="0" aria-hidden="true"></span>
+									)}
+								</td>
+							);
+						})}
+					</tr>
+				))}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script>
+	import { onPage } from '../lib/page';
+
+	onPage((signal) => {
+		const root = document.querySelector<HTMLElement>('[data-heat]');
+		if (!root) return;
+		const cells = [...root.querySelectorAll<HTMLButtonElement>('button[data-month]')];
+		let current = new URLSearchParams(location.search).get('month');
+		const sync = () => cells.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.month === current)));
+
+		cells.forEach((c) =>
+			c.addEventListener('click', () => {
+				current = current === c.dataset.month ? null : c.dataset.month!;
+				sync();
+				window.dispatchEvent(new CustomEvent('category-select', { detail: { month: current, from: 'heatmap' } }));
+			}),
+		);
+		window.addEventListener(
+			'category-select',
+			(e) => {
+				const d = (e as CustomEvent).detail;
+				if (d.from === 'heatmap' || !('month' in d)) return;
+				current = d.month;
+				sync();
+			},
+			{ signal },
+		);
+		sync();
+	});
+</script>

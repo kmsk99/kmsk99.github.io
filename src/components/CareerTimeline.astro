@@ -198,7 +198,9 @@ const initial = 'jhfit';
 </div>
 
 <script>
-	document.querySelectorAll<HTMLElement>('[data-timeline]').forEach((root) => {
+	import { onPage } from '../lib/page';
+
+	onPage(() => document.querySelectorAll<HTMLElement>('[data-timeline]').forEach((root) => {
 		const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')].sort(
 			(a, b) => parseFloat(a.style.left) - parseFloat(b.style.left),
 		);
@@ -228,5 +230,5 @@ const initial = 'jhfit';
 				}
 			});
 		});
-	});
+	}));
 </script>

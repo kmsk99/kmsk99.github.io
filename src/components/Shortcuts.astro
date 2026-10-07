@@ -1,0 +1,158 @@
+---
+const keys = [
+	{ k: ['⌘', 'K'], d: '검색 열기' },
+	{ k: ['/'], d: '검색 열기' },
+	{ k: ['J'], d: '목록에서 다음 글' },
+	{ k: ['K'], d: '목록에서 이전 글' },
+	{ k: ['Enter'], d: '선택한 글 열기' },
+	{ k: ['['], d: '글 페이지에서 이전 글' },
+	{ k: [']'], d: '글 페이지에서 다음 글' },
+	{ k: ['G', 'H'], d: '홈으로' },
+	{ k: ['G', 'P'], d: '기술 글 목록으로' },
+	{ k: ['G', 'A'], d: '소개로' },
+	{ k: ['T'], d: '테마 바꾸기' },
+	{ k: ['?'], d: '이 도움말' },
+];
+---
+
+<dialog class="keys" data-keys-dialog aria-labelledby="keys-title" transition:persist>
+	<div class="keys__head">
+		<h2 id="keys-title">키보드 단축키</h2>
+		<button class="icon-btn" type="button" data-keys-close aria-label="닫기">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+		</button>
+	</div>
+	<ul>
+		{keys.map((row) => (
+			<li>
+				<span>{row.d}</span>
+				<span class="keys__combo">
+					{row.k.map((k) => (
+						<kbd>{k}</kbd>
+					))}
+				</span>
+			</li>
+		))}
+	</ul>
+</dialog>
+
+<script>
+	import { prefersReducedMotion } from '../lib/page';
+	import { navigate } from 'astro:transitions/client';
+
+	const applyTheme = (doc: Document = document) => {
+		try {
+			const t = localStorage.getItem('theme');
+			if (t === 'light' || t === 'dark') doc.documentElement.dataset.theme = t;
+		} catch {}
+	};
+	// ClientRouter가 <html> 속성을 새 페이지 것으로 바꾸므로 새 문서에 미리 테마를 심는다.
+	document.addEventListener('astro:before-swap', (e) => applyTheme((e as any).newDocument));
+
+	const toggleTheme = () => {
+		const root = document.documentElement;
+		const current = root.dataset.theme ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+		const next = current === 'dark' ? 'light' : 'dark';
+		const swap = () => {
+			root.dataset.theme = next;
+			try {
+				localStorage.setItem('theme', next);
+			} catch {}
+		};
+		const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
+		if (doc.startViewTransition && !prefersReducedMotion()) {
+			root.classList.add('theme-switching');
+			const t = doc.startViewTransition(swap) as { finished: Promise<void> };
+			t.finished.finally(() => root.classList.remove('theme-switching'));
+		} else swap();
+	};
+	document.addEventListener('click', (e) => {
+		if ((e.target as Element).closest('[data-theme-toggle]')) toggleTheme();
+	});
+
+	// 단축키
+	const dialog = () => document.querySelector<HTMLDialogElement>('[data-keys-dialog]');
+	document.addEventListener('click', (e) => {
+		const t = e.target as Element;
+		if (t.closest('[data-keys-open]')) dialog()?.showModal();
+		if (t.closest('[data-keys-close]') || t === dialog()) dialog()?.close();
+	});
+
+	let pendingG = 0;
+	let cursor = -1;
+
+	const visibleRows = () =>
+		[...document.querySelectorAll<HTMLElement>('.feed__item')].filter((el) => !el.hidden && el.offsetParent);
+
+	const moveCursor = (delta: number) => {
+		const rows = visibleRows();
+		if (!rows.length) return;
+		const current = rows.findIndex((r) => r.classList.contains('is-kbd'));
+		cursor = current < 0 ? (delta > 0 ? 0 : rows.length - 1) : Math.min(rows.length - 1, Math.max(0, current + delta));
+		rows.forEach((r, i) => r.classList.toggle('is-kbd', i === cursor));
+		const row = rows[cursor];
+		row.querySelector<HTMLAnchorElement>('h3 a')?.focus({ preventScroll: true });
+		row.scrollIntoView({ block: 'center', behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+	};
+
+	const go = (href: string) => navigate(href);
+
+	window.addEventListener('keydown', (e) => {
+		if (e.metaKey || e.ctrlKey || e.altKey || e.isComposing) return;
+		const target = e.target as HTMLElement;
+		if (/INPUT|TEXTAREA|SELECT/.test(target.tagName) || target.isContentEditable) return;
+		if (document.querySelector('[data-palette][data-open]')) return;
+		const key = e.key.toLowerCase();
+
+		if (pendingG && Date.now() - pendingG < 1200) {
+			pendingG = 0;
+			const dest = { h: '/', p: '/posts/', a: '/about/', r: '/retrospectives/' }[key];
+			if (dest) {
+				e.preventDefault();
+				go(dest);
+			}
+			return;
+		}
+
+		if (e.key === '?') {
+			e.preventDefault();
+			const d = dialog();
+			d?.open ? d.close() : d?.showModal();
+		} else if (key === 'g') pendingG = Date.now();
+		else if (key === 'j') {
+			e.preventDefault();
+			moveCursor(1);
+		} else if (key === 'k') {
+			e.preventDefault();
+			moveCursor(-1);
+		} else if (key === 't') toggleTheme();
+		else if (e.key === '[' || e.key === ']') {
+			const link = document.querySelector<HTMLAnchorElement>(e.key === '[' ? '[data-key-prev]' : '[data-key-next]');
+			if (link) go(link.href);
+		}
+	});
+
+	document.addEventListener('astro:page-load', () => {
+		cursor = -1;
+	});
+
+	// 누른 글 제목이 다음 페이지의 제목으로 이어지도록 같은 전환 이름을 붙인다.
+	document.addEventListener('astro:before-preparation', (e) => {
+		const src = (e as any).sourceElement as Element | undefined;
+		const link = src?.closest?.('a[href^="/post/"]');
+		if (!link) return;
+		document.querySelectorAll<HTMLElement>('.vt-title').forEach((el) => (el.style.viewTransitionName = 'none'));
+		const title = (link.closest('h3') ?? link) as HTMLElement;
+		title.style.viewTransitionName = 'article-title';
+	});
+
+	// GA: 첫 화면은 gtag config가 보내므로 이후 전환만 기록한다.
+	let firstLoad = true;
+	document.addEventListener('astro:page-load', () => {
+		const gtag = (window as any).gtag;
+		if (!firstLoad && typeof gtag === 'function') {
+			gtag('event', 'page_view', { page_location: location.href, page_title: document.title });
+		}
+		firstLoad = false;
+	});
+</script>
