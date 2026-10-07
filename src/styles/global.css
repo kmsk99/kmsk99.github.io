@@ -524,3 +524,11 @@ h3 {
 .career-avatar { border-radius: 50%; display: block; margin-bottom: 18px; }
 .career-links { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 22px; }
 .career-links a, .article__body a { text-decoration: underline; text-underline-offset: 4px; }
+
+/* Static case-study diagrams: no client-side rendering dependency. */
+.article__body .case-flow { display:flex; flex-direction:column; align-items:center; gap:.4rem; margin:2rem 0; padding:1rem; border:1px solid var(--border); border-radius:12px; }
+.article__body .case-fbox { max-width:100%; padding:.65rem 1rem; border:1px solid var(--border); border-radius:8px; text-align:center; overflow-wrap:anywhere; }
+.article__body .case-farrow { opacity:.65; }
+.article__body .case-fbranch { display:flex; flex-wrap:wrap; justify-content:center; gap:1rem; }
+.article__body .case-fcol { display:flex; flex-direction:column; align-items:center; gap:.4rem; flex:1 1 140px; }
+.article__body .case-flabel { font-size:.85rem; }
