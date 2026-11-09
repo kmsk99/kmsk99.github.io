@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>습관 앱 개편 — 정해 주실 것 (예시)</title>
+<style>
+  :root { --ink:#191F28; --muted:#5B6573; --line:#E4E8EE; --card:#F2F5F9; --brand:#1E6FE8; --brand50:#EAF2FE; --ok:#177A43; --ok50:#E7F5EC; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:"Apple SD Gothic Neo","Pretendard",system-ui,sans-serif; color:var(--ink); background:#fff; line-height:1.6; }
+  main { max-width:820px; margin:0 auto; padding:32px 24px 260px; }
+  .demo { display:inline-block; font-size:13px; font-weight:700; color:#8A5A00; background:#FFF4D6; border-radius:999px; padding:2px 12px; margin-bottom:10px; }
+  h1 { font-size:28px; font-weight:800; margin:0 0 6px; }
+  .sub { color:var(--muted); font-size:15px; margin:0 0 4px; }
+  section.q { border-top:1px solid var(--line); padding:24px 0 8px; }
+  .qhead { display:flex; gap:10px; align-items:baseline; }
+  .qid { font-size:13px; font-weight:800; color:var(--brand); background:var(--brand50); border-radius:999px; padding:1px 10px; }
+  .qtitle { font-size:19px; font-weight:800; margin:0; }
+  .why { font-size:15px; color:var(--muted); margin:6px 0 8px; }
+  .src { font-size:13.5px; color:var(--muted); margin:0 0 12px; padding-left:10px; border-left:2px solid var(--line); }
+  label.opt { display:flex; gap:12px; align-items:flex-start; padding:12px 14px; border-radius:14px; background:var(--card); margin:8px 0; cursor:pointer; border:2px solid transparent; }
+  label.opt:has(input:checked) { border-color:var(--brand); background:var(--brand50); }
+  label.opt input { margin-top:5px; accent-color:var(--brand); }
+  .ocode { font-weight:800; min-width:18px; }
+  .otext { font-weight:700; }
+  .odesc { display:block; font-size:14px; color:var(--muted); font-weight:400; }
+  .rec { font-size:12px; font-weight:800; color:var(--ok); background:var(--ok50); border-radius:999px; padding:1px 8px; margin-left:6px; }
+  .dock { position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid var(--line); box-shadow:0 -6px 24px rgba(25,31,40,.06); }
+  .dock-inner { max-width:820px; margin:0 auto; padding:14px 24px; display:flex; gap:12px; }
+  textarea { flex:1; height:132px; resize:none; border:1px solid var(--line); border-radius:12px; padding:10px 12px; font:14px/1.6 ui-monospace,Menlo,monospace; color:var(--ink); background:#FAFBFC; }
+  .side { display:flex; flex-direction:column; gap:8px; width:150px; }
+  button { font:inherit; font-weight:700; border-radius:12px; padding:10px; cursor:pointer; border:1px solid var(--line); background:#fff; }
+  button.primary { background:var(--brand); color:#fff; border-color:var(--brand); }
+  .count { font-size:13px; color:var(--muted); text-align:center; }
+</style>
+</head>
+<body>
+<main>
+  <span class="demo">예시 화면 · 가상의 앱</span>
+  <h1>습관 앱 개편 — 정해 주실 것</h1>
+  <p class="sub">질문마다 하나를 고르면 아래 칸에 답이 모입니다. 다 고른 뒤 <b>복사</b>해서 대화창에 붙여 주세요.</p>
+  <p class="sub"><span style="color:var(--ok);font-weight:700">추천</span>은 에이전트 의견입니다. 고르지 않은 질문은 답에서 빠집니다.</p>
+  <div id="qs"></div>
+</main>
+
+<div class="dock"><div class="dock-inner">
+  <textarea id="out" readonly placeholder="선택하면 여기에 답이 모입니다"></textarea>
+  <div class="side">
+    <button class="primary" id="copy">복사</button>
+    <button id="recs">추천으로 채우기</button>
+    <div class="count" id="count"></div>
+  </div>
+</div></div>
+
+<script>
+const Q = [
+  { id:'L-1', title:'로그인은 언제 받을까요?',
+    why:'지금은 첫 화면에서 이메일 가입부터 합니다. 개편안은 기록 화면을 먼저 보여 줍니다.',
+    src:'회의 메모: "가입 화면에서 절반이 나간다"',
+    opts:[['A','첫 화면에서 가입부터','지금 그대로. 기록이 처음부터 계정에 묶인다'],
+          ['B','애플·구글 로그인만 남긴다','가입은 빨라지지만 첫 화면은 그대로'],
+          ['C','로그인 없이 시작하고, 3일째에 연결을 권한다','기기에 먼저 저장 → 연결할 때 서버로 옮기는 작업이 생긴다',true]] },
+  { id:'S-1', title:'연속 기록이 끊기면 어떻게 할까요?',
+    why:'지금은 하루만 빠져도 0일로 돌아갑니다. 개편안에는 이 규칙이 없습니다.',
+    src:'사용자 문의 3건: "하루 아파서 못 했는데 다 날아갔다"',
+    opts:[['A','지금처럼 0으로','설명이 쉽다'],
+          ['B','한 달에 두 번 쉬어도 이어진다','쉬는 날 표시와 남은 횟수 화면이 필요하다',true],
+          ['C','일 단위 대신 주 단위로 센다','주 4회 같은 목표 설정 화면이 새로 생긴다']] },
+  { id:'N-1', title:'알림 시간은 누가 정할까요?',
+    why:'지금은 모두 오전 9시에 갑니다.',
+    src:'',
+    opts:[['A','오전 9시 고정','손댈 곳 없음'],
+          ['B','습관마다 사용자가 고른다','습관 만들기 화면에 시간 칸 하나',true],
+          ['C','평소 기록하는 시간에 맞춰 자동','기록이 2주 이상 쌓여야 동작한다']] },
+  { id:'P-1', title:'유료 구독은 언제 붙일까요?',
+    why:'결제 화면은 아직 없습니다. 스토어 결제를 붙이려면 사업자·정산 계정이 먼저 있어야 합니다.',
+    src:'',
+    opts:[['A','개편과 함께 붙인다','결제 화면·복원·환불 안내까지 이번에 만든다'],
+          ['B','사용자 100명을 넘기면 정한다','이번에는 결제 화면을 만들지 않는다',true],
+          ['C','유료 없이 광고만','광고 SDK와 개인정보 안내 문구가 바뀐다']] },
+];
+const sel = {};
+const qs = document.getElementById('qs');
+for (const q of Q) {
+  const s = document.createElement('section'); s.className='q';
+  s.innerHTML = `<div class="qhead"><span class="qid">${q.id}</span><h2 class="qtitle">${q.title}</h2></div>
+    <p class="why">${q.why}</p>${q.src?`<p class="src">근거 · ${q.src}</p>`:''}` +
+    q.opts.map(([c,t,d,r])=>`<label class="opt"><input type="radio" name="${q.id}" value="${c}">
+      <span class="ocode">${c}</span><span><span class="otext">${t}</span>${r?'<span class="rec">추천</span>':''}<span class="odesc">${d}</span></span></label>`).join('');
+  qs.appendChild(s);
+}
+function render(){
+  const lines = Q.filter(q=>sel[q.id]).map(q=>{const o=q.opts.find(o=>o[0]===sel[q.id]);return `${q.id} ${o[0]} — ${o[1]}`;});
+  document.getElementById('out').value = lines.join('\n');
+  document.getElementById('count').textContent = `${lines.length} / ${Q.length} 선택`;
+}
+document.addEventListener('change',e=>{ if(e.target.type==='radio'){ sel[e.target.name]=e.target.value; render(); }});
+function fillRecs(){ for(const q of Q){ const r=q.opts.find(o=>o[3]); if(r){ sel[q.id]=r[0]; document.querySelector(`input[name="${q.id}"][value="${r[0]}"]`).checked=true; } } render(); }
+document.getElementById('recs').onclick = fillRecs;
+document.getElementById('copy').onclick = ()=>navigator.clipboard.writeText(document.getElementById('out').value);
+const p = new URLSearchParams(location.search);
+if (p.get('fill')==='rec') fillRecs();
+if (p.get('fill')==='mixed') { fillRecs(); sel['P-1']='A'; document.querySelector('input[name="P-1"][value="A"]').checked=true; render(); }
+render();
+</script>
+</body>
+</html>
