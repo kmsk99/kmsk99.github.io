@@ -1,7 +1,7 @@
 ---
 title: "코덱스 CLI 사용법, 클로드 코드가 일꾼으로 부리는 1인 개발자의 설정 (2026년 11월)"
-created: "2026-11-13"
-publishAt: "2026-11-13T09:00:00+09:00"
+created: "2026-11-12"
+publishAt: "2026-11-12T09:00:00+09:00"
 summary: "코덱스 CLI를 직접 열지 않고 클로드 코드가 일꾼으로 부리게 한 1인 개발자의 설정. 모델 고르는 기준, AGENTS.md, effort까지."
 tags: ["코덱스 CLI", "Codex", "Claude Code", "AGENTS.md", "AI 에이전트", "1인 개발"]
 ---
