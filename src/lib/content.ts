@@ -104,6 +104,19 @@ const toItem = (entry: AnyEntry): Item => {
 	};
 };
 
+/**
+ * 예약 발행: publishAt이 빌드 시각보다 미래면 글을 숨긴다.
+ * 로컬에서 예약 글까지 보려면 SHOW_SCHEDULED=1 로 실행한다.
+ */
+export function isPublished(entry: { data: { publishAt?: string } }, now = Date.now()): boolean {
+	if (process.env.SHOW_SCHEDULED === '1') return true;
+	const at = entry.data.publishAt;
+	if (!at) return true;
+	const t = Date.parse(at);
+	if (Number.isNaN(t)) throw new Error(`publishAt 형식이 잘못됐다: ${at}`);
+	return t <= now;
+}
+
 let cache: Item[] | undefined;
 
 export async function getAllItems(): Promise<Item[]> {
@@ -113,7 +126,7 @@ export async function getAllItems(): Promise<Item[]> {
 		...(await getCollection('projects')),
 		...(await getCollection('retrospectives')),
 	] as AnyEntry[];
-	cache = entries.map(toItem).sort((a, b) => b.date.getTime() - a.date.getTime());
+	cache = entries.filter((e) => isPublished(e)).map(toItem).sort((a, b) => b.date.getTime() - a.date.getTime());
 	return cache;
 }
 

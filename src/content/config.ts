@@ -8,6 +8,8 @@ const projects = defineCollection({
 		modified: z.string().optional(),
 		tags: z.array(z.string()).optional(),
 		summary: z.string().optional(),
+		// 예약 발행 시각(ISO 8601, 예: 2026-11-13T09:00:00+09:00). 이 시각 전 빌드에서는 글을 빼고 만든다.
+		publishAt: z.string().optional(),
 	}),
 });
 
@@ -19,6 +21,8 @@ const posts = defineCollection({
 		modified: z.string().optional(),
 		tags: z.array(z.string()).optional(),
 		summary: z.string().optional(),
+		// 예약 발행 시각(ISO 8601, 예: 2026-11-13T09:00:00+09:00). 이 시각 전 빌드에서는 글을 빼고 만든다.
+		publishAt: z.string().optional(),
 	}),
 });
 
@@ -30,6 +34,8 @@ const retrospectives = defineCollection({
 		modified: z.string().optional(),
 		tags: z.array(z.string()).optional(),
 		summary: z.string().optional(),
+		// 예약 발행 시각(ISO 8601, 예: 2026-11-13T09:00:00+09:00). 이 시각 전 빌드에서는 글을 빼고 만든다.
+		publishAt: z.string().optional(),
 	}),
 });
 

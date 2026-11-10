@@ -7,6 +7,9 @@ on:
     branches: [ main ]
   # Allows you to run this workflow manually from the Actions tab on GitHub.
   workflow_dispatch:
+  # 예약 발행(publishAt) 글을 공개하려고 매시 정각(UTC)에 다시 빌드한다. GitHub 정기 실행은 수 분~수십 분 늦을 수 있다.
+  schedule:
+    - cron: '0 * * * *'
 
 # Allow this job to clone the repo and create a page deployment
 permissions:
