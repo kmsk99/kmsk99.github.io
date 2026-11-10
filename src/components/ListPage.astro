@@ -12,7 +12,7 @@ interface Props {
 
 const { title, heading, lede, items } = Astro.props as Props;
 const cats = [...new Map(items.map((i) => [i.category.key, i.category])).values()];
-const countOf = (key: string) => items.filter((i) => i.category.key === key).length;
+const countOf = (key: string) => items.filter((i) => i.category.key === key && !i.scheduled).length;
 ---
 
 <BaseLayout title={title} description={lede}>

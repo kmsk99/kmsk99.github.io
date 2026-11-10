@@ -13,7 +13,16 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 const all = await getAllItems();
 const idx = all.findIndex((i) => i.slug === item.slug);
 const newer = idx > 0 ? all[idx - 1] : undefined;
-const older = idx < all.length - 1 ? all[idx + 1] : undefined;
+const older = idx >= 0 && idx < all.length - 1 ? all[idx + 1] : undefined;
+// 빌드 환경의 로케일 데이터에 기대지 않고 한국 시간 문구를 직접 만든다.
+const openLabel = (() => {
+	if (!item.publishAtMs) return '';
+	const k = new Date(item.publishAtMs + 9 * 3600 * 1000);
+	const h = k.getUTCHours();
+	const mm = String(k.getUTCMinutes()).padStart(2, '0');
+	const wd = '일월화수목금토'[k.getUTCDay()];
+	return `${k.getUTCMonth() + 1}월 ${k.getUTCDate()}일 (${wd}) ${h < 12 ? '오전' : '오후'} ${h % 12 || 12}:${mm}`;
+})();
 const related = relatedItems(all, item, 3);
 
 const section = {
@@ -40,9 +49,16 @@ const firstImage = item.entry.body?.match(/!\[[^\]]*\]\((\/images\/[^)\s]+)\)/)?
 	modifiedTime={item.entry.data.modified}
 	tags={item.tags}
 	breadcrumbs={breadcrumbs}
+	noindex={item.scheduled}
 	progress
 >
-	<div class="wrap article-shell">
+	{item.scheduled && (
+		<div class="wrap sched-wait" data-publish-at={item.publishAtMs}>
+			<p class="sched-wait__title">이 글은 {openLabel}에 공개됩니다.</p>
+			<p class="sched-wait__sub">시간이 되면 이 화면에서 바로 열립니다.</p>
+		</div>
+	)}
+	<div class:list={['wrap', 'article-shell', item.scheduled && 'sched']} data-publish-at={item.scheduled ? item.publishAtMs : undefined}>
 		<article data-article>
 			<header class="article-head">
 				<nav class="crumbs" aria-label="위치">

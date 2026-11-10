@@ -67,7 +67,8 @@ const kinds = (['post', 'project', 'retro'] as const).filter((k) => items.some((
 	<ul class="feed__list">
 		{items.map((i) => (
 			<li
-				class="feed__item"
+				class:list={['feed__item', i.scheduled && 'sched']}
+				data-publish-at={i.scheduled ? i.publishAtMs : undefined}
 				data-kind={i.kind}
 				data-slug={i.slug}
 				data-month={i.created.slice(0, 7)}
@@ -114,7 +115,12 @@ const kinds = (['post', 'project', 'retro'] as const).filter((k) => items.some((
 	onPage((signal) => {
 		document.querySelectorAll<HTMLElement>('[data-feed]').forEach((root) => {
 			const pageSize = Number(root.dataset.pageSize) || 15;
-			const rows = [...root.querySelectorAll<HTMLElement>('.feed__item')];
+			// 예약 글 중 아직 공개 시각 전인 항목은 목록에서 뺀다(공개 시각이 지난 항목은 BaseLayout 스크립트가 is-due를 붙인다).
+			const rows = [...root.querySelectorAll<HTMLElement>('.feed__item')].filter((r) => {
+				if (!r.classList.contains('sched') || r.classList.contains('is-due')) return true;
+				r.remove();
+				return false;
+			});
 			const q = root.querySelector<HTMLInputElement>('[data-feed-q]')!;
 			const count = root.querySelector<HTMLElement>('[data-feed-count]')!;
 			const more = root.querySelector<HTMLButtonElement>('[data-feed-more]')!;

@@ -2945,3 +2945,10 @@ button.heat__cell[aria-pressed='true'] {
 		animation: none !important;
 	}
 }
+
+/* 예약 공개: 공개 시각 전에는 숨기고(sched), 안내(sched-wait)를 보인다 */
+.sched:not(.is-due) { display: none !important; }
+.sched-wait.is-due { display: none !important; }
+.sched-wait { padding: 96px 0; text-align: center; }
+.sched-wait__title { font-size: 1.25rem; font-weight: 700; }
+.sched-wait__sub { margin-top: 8px; color: var(--muted, #6b7280); }

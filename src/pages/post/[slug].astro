@@ -1,9 +1,9 @@
 ---
 import ArticleLayout from '../../layouts/ArticleLayout.astro';
-import { getAllItems, type Item } from '../../lib/content';
+import { getAllItemsIncludingScheduled, type Item } from '../../lib/content';
 
 export async function getStaticPaths() {
-	const items = await getAllItems();
+	const items = await getAllItemsIncludingScheduled();
 	const seen = new Set<string>();
 	const paths: { params: { slug: string }; props: { item: Item } }[] = [];
 

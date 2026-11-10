@@ -4,9 +4,10 @@ import KnowledgeGraph from '../components/KnowledgeGraph.astro';
 import CareerTimeline from '../components/CareerTimeline.astro';
 import Feed from '../components/Feed.astro';
 import ActivityHeatmap from '../components/ActivityHeatmap.astro';
-import { getAllItems } from '../lib/content';
+import { getAllItems, getAllItemsIncludingScheduled } from '../lib/content';
 
 const items = await getAllItems();
+const feedItems = await getAllItemsIncludingScheduled();
 
 // 2026년 10월에 공개한 개발 사례. 이미지가 있는 글을 앞에 둔다.
 const featuredSlugs = [
@@ -135,7 +136,7 @@ const featured = featuredSlugs.map((s) => items.find((i) => i.slug === s)).filte
 				<a class="text-link" href="/rss.xml">RSS 구독</a>
 			</div>
 			<ActivityHeatmap />
-			<Feed items={items} showKinds showCategories placeholder="제목, 요약, 태그로 찾기" />
+			<Feed items={feedItems} showKinds showCategories placeholder="제목, 요약, 태그로 찾기" />
 		</section>
 	</div>
 </BaseLayout>

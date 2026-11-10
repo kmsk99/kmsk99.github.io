@@ -76,6 +76,10 @@ export interface Item {
 	category: Category;
 	minutes: number;
 	entry: AnyEntry;
+	/** 예약 공개 시각(ms). 없으면 undefined */
+	publishAtMs?: number;
+	/** 빌드 시각 기준으로 아직 공개 전인 예약 글 */
+	scheduled: boolean;
 }
 
 const KIND_OF: Record<string, Kind> = { posts: 'post', projects: 'project', retrospectives: 'retro' };
@@ -101,6 +105,8 @@ const toItem = (entry: AnyEntry): Item => {
 		category,
 		minutes: Math.max(1, Math.round(chars / 500)),
 		entry,
+		publishAtMs: publishAtMs(entry),
+		scheduled: !isPublished(entry),
 	};
 };
 
@@ -108,26 +114,37 @@ const toItem = (entry: AnyEntry): Item => {
  * 예약 발행: publishAt이 빌드 시각보다 미래면 글을 숨긴다.
  * 로컬에서 예약 글까지 보려면 SHOW_SCHEDULED=1 로 실행한다.
  */
-export function isPublished(entry: { data: { publishAt?: string } }, now = Date.now()): boolean {
-	if (process.env.SHOW_SCHEDULED === '1') return true;
+export function publishAtMs(entry: { data: { publishAt?: string } }): number | undefined {
 	const at = entry.data.publishAt;
-	if (!at) return true;
+	if (!at) return undefined;
 	const t = Date.parse(at);
 	if (Number.isNaN(t)) throw new Error(`publishAt 형식이 잘못됐다: ${at}`);
-	return t <= now;
+	return t;
 }
 
-let cache: Item[] | undefined;
+export function isPublished(entry: { data: { publishAt?: string } }, now = Date.now()): boolean {
+	if (process.env.SHOW_SCHEDULED === '1') return true;
+	const t = publishAtMs(entry);
+	return t === undefined || t <= now;
+}
 
-export async function getAllItems(): Promise<Item[]> {
-	if (cache) return cache;
+let cacheAll: Item[] | undefined;
+
+/** 예약 글까지 포함한 전체 목록. 글 페이지 생성과 피드(브라우저가 시각에 맞춰 보여 줌)에만 쓴다. */
+export async function getAllItemsIncludingScheduled(): Promise<Item[]> {
+	if (cacheAll) return cacheAll;
 	const entries = [
 		...(await getCollection('posts')),
 		...(await getCollection('projects')),
 		...(await getCollection('retrospectives')),
 	] as AnyEntry[];
-	cache = entries.filter((e) => isPublished(e)).map(toItem).sort((a, b) => b.date.getTime() - a.date.getTime());
-	return cache;
+	cacheAll = entries.map(toItem).sort((a, b) => b.date.getTime() - a.date.getTime());
+	return cacheAll;
+}
+
+/** 빌드 시각 기준으로 공개된 글만. 검색창·그래프·관련 글·이전/다음 글·개수에 쓴다. */
+export async function getAllItems(): Promise<Item[]> {
+	return (await getAllItemsIncludingScheduled()).filter((i) => !i.scheduled);
 }
 
 export const KIND_LABEL: Record<Kind, string> = { post: '기술 글', project: '프로젝트', retro: '회고' };

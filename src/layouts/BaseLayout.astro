@@ -159,6 +159,19 @@ const structuredData = [
 		<Footer />
 		<CommandPalette />
 		<Shortcuts />
+		<script is:inline>
+			// 예약 글(data-publish-at): 공개 시각이 지난 요소에 is-due를 붙인다. 열어 둔 화면은 그 시각에 새로고침한다.
+			(() => {
+				const now = Date.now();
+				let next = Infinity;
+				document.querySelectorAll('[data-publish-at]').forEach((el) => {
+					const t = Number(el.getAttribute('data-publish-at'));
+					if (t <= now) el.classList.add('is-due');
+					else next = Math.min(next, t);
+				});
+				if (next !== Infinity && next - now < 864e5) setTimeout(() => location.reload(), next - now + 1000);
+			})();
+		</script>
 	</body>
 </html>
 

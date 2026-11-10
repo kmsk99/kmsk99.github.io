@@ -1,8 +1,8 @@
 ---
 import ListPage from '../../components/ListPage.astro';
-import { getAllItems } from '../../lib/content';
+import { getAllItemsIncludingScheduled } from '../../lib/content';
 
-const items = (await getAllItems()).filter((i) => i.kind === 'post');
+const items = (await getAllItemsIncludingScheduled()).filter((i) => i.kind === 'post');
 ---
 
 <ListPage
