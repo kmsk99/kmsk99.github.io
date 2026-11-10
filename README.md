@@ -43,3 +43,16 @@ npm run preview
 `main`에 push하면 [GitHub Actions](.github/workflows/deploy.yml)가 빌드하고 GitHub Pages에 배포합니다.
 
 [콘텐츠 작업 흐름](docs/content-structure-workflow.md) · [글쓰기 원칙](docs/writing-style.md) · [카테고리](docs/blog-categories.md)
+
+## 예약 발행
+
+글 프론트매터에 `publishAt`(ISO 8601, 시간대 포함)을 넣으면 그 시각 전 빌드에서는 글 페이지·목록·RSS·사이트맵에서 빠진다.
+
+```yaml
+publishAt: "2026-11-13T09:00:00+09:00"
+```
+
+- 미리 커밋·푸시해 두면 `deploy.yml`의 매시 정각(UTC) 재빌드가 예약 시각 이후 첫 빌드에서 공개한다. GitHub 정기 실행은 수 분~수십 분 늦을 수 있다.
+- 공개 저장소라 원고 파일 자체는 예약 전에도 GitHub에서 보인다.
+- 로컬에서 예약 글까지 보려면 `SHOW_SCHEDULED=1 npm run dev`.
+- 형식이 잘못된 `publishAt`은 빌드를 실패시킨다.
