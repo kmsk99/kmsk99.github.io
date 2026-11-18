@@ -162,3 +162,7 @@ claude --permission-mode bypassPermissions
 굳이 켜고 싶다면 순서를 지키자. 며칠 동안은 클로드가 어떤 명령을 치는지 눈으로 지켜보고, git처럼 언제든 되돌릴 수 있는 안전망을 갖춘 뒤에 켜도 늦지 않다.
 
 방금 클로드 코드를 깔았다면, 일단 프로젝트 폴더에서 `claude`를 열고 `/init`부터 입력해 보자.
+
+---
+
+[유튜브 Mason Kim](https://www.youtube.com/@masonkimkr)에서도 AI로 일 줄이는 이야기를 나누고 있다. 궁금한 점이나 함께 해 보고 싶은 일이 있다면 mason@masonkim.kr로 알려 주시면 좋겠다.
